@@ -2,4 +2,4 @@
 syntax: regexp
 ^data/.+
 .\pyc$
-
+^\.settings$
