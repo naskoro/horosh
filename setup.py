@@ -9,8 +9,8 @@ setup(
     name='horosh',
     version='0.1',
     description='',
-    author='',
-    author_email='',
+    author='naspeh',
+    author_email='naspeh@pusto.org',
     url='',
     install_requires=[
         "Pylons>=0.9.7",
