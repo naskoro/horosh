@@ -11,7 +11,7 @@ user = schema.Table('user', meta.metadata,
         schema.Sequence('user_id__seq', optional=True), primary_key=True),
 
     schema.Column('email', types.Unicode(50), nullable=False, unique=True),
-    schema.Column('password', types.Text(32)),    
+    schema.Column('password', types.String(32)),    
 
     schema.Column('active', types.Unicode(32)),
     schema.Column('created', types.DateTime(), default=datetime.now()),
@@ -22,17 +22,16 @@ node = schema.Table('node', meta.metadata,
         schema.Sequence('node_id__seq', optional=True), primary_key=True),
     schema.Column('user_id', types.Integer,
         schema.ForeignKey('user.id'), nullable=False),
+    schema.Column('type', types.String(20), nullable=False),
 )
 
 person = schema.Table('person', meta.metadata,
     schema.Column('id', types.Integer,
-        schema.Sequence('person_id__seq', optional=True), primary_key=True),
-    schema.Column('node_id', types.Integer,
-        schema.ForeignKey('node.id'), nullable=False),
+        schema.ForeignKey('node.id'), primary_key=True),
     schema.Column('user_id', types.Integer,
         schema.ForeignKey('user.id'), nullable=True),
 
-    schema.Column('email', types.Unicode(50), nullable=False, unique=True),
+    schema.Column('email', types.Unicode(50), nullable=False),
     schema.Column('nickname', types.Unicode(20)),    
     schema.Column('fullname', types.Unicode(50)),
 
@@ -51,9 +50,7 @@ path = schema.Table('path', meta.metadata,
 
 article = schema.Table('article', meta.metadata,
     schema.Column('id', types.Integer,
-        schema.Sequence('article_id__seq', optional=True), primary_key=True),
-    schema.Column('node_id', types.Integer,
-        schema.ForeignKey('node.id'), nullable=False, unique=True),
+        schema.ForeignKey('node.id'), primary_key=True),
     
     schema.Column('body', types.Unicode(), nullable=False),
     schema.Column('filter', types.Unicode(10)),
@@ -64,21 +61,17 @@ article = schema.Table('article', meta.metadata,
 
 album = schema.Table('album', meta.metadata,
     schema.Column('id', types.Integer,
-        schema.Sequence('album_id__seq', optional=True), primary_key=True),
-    schema.Column('node_id', types.Integer,
-        schema.ForeignKey('node.id'), nullable=False, unique=True),
+        schema.ForeignKey('node.id'), primary_key=True),
     
     schema.Column('path', types.Unicode(250), nullable=False),
-    schema.Column('type', types.Unicode(10)),
+    schema.Column('type', types.String(20)),
     
     schema.Column('created', types.DateTime(), default=datetime.now()),
 )
 
 event = schema.Table('event', meta.metadata,
     schema.Column('id', types.Integer,
-        schema.Sequence('event_id__seq', optional=True), primary_key=True),
-    schema.Column('node_id', types.Integer,
-        schema.ForeignKey('node.id'), nullable=False, unique=True),
+        schema.ForeignKey('node.id'), primary_key=True),
 
     schema.Column('title', types.Unicode(250), nullable=False),
     schema.Column('notice', types.Unicode(1000)),

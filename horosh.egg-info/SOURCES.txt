@@ -24,11 +24,9 @@ horosh/lib/app_globals.py
 horosh/lib/base.py
 horosh/lib/helpers.py
 horosh/model/__init__.py
+horosh/model/db.py
+horosh/model/map.py
 horosh/model/meta.py
-horosh/public/bg.png
-horosh/public/favicon.ico
-horosh/public/index.html
-horosh/public/pylons-logo.gif
 horosh/tests/__init__.py
 horosh/tests/test_models.py
 horosh/tests/functional/__init__.py
