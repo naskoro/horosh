@@ -1,36 +1,82 @@
+# -*- coding: utf-8 -*-
+
 """The application's model objects"""
-import sqlalchemy as sa
 from sqlalchemy import orm
 
 from horosh.model import meta
+from horosh.model import db
+from hashlib import md5
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""
-    ## Reflected tables must be defined and mapped here
-    #global reflected_table
-    #reflected_table = sa.Table("Reflected", meta.metadata, autoload=True,
-    #                           autoload_with=engine)
-    #orm.mapper(Reflected, reflected_table)
-    #
-    meta.Session.configure(bind=engine)
+
+    sessionmaker = orm.sessionmaker(autoflush=True, autocommit=False, bind=engine)
+
     meta.engine = engine
+    meta.Session = orm.scoped_session(sessionmaker)
 
+class Node(object):
+    pass
 
-## Non-reflected tables may be defined and mapped at module level
-#foo_table = sa.Table("Foo", meta.metadata,
-#    sa.Column("id", sa.types.Integer, primary_key=True),
-#    sa.Column("bar", sa.types.String(255), nullable=False),
-#    )
-#
-#class Foo(object):
-#    pass
-#
-#orm.mapper(Foo, foo_table)
+class NodeInstance(object):
+    def __init__(self):
+        node = Node()
+        meta.Session.add(node)
+        meta.Session.flush()
+        self.node_id = node.id
 
+class Album(NodeInstance):
+    def __init__(self, path, type):
+        self.path = path
+        self.type = type
+        super.__init__() 
 
-## Classes for reflected tables may be defined here, but the table and
-## mapping itself must be done in the init_model function
-#reflected_table = None
-#
-#class Reflected(object):
-#    pass
+class Article(NodeInstance):
+    def __init__(self, body, filter):
+        self.body = body
+        self.filter = filter
+        super.__init__()
+
+class Event(NodeInstance):
+    def __init__(self, title, notice, start, finish, publish=False):
+        self.title = title
+        self.notice = notice
+        self.start = start
+        self.finish = finish
+        self.publish = publish
+        super.__init__()
+
+class Path(object):
+    pass
+
+class Person(NodeInstance):
+    pass
+
+class User(object):
+    def __init__(self, email, password):
+        self.email = email
+        self.password = md5(password).hexdigest()
+    def __repr__(self):
+        return self.__class__.__name__ + " " + self.email
+    
+orm.mapper(Album, db.album, properties={
+    'node': orm.relation(Node, backref="album"),
+})
+orm.mapper(Article, db.article, properties={
+    'node': orm.relation(Node, backref="article"),                                             
+    'albums': orm.relation(Album, secondary=db.article_album),
+})
+orm.mapper(Event, db.event, properties={
+    'node': orm.relation(Node, backref="event"),
+    'albums': orm.relation(Album, secondary=db.event_album),
+    'reports': orm.relation(Article, secondary=db.event_article),
+    'members': orm.relation(Person, secondary=db.event_person),
+})
+orm.mapper(Node, db.node, properties={
+    'owner': orm.relation(User),
+})
+orm.mapper(Path, db.path)
+orm.mapper(Person, db.person)
+orm.mapper(User, db.user, properties={
+    'persons': orm.relation(Person, backref="user")
+})
