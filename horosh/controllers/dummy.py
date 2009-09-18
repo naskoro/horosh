@@ -6,10 +6,10 @@ from webhelpers.html import tags
 
 from horosh.lib.base import BaseController, render
 
-
 log = logging.getLogger(__name__)
 
-class PageController(BaseController):
+class DummyController(BaseController):
+
     def __init__(self):
         from gdata.photos import service
         client =service.PhotosService()
@@ -19,7 +19,7 @@ class PageController(BaseController):
         
     def galleryview(self):
         photos = []
-        for item in self.getPhotos():
+        for item in self.getPhotos('naspeh', '20090306_Krym_Noviy_svet'):
             photos.append(tags.image(self.getPhotoUrl(item) + '?imgmax=200', item.title.text, title=item.title.text))
         c.photos = photos 
         return render('/test/galleryview.html')

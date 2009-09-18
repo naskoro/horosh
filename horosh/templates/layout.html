@@ -4,15 +4,15 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>horosh | ${self.title()}</title>
-		${h.javascript_link(h.url_for('/jquery/jquery.js'))}
+		${h.javascript_link(h.url_for('/app/jquery/jquery.js'))}
 		${self.head()}
 		
-		${h.stylesheet_link(h.url_for('/css/style.css'))}
+		${h.stylesheet_link(h.url_for('/app/css/style.css'))}
         <%doc>
-            <link rel="stylesheet" href="${h.url_for('/css/style.css')}" type="text/css" media="screen, projection" />
+            <link rel="stylesheet" href="${h.url_for('/app/css/style.css')}" type="text/css" media="screen, projection" />
         </%doc>
-        <link rel="stylesheet" href="${h.url_for('/blueprint/print.css')}" type="text/css" media="print" />
-        <!--[if lt IE 8]><link rel="stylesheet" href="${h.url_for('/blueprint/ie.css')}" type="text/css" media="screen, projection" /><![endif]-->
+        <link rel="stylesheet" href="${h.url_for('/app/blueprint/print.css')}" type="text/css" media="print" />
+        <!--[if lt IE 8]><link rel="stylesheet" href="${h.url_for('/app/blueprint/ie.css')}" type="text/css" media="screen, projection" /><![endif]-->
 	</head>
 	<body>
 		<div class="container">

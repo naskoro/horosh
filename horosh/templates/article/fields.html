@@ -1,8 +1,8 @@
 <%def name="head()">
-    ${h.javascript_link(h.url_for('/markitup/jquery.markitup.js'))}
-    ${h.stylesheet_link(h.url_for('/markitup/skins/simple/style.css'))}
-    ${h.javascript_link(h.url_for('/markitup/sets/default/set.js'))}
-    ${h.stylesheet_link(h.url_for('/markitup/sets/default/style.css'))}
+    ${h.javascript_link(h.url_for('/app/markitup/jquery.markitup.js'))}
+    ${h.stylesheet_link(h.url_for('/app/markitup/skins/simple/style.css'))}
+    ${h.javascript_link(h.url_for('/app/markitup/sets/default/set.js'))}
+    ${h.stylesheet_link(h.url_for('/app/markitup/sets/default/style.css'))}
     <script type="text/javascript" >
        $(document).ready(function() {
           $(".markitup").markItUp(mySettings);
