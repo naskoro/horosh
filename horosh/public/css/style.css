@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+/* Blueprint CSS Framework */ 
+@import url(/blueprint/src/reset.css);
+@import url(/blueprint/src/grid.css);
+@import url(/blueprint/src/typography.css);
+@import url(/blueprint/src/forms.css);
+/* Plugins */
+/*@import url(/blueprint/plugins/fancy-type/screen.css);*/
+
+#main-content{padding:10px}

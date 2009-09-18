@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from sqlalchemy import orm
 from hashlib import md5
 import logging
@@ -38,8 +39,8 @@ class Album(Node):
         return "<Album('%s', '%s', '%s')>" % (self.id, self.path, self.type)
 
 class Article(Node):
-    def __init__(self, body, filter, node_user_id=None):
-        self.body = body
+    def __init__(self, content, filter, node_user_id=None):
+        self.content = content
         self.filter = filter
         Node.__init__(self, node_user_id)
     def __repr__(self):

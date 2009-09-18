@@ -46,14 +46,18 @@ path = schema.Table('path', meta.metadata,
         schema.ForeignKey('node.id'), nullable=False),
 
     schema.Column('path', types.Unicode(250), unique=True),
+    schema.Column('used', types.Boolean),
+    
+    schema.Column('updated', types.DateTime(), onupdate=datetime.now())
 )
 
 article = schema.Table('article', meta.metadata,
     schema.Column('id', types.Integer,
         schema.ForeignKey('node.id'), primary_key=True),
     
-    schema.Column('body', types.Unicode(), nullable=False),
+    schema.Column('content', types.Unicode(), nullable=False),
     schema.Column('filter', types.Unicode(10)),
+    schema.Column('published', types.Boolean, default=False),
     
     schema.Column('created', types.DateTime(), default=datetime.now()),
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())
@@ -74,10 +78,10 @@ event = schema.Table('event', meta.metadata,
         schema.ForeignKey('node.id'), primary_key=True),
 
     schema.Column('title', types.Unicode(250), nullable=False),
-    schema.Column('notice', types.Unicode(1000)),
+    schema.Column('summary', types.Unicode(1000)),
     schema.Column('start', types.Date(), nullable=False),
     schema.Column('finish', types.Date(), nullable=False),
-    schema.Column('publish', types.Boolean, default=False),
+    schema.Column('published', types.Boolean, default=False),
 
     schema.Column('created', types.DateTime(), default=datetime.now()),
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())

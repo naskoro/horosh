@@ -1,0 +1,13 @@
+<%inherit file="/layout.html" />
+<%namespace file="fields.html" name="fields" import="*"/>
+<%def name="head()">
+    ${parent.head()}
+    ${fields.head()}
+</%def>
+${h.form(h.url_for(controller='content', action='create'), method="post")}
+    <fieldset>
+    <legend>Новая статья</legend>
+	${fields.body()}
+	${h.submit(value=u"создать статью", name='submit')}
+    </fieldset>
+${h.end_form()}
