@@ -19,14 +19,14 @@ class User(object):
 
 class Node(object):
     def __init__(self, node_user_id=None):
-        self.node_user_id=node_user_id
+        self.node_user_id = node_user_id
     def __repr__(self):
         return "<Node('%s')>" % self.id
 
 class Path(object):
     def __init__(self, path, node_id):
-        self.path=path
-        self.node_id=node_id
+        self.path = path
+        self.node_id = node_id
     def __repr__(self):
         return "<Path('%s', '%s')>" % (self.path, self.node_id)
 

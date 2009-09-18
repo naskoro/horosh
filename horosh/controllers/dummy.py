@@ -22,7 +22,7 @@ class DummyController(BaseController):
         for item in self.getPhotos('naspeh', '20090306_Krym_Noviy_svet'):
             photos.append(tags.image(self.getPhotoUrl(item) + '?imgmax=200', item.title.text, title=item.title.text))
         c.photos = photos 
-        return render('/test/galleryview.html')
+        return render('/dummy/galleryview.html')
     
     def popeye(self):
         photos = []
@@ -32,7 +32,7 @@ class DummyController(BaseController):
             el = tags.link_to(el, url + '?imgmax=640')
             photos.append(el)
         c.photos = photos 
-        return render('/test/popeye.html')
+        return render('/dummy/popeye.html')
     
     def getPhotos(self, userName, albumName):
         album = self.getAlbum(userName, albumName) 
