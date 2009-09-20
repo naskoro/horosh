@@ -23,7 +23,7 @@ def setup_app(command, conf, vars):
     meta.Session.commit()
     
     # Test models
-    if(True):
+    if(False):
         log.info("Adding album")
         album = Album({'username':'naspeh', 'albumid':"google.com"}, "picasa", user.id)
         meta.Session.add(album)
