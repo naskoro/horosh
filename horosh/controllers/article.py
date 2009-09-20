@@ -2,13 +2,14 @@
 
 import logging
 
+from docutils.core import publish_parts
 import formencode
 from formencode import htmlfill
-
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
 from pylons.decorators import validate
 from pylons.decorators.rest import restrict
+from webhelpers.markdown import markdown
 
 from horosh.lib.base import BaseController, render
 
@@ -48,3 +49,67 @@ class ArticleController(BaseController):
         response.headers['location'] = h.url_for(controller='content',
             action='view', id=content.id)
         return "Moved temporarily"
+    
+    def show(self):
+        text = """
+A ReStructuredText Primer
+=========================
+
+:Author: Richard Jones
+:Version: $Revision: 5801 $
+:Copyright: This document has been placed in the public domain.
+
+.. contents::
+
+
+The text below contains links that look like "(quickref__)".  These
+are relative links that point to the `Quick reStructuredText`_ user
+reference.  If these links don't work, please refer to the `master
+quick reference`_ document.
+
+__
+.. _Quick reStructuredText: quickref.html
+.. _master quick reference:
+   http://docutils.sourceforge.net/docs/user/rst/quickref.html
+
+.. Note:: This document is an informal introduction to
+   reStructuredText.  The `What Next?` section below has links to
+   further resources, including a formal reference.
+
+Lorem ipsum [#f1]_ dolor sit amet ... [#f2]_
+
+.. rubric:: Footnotes
+
+.. [#f1] Text of the first footnote.
+.. [#f2] Text of the second footnote.
+
+"""
+        c.content=self._rest2html(text)
+    
+        return render('/article/show.html')
+    
+    @restrict('POST')
+    def markdown(self):
+        text = request.POST['data'] 
+        if text is None:
+            abort(404)
+        c.content = markdown(text)     
+        return render('/article/preview-frame.html')
+
+    @restrict('POST')
+    def rest(self):
+        text = request.POST['data'] 
+        if c.content is None:
+            abort(404)
+        text = self._rest2html(text)
+        c.content = text     
+        return render('/article/preview-frame.html')
+    
+    def _rest2html(self, text):
+        text = publish_parts(
+            text, 
+            writer_name='html',
+            settings_overrides=dict(file_insertion_enabled=False, raw_enabled=False)
+        )
+        log.info(dir(text))
+        return text['html_body'] 

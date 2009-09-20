@@ -10,7 +10,7 @@ user = schema.Table('user', meta.metadata,
     schema.Column('id', types.Integer,
         schema.Sequence('user_id__seq', optional=True), primary_key=True),
 
-    schema.Column('email', types.Unicode(50), nullable=False, unique=True),
+    schema.Column('email', types.String(50), nullable=False, unique=True),
     schema.Column('password', types.String(32)),    
 
     schema.Column('active', types.Unicode(32)),
@@ -31,7 +31,7 @@ person = schema.Table('person', meta.metadata,
     schema.Column('user_id', types.Integer,
         schema.ForeignKey('user.id'), nullable=True),
 
-    schema.Column('email', types.Unicode(50), nullable=False),
+    schema.Column('email', types.String(50), nullable=False),
     schema.Column('nickname', types.Unicode(20)),    
     schema.Column('fullname', types.Unicode(50)),
 
@@ -67,7 +67,7 @@ album = schema.Table('album', meta.metadata,
     schema.Column('id', types.Integer,
         schema.ForeignKey('node.id'), primary_key=True),
     
-    schema.Column('path', types.Unicode(250), nullable=False),
+    schema.Column('settings', types.PickleType(), nullable=False),
     schema.Column('type', types.String(20)),
     
     schema.Column('created', types.DateTime(), default=datetime.now()),

@@ -17,33 +17,32 @@ def setup_app(command, conf, vars):
     meta.metadata.create_all(bind=meta.engine)
     
     log.info("Adding root user")
-    user = User(u"naspeh@pusto.org", u"1")
+    user = User("naspeh@pusto.org", u"1")
     meta.Session.add(user)
     
     meta.Session.commit()
     
     # Test models
-    if(False):
+    if(True):
         log.info("Adding album")
-        album = Album(u"google.com", "picasa", user.id)
+        album = Album({'username':'naspeh', 'albumid':"google.com"}, "picasa", user.id)
         meta.Session.add(album)
     
         log.info("Adding persons")
     
-        person1 = Person(u"naspeh@pusto.org", "naspeh", "Na Speh", None, user.id)
+        person1 = Person("naspeh@pusto.org", u"naspeh", u"Na Speh", None, user.id)
         meta.Session.add(person1)
-        log.info(person1)
+        log.info("person1: %s" % person1)
         
-        person2 = Person(u"naspeh@pusto.org", "naspeh", "Na Speh", user.id, user.id)
+        person2 = Person("naspeh@pusto.org", u"naspeh", u"Na Speh", user.id, user.id)
         meta.Session.add(person2)
-        log.info(person2)
+        log.info("person2: %s" % person2)
         
         meta.Session.commit()
-    
-        log.info(album.node_owner)
-        log.info(album.node_paths)
-        log.info(person1.user)
-        log.info(person2.user)
-        log.info("===>persons '%s'" % user.persons)
+        
+        album = meta.Session.query(Album).all()[0]
+        log.info("album.settings: %s" % album.settings)
+        log.info("album.node_owner: %s" % album.node_owner)
+        log.info("album.node_paths: %s" % album.node_paths)
         
     log.info("Successfully set up.")
