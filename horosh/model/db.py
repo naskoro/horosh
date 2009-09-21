@@ -55,8 +55,9 @@ article = schema.Table('article', meta.metadata,
     schema.Column('id', types.Integer,
         schema.ForeignKey('node.id'), primary_key=True),
     
+    schema.Column('title', types.Unicode()),
     schema.Column('content', types.Unicode(), nullable=False),
-    schema.Column('filter', types.Unicode(10)),
+    schema.Column('filter', types.Unicode(20), nullable=False),
     schema.Column('published', types.Boolean, default=False),
     
     schema.Column('created', types.DateTime(), default=datetime.now()),

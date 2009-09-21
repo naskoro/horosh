@@ -1,2 +1,13 @@
 <%inherit file="/main.html" />
-Edit Article
+<%namespace file="fields.html" name="fields" import="*"/>
+<%def name="title()">${c.title}</%def>
+<%def name="addsHead()">
+    ${fields.head()}
+</%def>
+${h.form(h.url_for(controller='article', action='save'), method="post")}
+    <fieldset>
+    <legend>Редактирование статьи</legend>
+    ${fields.body()}
+    ${h.submit(value=u"сохранить", name='article_submit')}
+    </fieldset>
+${h.end_form()}

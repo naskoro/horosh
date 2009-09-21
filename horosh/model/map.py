@@ -39,7 +39,8 @@ class Album(Node):
         return "<Album('%s', '%s', '%s')>" % (self.id, self.path, self.type)
 
 class Article(Node):
-    def __init__(self, content, filter, node_user_id=None):
+    def __init__(self, title, content, filter, node_user_id=None):
+        self.title = title
         self.content = content
         self.filter = filter
         Node.__init__(self, node_user_id)
