@@ -32,13 +32,26 @@ class ArticleForm(formencode.Schema):
     )
     
 class ArticleController(BaseController):
-
-    def edit(self, id):
+    def _getArticle(self, id):
         try:
             node = meta.Session.query(model.Article).filter_by(id=int(id)).one()
         except NoResultFound:
             abort(404)
+        return node
+    
+    def _redirectToDefault(self, id):
+        # Issue an HTTP redirect
+        response.status_int = 302
+        response.headers['location'] = h.url_for(
+            controller='article',
+            action='show', 
+            id=id
+        )
+        return "Moved temporarily"
             
+    def edit(self, id):
+        node = self._getArticle(id)
+
         values = {
             'article_title': node.title,
             'article_content': node.content
@@ -50,22 +63,12 @@ class ArticleController(BaseController):
     @restrict('POST')
     @validate(schema=ArticleForm(), form='edit')
     def save(self, id):
-        try:
-            node = meta.Session.query(model.Article).filter_by(id=int(id)).one()
-        except NoResultFound:
-            abort(404)
-
+        node = self._getArticle(id)
+        
         node.title = self.form_result['article_title']
         node.content = self.form_result['article_content']
         meta.Session.commit()
-        # Issue an HTTP redirect
-        response.status_int = 302
-        response.headers['location'] = h.url_for(
-            controller='article',
-            action='show', 
-            id=node.id
-        )
-        return "Moved temporarily"
+        return self._redirectToDefault(node.id)
     
     def new(self):
         return render('/article/new.html')
@@ -81,20 +84,10 @@ class ArticleController(BaseController):
         node = model.Article(**data)
         meta.Session.add(node)
         meta.Session.commit()
-        # Issue an HTTP redirect
-        response.status_int = 302
-        response.headers['location'] = h.url_for(
-            controller='article',
-            action='show', 
-            id=node.id
-        )
-        return "Moved temporarily"
+        return self._redirectToDefault(node.id)
     
     def show(self, id):
-        try:
-            node = meta.Session.query(model.Article).filter_by(id=int(id)).one()
-        except NoResultFound:
-            abort(404)
+        node = self._getArticle(id)
             
         c.title = node.title
         c.content = rest2html(node.content)
