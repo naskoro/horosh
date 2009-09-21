@@ -1,10 +1,10 @@
-<%inherit file="/layout.html" />
+<%inherit file="/main.html" />
 <%namespace file="fields.html" name="fields" import="*"/>
-<%def name="head()">
-    ${parent.head()}
+<%def name="title()">Новая статья</%def>
+<%def name="addsHead()">
     ${fields.head()}
 </%def>
-${h.form(h.url_for(controller='content', action='create'), method="post")}
+${h.form(h.url_for(controller='article', action='create'), method="post")}
     <fieldset>
     <legend>Новая статья</legend>
 	${fields.body()}

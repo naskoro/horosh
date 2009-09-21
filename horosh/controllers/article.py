@@ -2,7 +2,6 @@
 
 import logging
 
-from docutils.core import publish_parts
 import formencode
 from formencode import htmlfill
 from pylons import request, response, session, tmpl_context as c
@@ -12,6 +11,7 @@ from pylons.decorators.rest import restrict
 from webhelpers.markdown import markdown
 
 from horosh.lib.base import BaseController, render
+from horosh.lib.utils import rest2html
 
 log = logging.getLogger(__name__)
 
@@ -84,32 +84,6 @@ Lorem ipsum [#f1]_ dolor sit amet ... [#f2]_
 .. [#f2] Text of the second footnote.
 
 """
-        c.content=self._rest2html(text)
+        c.content = rest2html(text)
     
         return render('/article/show.html')
-    
-    @restrict('POST')
-    def markdown(self):
-        text = request.POST['data'] 
-        if text is None:
-            abort(404)
-        c.content = markdown(text)     
-        return render('/article/preview-frame.html')
-
-    @restrict('POST')
-    def rest(self):
-        text = request.POST['data'] 
-        if c.content is None:
-            abort(404)
-        text = self._rest2html(text)
-        c.content = text     
-        return render('/article/preview-frame.html')
-    
-    def _rest2html(self, text):
-        text = publish_parts(
-            text, 
-            writer_name='html',
-            settings_overrides=dict(file_insertion_enabled=False, raw_enabled=False)
-        )
-        log.info(dir(text))
-        return text['html_body'] 
