@@ -3,12 +3,12 @@
     ${h.stylesheet_link(h.url_for('/app/markitup/skins/simple/style.css'))}
     ${h.javascript_link(h.url_for('/app/markitup/sets/markdown/set.js'))}
     ${h.stylesheet_link(h.url_for('/app/markitup/sets/markdown/style.css'))}
-    <script type="text/javascript" >
-       $(document).ready(function() {
-          $(".markitup").markItUp(mySettings);
-       });
-    </script>   
 </%def>
+<script type="text/javascript" >
+    $(document).ready(function() {
+        $(".markitup").markItUp(mySettings);
+    });
+</script>   
 
 <div class="field">
 <label for="article_title">Название</label>

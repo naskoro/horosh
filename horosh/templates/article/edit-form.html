@@ -1,0 +1,34 @@
+<%namespace file="fields.html" name="fields" import="*"/>
+<%def name="head()">
+    ${h.javascript_link(h.url_for('/app/jquery/jquery.form-2.32.js'))}
+    ${fields.head()}
+</%def>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var options = { 
+            target: '#article-edit-container',
+            beforeSubmit:  function() {
+        	    $('#article-edit :input').enable(false);
+        	    $('.markItUpHeader li.markItUpButton')
+        	        .unbind()
+        	        .bind("click",function() {
+        	            return false;
+        	        }
+   				);
+            },
+            success: function() { 
+                $('#article-edit-container').fadeIn('slow'); 
+            }  
+        };
+        $('#article-edit').ajaxForm(options);
+    });
+</script>
+<div id="article-edit-container">
+	${h.form(h.url_for(controller='article', action='save'), method="post", id="article-edit")}
+	    <fieldset>
+	    <legend>Редактирование статьи</legend>
+	    ${fields.body()}
+	    ${h.submit(value=u"сохранить", name='article_save')}
+	    </fieldset>
+	${h.end_form()}
+</div>

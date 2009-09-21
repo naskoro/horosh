@@ -2,6 +2,7 @@
 
 import logging
 
+import time
 import formencode
 from formencode import htmlfill
 from pylons import request, response, session, tmpl_context as c
@@ -40,31 +41,38 @@ class ArticleController(BaseController):
         return node
     
     def _redirectToDefault(self, id):
-        # Issue an HTTP redirect
-        response.status_int = 302
-        response.headers['location'] = h.url_for(
-            controller='article',
-            action='show', 
-            id=id
-        )
-        return "Moved temporarily"
+        url = h.url_for(controller='article', action='show', id=id)
+        log.info(dir(url))
+        if (request.is_xhr):
+            c.url = url
+            result = render('/util/redirect.html')
+        else :
+            response.status_int = 302
+            response.headers['location'] = url
+            result = "Moved temporarily"  
+        return result
             
     def edit(self, id):
         node = self._getArticle(id)
-
+        
         values = {
             'article_title': node.title,
             'article_content': node.content
         }
         c.title = node.title
         c.content = node.content
-        return htmlfill.render(render('/article/edit.html'), values)        
+        if (request.is_xhr):
+            result = htmlfill.render(render('/article/edit-form.html'), values)
+        else :
+            result = htmlfill.render(render('/article/edit.html'), values)
+        return result
     
     @restrict('POST')
     @validate(schema=ArticleForm(), form='edit')
     def save(self, id):
+        time.sleep(10)
+        #log.info(request.POST['article_save'])
         node = self._getArticle(id)
-        
         node.title = self.form_result['article_title']
         node.content = self.form_result['article_content']
         meta.Session.commit()
