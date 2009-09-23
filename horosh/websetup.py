@@ -25,7 +25,7 @@ def setup_app(command, conf, vars):
     # Test models
     if(False):
         log.info("Adding album")
-        album = Album({'username':'naspeh', 'albumid':"google.com"}, "picasa", user.id)
+        album = Album('naspeh', "5322049975408703009", user.id)
         meta.Session.add(album)
     
         log.info("Adding persons")

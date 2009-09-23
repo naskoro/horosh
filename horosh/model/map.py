@@ -31,12 +31,23 @@ class Path(object):
         return "<Path('%s', '%s')>" % (self.path, self.node_id)
 
 class Album(Node):
-    def __init__(self, settings, type, node_user_id=None):
-        self.settings = settings
-        self.type = type
+    def __init__(self, username, albumid, node_user_id):
+        self.settings = {'username': username, 'albumid': albumid}
+        self.type = 'picasa'
         Node.__init__(self, node_user_id)
+        
     def __repr__(self):
-        return "<Album('%s', '%s', '%s')>" % (self.id, self.path, self.type)
+        return "<Album('%s', '%s', '%s')>" % (self.id, self.settings, self.type)
+
+    @property
+    def settingsUser(self):
+        return self.settings['username']
+    @property
+    def settingsId(self):
+        return self.settings['albumid']
+
+class AlbumPicasa(Album):
+    album = None
 
 class Article(Node):
     def __init__(self, title, content, filter, node_user_id=None):

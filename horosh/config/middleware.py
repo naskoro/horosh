@@ -46,6 +46,9 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     app = CacheMiddleware(app, config)
 
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
+    if asbool(config['debug']):
+        from firepython.middleware import FirePythonWSGI
+        app = FirePythonWSGI(app)
 
     if asbool(full_stack):
         # Handle Python exceptions

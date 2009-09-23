@@ -4,17 +4,29 @@
     ${h.javascript_link(h.url_for('/app/markitup/sets/markdown/set.js'))}
     ${h.stylesheet_link(h.url_for('/app/markitup/sets/markdown/style.css'))}
 </%def>
+<%def name="picasaAlbum(field_id)">
+	<fieldset>
+	<legend>Альбом Picasa</legend>
+	<div class="field">
+		<label for="${field_id}_album_user">Имя пользователя</label>
+		${h.text(name= field_id + '_album_user', class_='text')}
+	</div>
+    <div class="field">
+        <label for="${field_id}_album_id">ID альбома</label>
+        ${h.text(name=field_id + '_album_id', class_='text')}
+    </div>
+	</fieldset>
+</%def>
 <script type="text/javascript" >
     $(document).ready(function() {
         $(".markitup").markItUp(mySettings);
     });
-</script>   
-
+</script>
 <div class="field">
 <label for="article_title">Название</label>
 ${h.text(name='article_title', class_='text')}
 </div>
-
+${picasaAlbum('article')}
 <div class="field">
 <label for="article_content">Содержание</label>
 ${h.textarea(name='article_content', class_="markitup")}
