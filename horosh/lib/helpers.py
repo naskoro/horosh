@@ -6,4 +6,4 @@ available to Controllers. This module is available to templates as 'h'.
 from webhelpers.html.tags import *
 from routes import url_for
 
-from horosh.form.helpers import field 
+from horosh.form.helpers import field, prettify 

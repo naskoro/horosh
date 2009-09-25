@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
-<div>
-	<label class="${field.is_required() and 'field_req' or 'field_opt'}" for="${field.renderer.name}">${[field.label_text, field.key][int(field.label_text is None)]|h}</label>
-	${field.render(**kwargs)|n}
-	% if 'instructions' in field.metadata:
-	    <span class="instructions">${field.metadata['instructions']}</span>
-	% endif
-	% for error in field.errors:
-	    <span class="field_error">${error}</span>
-	% endfor
-</div>
+% if field.requires_label:
+	<div class="field ${field_type}">
+		<label class="${field.is_required() and 'field_req' or 'field_opt'}" for="${field.renderer.name}">${[field.label_text, h.prettify(field.key)][int(field.label_text is None)]|h}</label>
+	    ${field.render()|n}
+		% if 'instructions' in field.metadata:
+		    <span class="instructions">${field.metadata['instructions']}</span>
+		% endif
+		% for error in field.errors:
+		    <span class="field_error">${error}</span>
+		% endfor
+	</div>
+% else:
+    ${field.render()}
+% endif
