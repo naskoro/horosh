@@ -82,7 +82,7 @@ event = schema.Table('event', meta.metadata,
     schema.Column('summary', types.Unicode(1000)),
     schema.Column('start', types.Date(), nullable=False),
     schema.Column('finish', types.Date(), nullable=False),
-    schema.Column('published', types.Boolean, default=False),
+    schema.Column('published', types.DateTime),
 
     schema.Column('created', types.DateTime(), default=datetime.now()),
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())

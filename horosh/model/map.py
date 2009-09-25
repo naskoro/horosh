@@ -59,15 +59,15 @@ class Article(Node):
         return "<Article('%s')>" % self.id
 
 class Event(Node):
-    def __init__(self, user_id, title, notice, start, finish, publish=False, node_user_id=None):
+    def init(self, title, summary, start, finish, published=None, node_user_id=None):
         self.title = title
-        self.notice = notice
+        self.summary = summary
         self.start = start
         self.finish = finish
-        self.publish = publish
+        self.published = published
         Node.__init__(self, node_user_id)
     def __repr__(self):
-        return "<Event('%s')>" % self.id
+        return "<Event('%s', '%s', '%s', '%s')>" % (self.id, self.title, self.start, self.finish)
 
 class Person(Node):
     def __init__(self, email, nickname, fullname, user_id=None, node_user_id=None):

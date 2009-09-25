@@ -1,0 +1,13 @@
+<%inherit file="/main.html" />
+<%def name="addsHead()">
+</%def>
+
+<form action="" method="post" enctype="multipart/form-data">
+${h.field(c.fs.title)}
+${h.field(c.fs.summary)}
+${h.field(c.fs.start)}
+${h.field(c.fs.finish)}
+${h.field(c.fs.published)}
+##${c.fs.render()|n}
+${h.submit(value=u"создать", name='event_save')}
+</form>
