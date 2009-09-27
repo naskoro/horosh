@@ -4,7 +4,7 @@
 <%def name="addsHead()">
     ${fields.head()}
 </%def>
-${h.form(h.url_for(controller='article', action='create'), method="post")}
+${h.form('', method="post")}
     <fieldset>
     <legend>Новая статья</legend>
 	${fields.body()}

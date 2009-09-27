@@ -6,7 +6,7 @@ from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
 
 from horosh.lib.base import BaseController, render
-from horosh.lib.util import getCurrentUser
+from horosh.lib.util import get_current_user
 from horosh.model import meta
 from horosh import model
 from horosh import form
@@ -38,7 +38,7 @@ class EventController(BaseController):
             if id:
                 meta.Session.update(record)
             else:
-                record.node_user_id = getCurrentUser().id
+                record.node_user_id = get_current_user().id
                 meta.Session.add(record)
             meta.Session.commit()
             redirect_to(id=record.id)        

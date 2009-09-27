@@ -20,11 +20,11 @@
                 $('#article-edit-container').fadeIn('slow'); 
             }  
         };
-        $('#article-edit').ajaxForm(options);
+        //$('#article-edit').ajaxForm(options);
     });
 </script>
 <div id="article-edit-container">
-	${h.form(h.url_for(controller='article', action='save'), method="post", id="article-edit")}
+	${h.form(h.url_for(controller='article', action='edit'), method="post", id="article-edit")}
 	    <fieldset>
 	    <legend>Редактирование статьи</legend>
 	    ${fields.body()}

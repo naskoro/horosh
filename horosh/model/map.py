@@ -9,6 +9,14 @@ from horosh.model import db
 
 log = logging.getLogger(__name__)
 
+def init_model(engine):
+    """Call me before using any of the tables or classes in the model"""
+
+    sessionmaker = orm.sessionmaker(autoflush=True, autocommit=False, bind=engine)
+
+    meta.engine = engine
+    meta.Session = orm.scoped_session(sessionmaker)
+    
 class User(object):
     def __init__(self, email, password=None):
         self.email = email
@@ -50,7 +58,7 @@ class AlbumPicasa(Album):
     album = None
 
 class Article(Node):
-    def __init__(self, title, content, filter, node_user_id=None):
+    def init(self, title, content, filter, node_user_id=None):
         self.title = title
         self.content = content
         self.filter = filter
@@ -79,56 +87,47 @@ class Person(Node):
     def __repr__(self):
         return "<Person('%s', '%s', '%s')>" % (self.id, self.nickname, self.email)
 
-def mapped ():
-    orm.mapper(Path, db.path, 
-        properties={
-            'node': orm.relation(Node),
-        }
-    )
-    orm.mapper(Node, db.node, 
-        properties={
-            'node_user_id': db.node.c.user_id,
-            'node_type': db.node.c.type,
-            'node_owner': orm.relation(User),
-            'node_paths': orm.relation(Path),
-        },
-        polymorphic_on=db.node.c.type, polymorphic_identity='node'
-    )
-    orm.mapper(Album, db.album,
-        properties={
-        },
-        inherits=Node, polymorphic_identity='album'
-    )
-    orm.mapper(Article, db.article, 
-        properties={
-            'albums': orm.relation(Album, secondary=db.article_album),
-        },
-        inherits=Node, polymorphic_identity='article'
-    )
-    orm.mapper(Event, db.event, 
-        properties={
-            'albums': orm.relation(Album, secondary=db.event_album),
-            'reports': orm.relation(Article, secondary=db.event_article),
-            'members': orm.relation(Person, secondary=db.event_person),
-        },
-        inherits=Node, polymorphic_identity='event'
-    )
-    orm.mapper(Person, db.person,
-        properties={
-            'user': orm.relation(User),
-        },
-        inherits=Node, polymorphic_identity='person'
-    )
-    orm.mapper(User, db.user,
-        properties={
-            'persons': orm.relation(Person, primaryjoin=db.person.c.user_id==db.user.c.id)
-        }
-    )
-
-def init_model(engine):
-    """Call me before using any of the tables or classes in the model"""
-
-    sessionmaker = orm.sessionmaker(autoflush=True, autocommit=False, bind=engine)
-
-    meta.engine = engine
-    meta.Session = orm.scoped_session(sessionmaker)
+orm.mapper(Path, db.path, 
+    properties={
+        'node': orm.relation(Node),
+    }
+)
+orm.mapper(Node, db.node, 
+    properties={
+        'node_user_id': db.node.c.user_id,
+        'node_type': db.node.c.type,
+        'node_owner': orm.relation(User),
+        'node_paths': orm.relation(Path),
+    },
+    polymorphic_on=db.node.c.type, polymorphic_identity='node'
+)
+orm.mapper(Album, db.album,
+    properties={
+    },
+    inherits=Node, polymorphic_identity='album'
+)
+orm.mapper(Article, db.article, 
+    properties={
+        'albums': orm.relation(Album, secondary=db.article_album),
+    },
+    inherits=Node, polymorphic_identity='article'
+)
+orm.mapper(Event, db.event, 
+    properties={
+        'albums': orm.relation(Album, secondary=db.event_album),
+        'reports': orm.relation(Article, secondary=db.event_article),
+        'members': orm.relation(Person, secondary=db.event_person),
+    },
+    inherits=Node, polymorphic_identity='event'
+)
+orm.mapper(Person, db.person,
+    properties={
+        'user': orm.relation(User),
+    },
+    inherits=Node, polymorphic_identity='person'
+)
+orm.mapper(User, db.user,
+    properties={
+        'persons': orm.relation(Person, primaryjoin=db.person.c.user_id==db.user.c.id)
+    }
+)

@@ -10,6 +10,6 @@ def rest2html(text):
     )
     return text['html_body']
 
-def getCurrentUser():
+def get_current_user():
     user = meta.Session.query(model.User).filter_by(email='naspeh@pusto.org').one()
     return user 

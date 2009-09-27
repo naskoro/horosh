@@ -9,7 +9,7 @@ from pylons.decorators import validate
 from pylons.decorators.rest import restrict
 
 from horosh.lib.base import BaseController, render
-from horosh.lib.util import getCurrentUser
+from horosh.lib.util import get_current_user
 from horosh.model import meta
 from horosh import model
 
@@ -37,13 +37,13 @@ class AlbumController(BaseController):
         data = {}
         data['username'] = self.form_result['album_picasa_username']
         data['albumid'] = self.form_result['album_picasa_albumid']
-        data['node_user_id'] = getCurrentUser().id
+        data['node_user_id'] = get_current_user().id
         node = model.Article(**data)
         meta.Session.add(node)
         meta.Session.commit()
-        return self._redirectToDefault(node.id)
+        return self._redirect_to_default(node.id)
 
-    def _redirectToDefault(self, id):
+    def _redirect_to_default(self, id):
         url = {'controller': 'album', 'action': 'show_picasa', 'id': id}
         log.info(dir(url))
         if (request.is_xhr):
