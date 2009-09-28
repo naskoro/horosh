@@ -1,35 +1,69 @@
 # -*- coding: utf-8 -*-
 
-import logging
-from formalchemy.fields import FieldRenderer, EscapingReadonlyRenderer,    \
-                               TextFieldRenderer, IntegerFieldRenderer,    \
-                               FloatFieldRenderer, PasswordFieldRenderer,  \
-                               TextAreaFieldRenderer, HiddenFieldRenderer, \
-                               CheckBoxFieldRenderer, FileFieldRenderer,   \
-                               RadioSet, CheckBoxSet, SelectFieldRenderer, \
-                               AbstractField, Field, AttributeField
-from formalchemy import helpers as h
-from formalchemy.ext.fsblob import FileFieldRenderer
-from formalchemy.ext.fsblob import ImageFieldRenderer
-from webhelpers.html import tags
+from formencode import Schema, htmlfill
+from pylons.decorators import validate
+from pylons import request
 
-log = logging.getLogger(__name__)
+from horosh.lib.base import render
+class FieldSet(object):
+    def __init__(self, name, *fields):
+        schema = Schema()
+        schema.allow_extra_fields = True
+        schema.filter_extra_fields = True
+        self._schema = schema
+        self._name = name
+        self._fields = {}
+        if fields:
+            for field in fields:
+                self.add(field)
+        self.init()
+    def init(self):
+        pass
+    def __getattr__(self, name):
+        if name in self._fields:
+            return self._fields[name]
+    def add(self, field):
+        field.id = self._get_id(field.name) 
+        self._fields[field.name] = field
+        self._schema.add_field(field.id, field.validator)
+        return self
+    def add_pre_validator(self, validator):
+        self._schema.add_pre_validator(validator)
+        return self
+    def _get_id(self, name):
+        return self._name + '_' + name
+    def get_values(self, use_ids=False):
+        values = {}
+        if use_ids:
+            values = {}
+            for field in self._fields.values():
+                values[field.id] = field.value
+            return values
 
-class DateFieldRenderer(FieldRenderer):
-    
-    """render a date as a text field"""
-    format = '%Y-%m-%d'
-    def render(self, **kwargs):
-        return h.text_field(self.name, value=self._value, maxlength=10, **kwargs)
+        for name, field in self._fields.items():
+            values[name] = field.value
+        return values
+    def set_values(self, params, use_ids=False):
+        if use_ids:
+            for name, field in self._fields.items():
+                if(field.id in params):
+                    field.value = params[field.id]
+            return
+        
+        for name, field in self._fields.items():
+            if(name in params):
+                field.value = params[name]
+    def render(self, template):
+        return htmlfill.render(render(template), self.get_values(use_ids=True))
+    def validate(self, **kwargs):
+        return validate(self._schema, **kwargs)
 
-class TimeFieldRenderer(FieldRenderer):
-    """render a time as a text field"""
-    format = '%H:%M'
-    def render(self, **kwargs):
-        return h.text_field(self.name, value=self._value, maxlength=5, **kwargs)
-    
-class DateTimeFieldRenderer(FieldRenderer):
-    """render a date time as a text field"""
-    format = '%Y-%m-%d %H:%M:%S'
-    def render(self, **kwargs):
-        return h.text_field(self.name, value=self._value, maxlength=16, **kwargs)
+class Field(object):
+    def __init__(self, name=None, id=None, validator=None, label=None, 
+                 instructions=None, value = None):
+        self.name = name
+        self.validator = validator
+        self.label = label
+        self.instructions = instructions
+        self.id = id
+        self.value = value

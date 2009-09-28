@@ -5,7 +5,7 @@ from pylons.controllers.util import abort, redirect_to
 from pylons.decorators.rest import restrict
 
 from horosh.lib.base import BaseController, render
-from horosh.lib.utils import rest2html
+from horosh.lib.util import rst2html
 
 log = logging.getLogger(__name__)
 
@@ -20,10 +20,10 @@ class UtilController(BaseController):
         return render('/util/response.html')
 
     @restrict('POST')
-    def rest(self):
+    def rst(self):
         text = request.POST['data'] 
         if c.content is None:
             abort(400)
-        text = rest2html(text)
+        text = rst2html(text)
         c.content = text     
         return render('/util/response.html')

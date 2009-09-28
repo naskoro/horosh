@@ -27,13 +27,12 @@ textarea, select {
 input[type=text]:focus, input[type=password]:focus,
 input.text:focus, input.title:focus,
 textarea:focus, select:focus {
-  border-color:#0b0;
+  border-color:#666;
 }
 input[type=text].error, input[type=password].error,
 input.text.error, input.title.error,
 textarea.error, select.error {
-  background-color:#;
-  border:1px solid #d00;
+  border-color: #d00;
 }
 input[type=text], input[type=password],
 input.text, input.title,

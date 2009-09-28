@@ -14,15 +14,15 @@ from horosh.lib.base import BaseController, render
 from horosh.lib.util import rst2html, get_current_user
 from horosh.model import meta
 from horosh import model
-from horosh import forms
+from horosh import form
 
 log = logging.getLogger(__name__)
 
-fs = forms.FieldSet('article',
-    forms.Field('title', validator=forms.v.String(not_empty=True)),
-    forms.Field('album_user', validator=forms.v.String()),
-    forms.Field('album_id', validator=forms.v.String()),
-    forms.Field('content', validator=forms.v.String(not_empty=True))
+fs = form.FieldSet('article',
+    form.Field('title', validator=form.v.String(not_empty=True)),
+    form.Field('album_user', validator=form.v.String()),
+    form.Field('album_id', validator=form.v.String()),
+    form.Field('content', validator=form.v.String(not_empty=True))
 )
     
 class ArticleController(BaseController):
@@ -41,7 +41,11 @@ class ArticleController(BaseController):
             meta.Session.commit()
             return self._redirect_to_default(node.id)
         c.fs = fs
-        return render('/article/new.html')
+        if (request.is_xhr):
+            result = fs.render('/article/new_form.html')
+        else :
+            result = fs.render('/article/new.html')
+        return result
 
     def show(self, id):
         node = self._get_article(id)
