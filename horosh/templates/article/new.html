@@ -1,13 +1,7 @@
 <%inherit file="/main.html" />
-<%namespace file="fields.html" name="fields" import="*"/>
-<%def name="title()">Новая статья</%def>
+<%namespace file="new_form.html" name="form" import="*"/>
+<%def name="title()">${c.title}</%def>
 <%def name="addsHead()">
-    ${fields.head()}
+    ${form.head()}
 </%def>
-${h.form('', method="post")}
-    <fieldset>
-    <legend>Новая статья</legend>
-	${fields.body()}
-	${h.submit(value=u"создать", name='article_submit')}
-    </fieldset>
-${h.end_form()}
+${form.all_body()}

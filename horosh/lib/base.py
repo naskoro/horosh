@@ -5,7 +5,7 @@ Provides the BaseController class for subclassing.
 from pylons.controllers import WSGIController
 from pylons.controllers.util import redirect_to
 from pylons.templating import render_mako as render
-from pylons import request
+from pylons import request, response, session, tmpl_context as c
 
 from horosh.model import meta
 

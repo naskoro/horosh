@@ -6,8 +6,8 @@
 <%def name="form_id()">article-edit</%def>
 <form id="${form_id()}" method="post" action="">
     <fieldset>
-    <legend>Редактирование статьи</legend>
+    <legend>Новая статья</legend>
     ${fields.body()}
-    ${h.submit(value=u"сохранить", name='article_save')}
+    ${h.submit(value=u"создать", name='article_submit')}
     </fieldset>
 </form>

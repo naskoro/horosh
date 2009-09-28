@@ -11,7 +11,7 @@ from pylons.decorators.rest import restrict
 from sqlalchemy.orm.exc import NoResultFound
 
 from horosh.lib.base import BaseController, render
-from horosh.lib.util import rest2html, get_current_user
+from horosh.lib.util import rst2html, get_current_user
 from horosh.model import meta
 from horosh import model
 from horosh import forms
@@ -26,28 +26,28 @@ fs = forms.FieldSet('article',
 )
     
 class ArticleController(BaseController):
-    @validate(schema=fs.schema, form='new')
+    @fs.validate(form='new')
     def new(self):
         if request.POST:
             fs.set_values(self.form_result, use_ids=True)
             
             node = model.Article()
-            node.title = fs.get_value('title')
-            node.content = fs.get_value('content')
+            node.title = fs.title.value
+            node.content = fs.content.value
             node.filter = 'reStrucuredText'
             node.node_user_id = get_current_user().id
             
             meta.Session.add(node)
             meta.Session.commit()
             return self._redirect_to_default(node.id)
-            
+        c.fs = fs
         return render('/article/new.html')
 
     def show(self, id):
         node = self._get_article(id)
             
         c.title = node.title
-        c.content = rest2html(node.content)
+        c.content = rst2html(node.content)
         
         return render('/article/show.html')
 
@@ -55,13 +55,14 @@ class ArticleController(BaseController):
     def edit(self, id):
         node = self._get_article(id)
         if request.POST:
+            time.sleep(5)
             fs.set_values(self.form_result, use_ids=True)
             
-            node.title = fs.get_value('title')
-            node.content = fs.get_value('content')
+            node.title = fs.title.value
+            node.content = fs.content.value
             
-            album_user = fs.get_value('album_user')
-            album_id = fs.get_value('album_id') 
+            album_user = fs.album_user.value
+            album_id = fs.album_id.value 
             if (album_user and album_id):
                 node.albums = [model.Album(
                     album_user,
@@ -83,6 +84,7 @@ class ArticleController(BaseController):
                 'album_user': album.settingsUser,
                 'album_id': album.settingsId
             })
+        c.fs = fs
         c.title = node.title
         
         if (request.is_xhr):

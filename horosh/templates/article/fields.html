@@ -4,30 +4,29 @@
     ${h.javascript_link(h.url_for('/app/markitup/sets/markdown/set.js'))}
     ${h.stylesheet_link(h.url_for('/app/markitup/sets/markdown/style.css'))}
 </%def>
-<%def name="picasaAlbum(field_id)">
-	<fieldset>
-	<legend>Альбом Picasa</legend>
-	<div class="field">
-		<label for="${field_id}_album_user">Имя пользователя</label>
-		${h.text(name= field_id + '_album_user', class_='text')}
-	</div>
-    <div class="field">
-        <label for="${field_id}_album_id">ID альбома</label>
-        ${h.text(name=field_id + '_album_id', class_='text')}
-    </div>
-	</fieldset>
-</%def>
 <script type="text/javascript" >
     $(document).ready(function() {
         $(".markitup textarea").markItUp(mySettings);
     });
 </script>
-<div class="field text">
-<label for="article_title">Название</label>
-${h.text(name='article_title')}
+<div class="field">
+<label for="${c.fs.title.id}">Название</label>
+${h.text(name=c.fs.title.id, class_='text')}
 </div>
-${picasaAlbum('article')}
+
+<fieldset>
+<legend>Альбом Picasa</legend>
+<div class="field">
+    <label for="${c.fs.album_user.id}">Имя пользователя</label>
+    ${h.text(name= c.fs.album_user.id, class_='text')}
+</div>
+<div class="field">
+    <label for="${c.fs.album_id.id}">ID альбома</label>
+    ${h.text(name=c.fs.album_id.id, class_='text')}
+</div>
+</fieldset>
+
 <div class="field markitup">
-<label for="article_content">Содержание</label>
-${h.textarea(name='article_content')}
+<label for="${c.fs.content.id}">Содержание</label>
+${h.textarea(name=c.fs.content.id)}
 </div>

@@ -2,7 +2,7 @@ from docutils.core import publish_parts
 from horosh.model import meta
 from horosh import model
 
-def rest2html(text):
+def rst2html(text):
     text = publish_parts(
         text, 
         writer_name='html',
