@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import logging
 from sqlalchemy import orm
 from hashlib import md5
-import logging
 
+from horosh.lib.util import rst2html
 from horosh.model import meta
 from horosh.model import db
 
@@ -48,10 +49,10 @@ class Album(Node):
         return "<Album('%s', '%s', '%s')>" % (self.id, self.settings, self.type)
 
     @property
-    def settingsUser(self):
+    def settings_user(self):
         return self.settings['username']
     @property
-    def settingsId(self):
+    def settings_id(self):
         return self.settings['albumid']
 
 class AlbumPicasa(Album):
@@ -63,6 +64,9 @@ class Article(Node):
         self.content = content
         self.filter = filter
         Node.__init__(self, node_user_id)
+    @property
+    def html_content(self):
+        return rst2html(self.content)
     def __repr__(self):
         return "<Article('%s')>" % self.id
 
@@ -74,6 +78,9 @@ class Event(Node):
         self.finish = finish
         self.published = published
         Node.__init__(self, node_user_id)
+    @property
+    def html_summary(self):
+        return rst2html(self.summary, False)
     def __repr__(self):
         return "<Event('%s', '%s', '%s', '%s')>" % (self.id, self.title, self.start, self.finish)
 

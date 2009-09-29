@@ -1,15 +1,19 @@
-from docutils.core import publish_parts
-from horosh.model import meta
-from horosh import model
+# -*- coding: utf-8 -*-
 
-def rst2html(text):
+from docutils.core import publish_parts
+from pylons.templating import pylons_globals
+from mako.template import Template
+
+def rst2html(text, use_ext=True):
     text = publish_parts(
         text, 
         writer_name='html',
         settings_overrides=dict(file_insertion_enabled=False, raw_enabled=False)
     )
-    return text['html_body']
-
-def get_current_user():
-    user = meta.Session.query(model.User).filter_by(email='naspeh@pusto.org').one()
-    return user 
+    result = text['html_body']
+    if use_ext:
+        globs = pylons_globals()
+        template = Template(result)
+        result = template.render_unicode(**globs)
+        
+    return result

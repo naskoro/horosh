@@ -31,7 +31,7 @@ class FieldSet(object):
         self._schema.add_pre_validator(validator)
         return self
     def _get_id(self, name):
-        return self._name + '_' + name
+        return self._name + '.' + name
     def get_values(self, use_ids=False):
         values = {}
         if use_ids:
@@ -53,8 +53,20 @@ class FieldSet(object):
         for name, field in self._fields.items():
             if(name in params):
                 field.value = params[name]
-    def render(self, template):
-        return htmlfill.render(render(template), self.get_values(use_ids=True))
+    def clean(self):
+        for field in self._fields.values():
+            field.value = None
+        return self
+    def render(self, template, template_partial, with_htmlfill=True):
+        if request.is_xhr:
+            template = template_partial
+        if with_htmlfill:
+            result = self.htmlfill(render(template))
+        else:
+            result = render(template)
+        return result
+    def htmlfill(self, form):
+        return htmlfill.render(form, self.get_values(use_ids=True))
     def validate(self, **kwargs):
         return validate(self._schema, **kwargs)
 

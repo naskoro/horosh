@@ -6,40 +6,49 @@ from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
 
 from horosh.lib.base import BaseController, render
-from horosh.lib.util import get_current_user
+from horosh.lib.util import rst2html
 from horosh.model import meta
 from horosh import model
 from horosh import form
 
 log = logging.getLogger(__name__)
 
-EventForm = form.FieldSet(model.Event)
-EventForm.configure(
-    include=[
-        EventForm.title,
-        EventForm.summary.textarea(),
-        EventForm.start,
-        EventForm.finish,
-        EventForm.published
-    ])
-
+fs = form.FieldSet('event',
+    form.Field('title', validator=form.v.String(not_empty=True)),
+    form.Field('start', 
+        validator=form.v.DateConverter(
+            not_empty=True, 
+            month_style='dd/mm/yyyy'
+        )
+    ),
+    form.Field('finish',         
+        validator=form.v.DateConverter(
+            not_empty=True, 
+            month_style='dd/mm/yyyy'
+        )
+    ),
+    form.Field('summary', validator=form.v.String())
+)
 class EventController(BaseController):
-
-    def new(self, id=None):
-        if id:
-            record = meta.Session.query(model.Event).filter_by(id=id).first()
-            log.debug(record)
-        else:
-            record = model.Event()
-        assert record is not None, repr(id)        
-        c.fs = EventForm.bind(record, data=request.POST or None)
-        if request.POST and c.fs.validate():
-            c.fs.sync()
-            if id:
-                meta.Session.update(record)
-            else:
-                record.node_user_id = get_current_user().id
-                meta.Session.add(record)
+    @fs.validate(form='new')
+    def new(self):
+        if request.POST:
+            fs.set_values(self.form_result, use_ids=True)
+            
+            node = model.Event()
+            node.title = fs.title.value
+            node.summary = fs.summary.value
+            node.start = fs.start.value
+            node.finish = fs.finish.value
+            node.node_user_id = session.current_user.id
+            
+            meta.Session.add(node)
             meta.Session.commit()
-            redirect_to(id=record.id)        
-        return render('/event/new.html')
+            return self._redirect_to_default(node.id)
+        c.fs = fs
+        return fs.render('/event/new.html', '/event/new_form.html', False)
+    def show(self, id):
+        c.node = self._get_row(model.Event, id)
+        return render('/event/show.html')
+    def _redirect_to_default(self, id):
+        return self._redirect_to(controller='event', action='show', id=id)

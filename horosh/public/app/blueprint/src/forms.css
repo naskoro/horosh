@@ -55,6 +55,8 @@ form.inline p { margin-bottom:0; }
 /*.field {margin-bottom:0.8em;}*/
 .field.long input{ width: 100%;}
 .field.short input{ }
+form .required-symbol { font-weight: bold; color: #d00}
+
 /* Success, notice and error boxes
 -------------------------------------------------------------- */
 

@@ -1,0 +1,6 @@
+<%inherit file="/main.html" />
+<%def name="title()">${c.node.title}</%def>
+title: ${c.node.title}<br/>
+Start date: ${c.node.start.strftime('%d %B %Y')}<br/>
+Finish date: ${c.node.finish.strftime('%d %B %Y')}<br/>
+Summary: ${c.node.html_summary|n}

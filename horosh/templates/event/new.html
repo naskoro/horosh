@@ -1,12 +1,7 @@
 <%inherit file="/main.html" />
+<%namespace file="new_form.html" name="form" import="*"/>
+<%def name="title()">${form.title()}</%def>
 <%def name="adds_head()">
+    ${form.head()}
 </%def>
-<form action="" method="post" enctype="multipart/form-data">
-${h.field(c.fs.title)}
-${h.field(c.fs.summary)}
-${h.field(c.fs.start, 'short')}
-${h.field(c.fs.finish, 'short')}
-${h.field(c.fs.published)}
-##${c.fs.render()|n}
-${h.submit(value=u"создать", name='event_save')}
-</form>
+${form.all_body()}

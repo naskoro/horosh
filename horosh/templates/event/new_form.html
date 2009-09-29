@@ -3,12 +3,12 @@
 <%def name="adds_head()">
     ${fields.head()}
 </%def>
-<%def name="title()">Новая статья</%def>
-<%def name="form_id()">article-edit</%def>
+<%def name="title()">Новое событие</%def>
+<%def name="form_id()">event-new</%def>
 <form id="${form_id()}" method="post" action="">
     <fieldset>
     <legend>${self.title()}</legend>
     ${fields.body()}
-    ${h.submit(value=u"создать", name='article_save')}
+    ${h.submit(value=u"создать", name='event_save')}
     </fieldset>
 </form>

@@ -1,3 +1,3 @@
 <%inherit file="/main.html" />
-<%def name="title()">${c.title}</%def>
-${c.content|n}
+<%def name="title()">${c.node.title}</%def>
+${c.node.html_content|n}

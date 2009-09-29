@@ -1,6 +1,6 @@
 <%inherit file="/main.html" />
 <%namespace file="new_form.html" name="form" import="*"/>
-<%def name="title()">${c.title}</%def>
+<%def name="title()">${form.title()}</%def>
 <%def name="adds_head()">
     ${form.head()}
 </%def>

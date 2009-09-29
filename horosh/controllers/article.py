@@ -11,7 +11,8 @@ from pylons.decorators.rest import restrict
 from sqlalchemy.orm.exc import NoResultFound
 
 from horosh.lib.base import BaseController, render
-from horosh.lib.util import rst2html, get_current_user
+from horosh.lib.util import rst2html
+from horosh.lib.photos import Picasa
 from horosh.model import meta
 from horosh import model
 from horosh import form
@@ -35,24 +36,16 @@ class ArticleController(BaseController):
             node.title = fs.title.value
             node.content = fs.content.value
             node.filter = 'reStrucuredText'
-            node.node_user_id = get_current_user().id
+            node.node_user_id = session.current_user.id
             
             meta.Session.add(node)
             meta.Session.commit()
             return self._redirect_to_default(node.id)
         c.fs = fs
-        if (request.is_xhr):
-            result = fs.render('/article/new_form.html')
-        else :
-            result = fs.render('/article/new.html')
-        return result
+        return fs.render('/article/new.html', '/article/new_form.html', False)
 
     def show(self, id):
-        node = self._get_article(id)
-            
-        c.title = node.title
-        c.content = rst2html(node.content)
-        
+        c.node = self._get_article(id) 
         return render('/article/show.html')
 
     @fs.validate(form='edit')            
@@ -71,7 +64,7 @@ class ArticleController(BaseController):
                 node.albums = [model.Album(
                     album_user,
                     album_id,
-                    get_current_user().id
+                    session.current_user.id
                 )]
             
             meta.Session.commit()
@@ -85,17 +78,12 @@ class ArticleController(BaseController):
         if (node.albums):
             album = node.albums[0]
             fs.set_values({
-                'album_user': album.settingsUser,
-                'album_id': album.settingsId
+                'album_user': album.settings_user,
+                'album_id': album.settings_id
             })
         c.fs = fs
         c.title = node.title
-        
-        if (request.is_xhr):
-            result = fs.render('/article/edit_form.html')
-        else :
-            result = fs.render('/article/edit.html')
-        return result
+        return fs.render('/article/edit.html', '/article/edit_form.html')
     
     def _get_article(self, id):
         try:
