@@ -65,7 +65,7 @@ class Article(Node):
         self.filter = filter
         Node.__init__(self, node_user_id)
     @property
-    def html_content(self):
+    def html_content2(self):
         return rst2html(self.content)
     def __repr__(self):
         return "<Article('%s')>" % self.id

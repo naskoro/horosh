@@ -1,5 +1,5 @@
 <%def name="head()">
-    ${h.javascript_link(h.url_for('/app/jquery/jquery.form-2.32.js'))}
+    ${h.javascript_link(h.url_for('/app/jquery/jquery.form.js'))}
     ${self.adds_head()}
 </%def>
 <%def name="adds_head()"></%def>
@@ -22,7 +22,7 @@
                 $('#${form_id()}-container').fadeIn('slow'); 
             }  
         };
-        //$('#${form_id()}').ajaxForm(options);
+        $('#${form_id()}').ajaxForm(options);
     });
 </script>
 <div id="${form_id()}-container">

@@ -40,7 +40,7 @@ class EventController(BaseController):
             node.summary = fs.summary.value
             node.start = fs.start.value
             node.finish = fs.finish.value
-            node.node_user_id = session.current_user.id
+            node.node_user_id = session['current_user'].id
             
             meta.Session.add(node)
             meta.Session.commit()

@@ -36,7 +36,8 @@ class ArticleController(BaseController):
             node.title = fs.title.value
             node.content = fs.content.value
             node.filter = 'reStrucuredText'
-            node.node_user_id = session.current_user.id
+            node.html_content = rst2html(node.content)
+            node.node_user_id = session['current_user'].id
             
             meta.Session.add(node)
             meta.Session.commit()
@@ -57,6 +58,7 @@ class ArticleController(BaseController):
             
             node.title = fs.title.value
             node.content = fs.content.value
+            node.html_content = rst2html(node.content)
             
             album_user = fs.album_user.value
             album_id = fs.album_id.value 
@@ -64,7 +66,7 @@ class ArticleController(BaseController):
                 node.albums = [model.Album(
                     album_user,
                     album_id,
-                    session.current_user.id
+                    session['current_user'].id
                 )]
             
             meta.Session.commit()

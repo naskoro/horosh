@@ -1,8 +1,6 @@
+<%namespace file="/include.html" name="include" import="*"/>
 <%def name="head()">
-    ${h.javascript_link(h.url_for('/app/markitup/jquery.markitup.js'))}
-    ${h.stylesheet_link(h.url_for('/app/markitup/skins/simple/style.css'))}
-    ${h.javascript_link(h.url_for('/app/markitup/sets/markdown/set.js'))}
-    ${h.stylesheet_link(h.url_for('/app/markitup/sets/markdown/style.css'))}
+    ${include.jquery_markitup()}    
 </%def>
 <script type="text/javascript" >
     $(document).ready(function() {

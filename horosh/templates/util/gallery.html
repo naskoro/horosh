@@ -1,0 +1,57 @@
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#${id} a[rel='${id}']").colorbox();
+    % if pages_count!=1:
+	$('#${id}').cycle({
+		fx:     'scrollHorz', 
+	    speed:  'fast',
+	    pause:   1,
+	    % if not align:
+		//timeout: 0,
+        autostop:      1,
+        autostopCount: ${pages_count+1},
+	    next:   '#${id}-next',
+	    prev:   '#${id}-prev',
+	    after:   function(curr, next, opts) {
+	    	$('#${id}-info').html((opts.currSlide + 1) + ' из ' + opts.slideCount)
+	    }
+        % endif    
+	})
+	% endif
+})
+</script>
+<div class="gallery ${align}">
+% if not align and pages_count!=1:
+<div class="controls" style="height: 124px;">
+    <div id="${id}-prev" class="control-prev">previous</div>
+    <div id="${id}-next" class="control-next">next</div>
+    <div id="${id}-info" class="control-info"></div>
+</div>
+<div id="${id}" class="thumbs" style="margin-left: 62px;">
+    ${self.thumbs(pages)}
+</div>
+% else:
+<div id="${id}" class="thumbs">
+    ${self.thumbs(pages)}
+</div>
+% endif
+</div>
+
+<%def name="thumbs(pages)">
+% for page in pages:
+<div class="page"  style="height: 108px;">
+% for photo in page:
+<div class="item" style="background-image: url(${photo['url_pattern'] % 144}); background-position: center center;">
+    ${h.link_to(
+        ' ',
+        photo['url_pattern'] % 640,
+        rel=id,
+        title=photo['title'],
+        style='display: block; width: 108px; height: 108px;'
+    )}
+</div>
+% endfor
+</div>
+% endfor
+
+</%def>

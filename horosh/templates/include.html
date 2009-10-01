@@ -1,0 +1,19 @@
+<%def name="jquery">
+	${h.javascript_link(h.url_for('/app/jquery/jquery.js'))}
+</%def>
+<%def name="jquery_form">
+	${h.javascript_link(h.url_for('/app/jquery/jquery.form.js'))}
+</%def>
+<%def name="jquery_cicle">
+	${h.javascript_link(h.url_for('/app/jquery/jquery.cycle.js'))}
+</%def>
+<%def name="jquery_colorbox">
+	${h.javascript_link(h.url_for('/app/colorbox/jquery.colorbox.js'))}
+	${h.stylesheet_link(h.url_for('/app/colorbox/colorbox.css'))}
+</%def>
+<%def name="jquery_murkitup">
+    ${h.javascript_link(h.url_for('/app/markitup/jquery.markitup.js'))}
+    ${h.stylesheet_link(h.url_for('/app/markitup/skins/simple/style.css'))}
+    ${h.javascript_link(h.url_for('/app/markitup/sets/markdown/set.js'))}
+    ${h.stylesheet_link(h.url_for('/app/markitup/sets/markdown/style.css'))}
+</%def>
