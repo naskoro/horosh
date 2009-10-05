@@ -36,22 +36,11 @@ class Picasa(object):
         else:
             for photo in photos:
                 result.append(Picasa.photo_prepare(photo))
-        if align:
-            count_per_page = 1
-        pages = []
-        count_pages = len(result) / count_per_page
-        if count_pages * count_per_page != len(result):
-            count_pages += 1
-        for page in xrange(count_pages):
-            index = page*count_per_page
-            pages.append(result[index : index+count_per_page])
-        
         Picasa._count += 1
         return render(template, {
             'id': 'gallery-' + str(Picasa._count),
             'align': align,
-            'pages': pages,
-            'pages_count': len(pages)
+            'photos': result,
         })
     
     @staticmethod
@@ -62,5 +51,4 @@ class Picasa(object):
             name = photo.title.text,
             title = photo.summary.text or photo.title.text 
         )
-        log.debug(result)
         return result
