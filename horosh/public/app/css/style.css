@@ -9,23 +9,37 @@
 /*@import url(../blueprint/plugins/fancy-type/screen.css);*/
 
 #content{padding:10px}
-
 .gallery {
+	position: relative;
+	margin: 10px 0;
+	clear: both;
+}
+.gallery .controls {
+    text-align: center;
+    vertical-align: middle;	
     border:1px solid #ccc;
     background-color: #e6e5e5;
-    text-align: center;
-    padding: 7px;
-
+    float: left;
+    
+    -moz-border-radius: 10px 0 0 10px;
+    -webkit-border-radius: 10px 0 0 10px;
+}
+.thumbs {
+    border:1px solid #ccc;
+    background-color: #e6e5e5;
+    
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
 }
-.gallery .items {
-    white-space: nowrap;
-    width: 100%;
-    overflow: auto;
+.thumbs .page {
+    text-align: center;
+    padding: 8px 5px;
 }
-.gallery .items a {
-    margin: 3px;
+.thumbs .item {
+	margin:0 3px;
+    text-align: center;
+    vertical-align: middle;
+    float: left;
 }
 .gallery.left {
     float: left;
@@ -35,3 +49,15 @@
     float: right;
     margin: 10px 0 10px 10px;
 }
+.control-prev, .control-next{
+	margin:3px;
+	background: url(../colorbox/images/controls.png) 0px 0px no-repeat;
+	width:23px; 
+	height:23px; 
+	text-indent:-9999px;
+}
+.control-prev{float:left;background-position: -51px -25px;}
+.control-prev:hover{background-position:-51px 0px;}
+.control-next{float:left;background-position:-75px -25px;}
+.control-next:hover{background-position:-75px 0px;}
+.control-info{font-weight: bold; color: #666}
