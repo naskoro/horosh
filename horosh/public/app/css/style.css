@@ -1,37 +1,7 @@
 @charset "UTF-8";
 
-/* Blueprint CSS Framework */ 
-@import url(../blueprint/src/reset.css);
-@import url(../blueprint/src/grid.css);
-@import url(../blueprint/src/typography.css);
-@import url(../blueprint/src/forms.css);
-/* Plugins */
-/*@import url(../blueprint/plugins/fancy-type/screen.css);*/
-
-#content{padding:10px}
-
-.gallery {
-    border:1px solid #ccc;
-    background-color: #e6e5e5;
-    text-align: center;
-    padding: 7px;
-
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-}
-.gallery .items {
-    white-space: nowrap;
-    width: 100%;
-    overflow: auto;
-}
-.gallery .items a {
-    margin: 3px;
-}
-.gallery.left {
-    float: left;
-    margin: 10px 10px 10px 0;
-}
-.gallery.right {
-    float: right;
-    margin: 10px 0 10px 10px;
-}
+@import url(./reset.css);
+@import url(./grid.css);
+@import url(./typography.css);
+@import url(./forms.css);
+@import url(./adds.css);

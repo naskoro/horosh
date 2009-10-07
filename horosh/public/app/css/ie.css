@@ -6,21 +6,28 @@
    so that our core files stay sweet and nimble.
    
 -------------------------------------------------------------- */
-
 /* Make sure the layout is centered in IE5 */
 body { text-align: center; }
 .container { text-align: left; }
 
 /* Fixes IE margin bugs */
-* html .column, * html div.span-1, * html div.span-2, 
+* html .column, * html div.span-1, * html div.span-2,
 * html div.span-3, * html div.span-4, * html div.span-5, 
-* html div.span-6, * html div.span-7, * html div.span-8, 
-* html div.span-9, * html div.span-10, * html div.span-11, 
+* html div.span-6, * html div.span-7, * html div.span-8,
+* html div.span-9, * html div.span-10, * html div.span-11,
 * html div.span-12, * html div.span-13, * html div.span-14, 
 * html div.span-15, * html div.span-16, * html div.span-17, 
 * html div.span-18, * html div.span-19, * html div.span-20, 
 * html div.span-21, * html div.span-22, * html div.span-23, 
-* html div.span-24 { display:inline; overflow-x: hidden; }
+* html div.span-24, * html div.span-25, * html div.span-26,
+* html div.span-27, * html div.span-28, * html div.span-29,
+* html div.span-30, * html div.span-31, * html div.span-32,
+* html div.span-33, * html div.span-34, * html div.span-35,
+* html div.span-36, * html div.span-37, * html div.span-38, 
+* html div.span-39, * html div.span-40, * html div.span-41,
+* html div.span-42, * html div.span-43, * html div.span-44,
+* html div.span-45, * html div.span-46, * html div.span-47, 
+   * html div.span-48 { display:inline; overflow-x: hidden; }
 
 
 /* Elements

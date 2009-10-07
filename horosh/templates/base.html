@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>horosh - ${self.title()}</title>
@@ -15,8 +15,8 @@
 <%namespace file="/include.html" name="include" import="*"/>
 <%def name="head()">
     ${include.jquery()}
-    ${h.stylesheet_link(h.url_for('/app/blueprint/src/reset.css'))}
-    ${h.stylesheet_link(h.url_for('/app/blueprint/src/typography.css'))}
+    ${h.stylesheet_link(h.url_for('/app/css/reset.css'))}
+    ${h.stylesheet_link(h.url_for('/app/css/typography.css'))}
     ${self.adds_head()}
 </%def>
 <%def name="adds_head()"></%def>

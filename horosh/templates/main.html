@@ -10,26 +10,28 @@
     ${self.adds_head()}
     
     ${h.stylesheet_link(h.url_for('/app/css/style.css'))}
-    <!--[if lt IE 8]><link rel="stylesheet" href="${h.url_for('/app/blueprint/ie.css')}" type="text/css" /><![endif]-->
+    <!--[if lt IE 8]>
+        <link rel="stylesheet" href="${h.url_for('/app/css/ie.css')}" type="text/css" />
+    <![endif]-->
 </%def>
 <%def name="adds_head()"></%def>
-<div class="container">
-	<div id="header" class="span-24 last">
+<div class="container showgrid">
+	<div id="header" class="span-48">
               <h1><span class="alt">horosh</span></h1>
 	</div>
-	<div class="span-17"><div id="main-content">
+	<div id="main" class="span-32 both-2">
         ${next.body()}
-	</div></div>
-	<div class="span-7 last"><div id="sidebar">
+	</div>
+	<div id="sidebar" class="span-13 right-1">
 		<h3>A <span class="alt">Simple</span> Sidebar</h3>
-		<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue.</p>
+		<p class="box">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue.</p>
 		<p>Mauris a lectus. Aliquam erat volutpat. Phasellus ultrices mi a sapien. Nunc rutrum egestas lorem. Duis ac sem sagittis elit tincidunt gravida. Mauris a lectus. Aliquam erat volutpat. Phasellus ultrices mi a sapien. Nunc rutrum egestas lorem. Duis ac sem sagittis elit tincidunt gravida.</p>
 		<p class="quiet">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue.</p>
 		<h5>Incremental leading</h5>
 		<p class="incr">Vestibulum ante ipsum primis in faucibus orci luctus vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. sed aliquet vehicula, lectus tellus.</p>
 		<p class="incr">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue.</p>
-	</div></div>
-	<div id="footer" class="span-24 last">
-              <h2 class="alt">You may pick and choose amongst these and many more features, so be bold.</h2>      
+	</div>
+	<div id="footer" class="span-48">
+        <h2 class="alt">You may pick and choose amongst these and many more features, so be bold.</h2>      
 	</div>
 </div>

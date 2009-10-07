@@ -1,6 +1,5 @@
 JavaScript
 ----------
-
 jQuery JavaScript Library 
 1.3.2 (19 Feb 2009)
 
@@ -16,5 +15,8 @@ jQuery Cycle Plugin
 jQuery Form Plugin
 2.33 (22-SEP-2009)
 
+
 CSS
----------- 
+----------
+Blueprint
+0.9.1 (August 20 2009) 

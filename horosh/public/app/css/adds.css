@@ -1,0 +1,38 @@
+.container{
+    background-color: #fff;
+    background-image: url(grid.png);
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+}
+
+#header{}
+#main{}
+#sidebar{}
+#footer{}
+
+/* Gallery styles*/
+.gallery {
+    border:1px solid #ccc;
+    background-color: #e6e5e5;
+    text-align: center;
+    padding: 7px;
+
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+.gallery .items {
+    white-space: nowrap;
+    width: 100%;
+    overflow: auto;
+}
+.gallery .items a {
+    margin: 3px;
+}
+.gallery.left {
+    float: left;
+    margin: 10px 10px 10px 0;
+}
+.gallery.right {
+    float: right;
+    margin: 10px 0 10px 10px;
+}
