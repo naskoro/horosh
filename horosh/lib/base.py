@@ -5,6 +5,8 @@
 Provides the BaseController class for subclassing.
 """
 
+import json
+
 from pylons.controllers import WSGIController
 from pylons.controllers.util import redirect_to
 from pylons import request, response, session, tmpl_context as c
@@ -31,7 +33,7 @@ class BaseController(WSGIController):
     def _redirect_to(self, **url):
         if (request.is_xhr):
             c.url = url
-            result = render('/util/redirect.html')
+            result = json.dumps({'script':render('/util/redirect.html')})
         else :
             redirect_to(**url)
             result = "Moved temporarily"

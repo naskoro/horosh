@@ -1,15 +1,8 @@
 <%namespace file="/include.html" name="include" import="*"/>
-<%def name="head()">
-    ${include.jquery_markitup()}    
-</%def>
-<script type="text/javascript" >
-    $(document).ready(function() {
-        $(".markitup textarea").markItUp(mySettings);
-    });
-</script>
+<%def name="head()"></%def>
 <div class="field span-30">
-${h.title(u'Название', True, label_for='${c.fs.title.id}')}
-${h.text(name=c.fs.title.id, class_='text')}
+	${h.title(u'Название', True, label_for='${c.fs.title.id}')}
+	${h.text(name=c.fs.title.id, class_='text')}
 </div>
 
 <div class="field span-30">
@@ -24,7 +17,7 @@ ${h.text(name=c.fs.title.id, class_='text')}
 	</div>
 </div>
 
-<div class="field span-30 markitup">
-${h.title(u'Summary', label_for='${c.fs.summary.id}')}
-${h.textarea(name=c.fs.summary.id)}
+<div class="field span-30">
+	${h.title(u'Summary', label_for='${c.fs.summary.id}')}
+	${h.textarea(name=c.fs.summary.id)}
 </div>

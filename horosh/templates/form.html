@@ -1,5 +1,6 @@
+<%namespace file="/include.html" name="include" import="*"/>
 <%def name="head()">
-    ${h.javascript_link(h.url_for('/app/jquery/jquery.form.js'))}
+    ${include.jquery_form()}
     ${self.adds_head()}
 </%def>
 <%def name="adds_head()"></%def>
@@ -8,24 +9,30 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var options = { 
-            target: '#${form_id()}-container',
+            dataType:  'json',
             beforeSubmit:  function() {
-                $('#${form_id()} :input').enable(false);
-                $('.markItUpHeader li.markItUpButton')
-                    .unbind()
-                    .bind("click",function() {
-                        return false;
-                    }
-                );
+                //$('#${form_id()} :input').enable(false);
+                $('#${form_id()}-loader').addClass('loading')
             },
-            success: function() { 
-                $('#${form_id()}-container').fadeIn('slow'); 
+            success: function(data) {
+                if (data.form){
+                    $('#${form_id()}-container').html(data.form).fadeIn('slow');
+                    $('#${form_id()}-loader').removeClass('loading')
+                }
+                if (data.script){
+                    $('script').html(data.script);
+                }
             }  
         };
-        $('#${form_id()}').ajaxForm(options);
+        
+        $('#${form_id()}').submit(function() {
+            $(this).ajaxSubmit(options);
+            return false;
+        })
     });
 </script>
-<div id="${form_id()}-container">
+<div id="${form_id()}-container" class="form-container">
+    <div id="${form_id()}-loader"></div>
     ${next.body()}
 </div>
 </%def>

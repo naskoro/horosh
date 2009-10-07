@@ -30,11 +30,8 @@ fs = form.FieldSet('event',
     form.Field('summary', validator=form.v.String())
 )
 class EventController(BaseController):
-    @fs.validate(form='new')
     def new(self):
-        if request.POST:
-            fs.set_values(self.form_result, use_ids=True)
-            
+        if request.POST and fs.is_valid(request.POST):
             node = model.Event()
             node.title = fs.title.value
             node.summary = fs.summary.value

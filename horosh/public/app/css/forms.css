@@ -11,12 +11,13 @@
 -------------------------------------------------------------- */
 
 label       { font-weight: bold; }
-fieldset    { padding:1.4em 18px; margin: 0 0 1.5em 0; border: 1px solid #ccc; }
+fieldset    { padding:1.4em 18px; margin: 0 0 1.5em 0; border: 1px solid #ccc;}
 legend      { font-weight: bold; font-size:1.2em; padding: 0 0.5em}
 
 /* Form fields
 -------------------------------------------------------------- */
 .field {margin-bottom:0.8em;}
+.form-container {position: relative;}
 
 input[type=text], input[type=password],
 input.text, input.title,

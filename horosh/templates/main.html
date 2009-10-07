@@ -1,6 +1,6 @@
 <%inherit file="/base.html" />
-<%def name="title()">Main Layout</%def>
 <%namespace file="/include.html" name="include" import="*"/>
+<%def name="title()">Main Layout</%def>
 <%def name="head()">
     ${include.jquery()}
     ${include.jquery_colorbox()}
@@ -15,7 +15,7 @@
     <![endif]-->
 </%def>
 <%def name="adds_head()"></%def>
-<div class="container showgrid">
+<div class="container showgrid-">
 	<div id="header" class="span-48">
               <h1><span class="alt">horosh</span></h1>
 	</div>
@@ -34,4 +34,5 @@
 	<div id="footer" class="span-48">
         <h2 class="alt">You may pick and choose amongst these and many more features, so be bold.</h2>      
 	</div>
+	<div id="script"></div>
 </div>

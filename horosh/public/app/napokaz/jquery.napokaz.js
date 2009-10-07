@@ -7,9 +7,6 @@
         	var obj = $(this);
         	
         	display();
-        	if (opts.show_info || opts.show_controls) {
-        		adds();
-        	}
         	
         	function display() {
 	        	var items = obj.find(opts.span_items).find('a');
@@ -28,19 +25,14 @@
 					});
 					
 					var photos = [];
-					var first = true;
 					for (j=0; j<pages[i].length; j++ ) {
 						var photo = $(pages[i][j]);
 						var img = photo.find('img');
-						if (first) {
-							var img_min = Math.min(img.width(), img.height());
-							first = false;
-						}
 						photo.css({
 	                        backgroundImage: 'url(' + img.attr('src') + ')',
 	                        backgroundPosition: 'center',
-	        				width: img_min,
-	        				height: img_min,
+	        				width: opts.img_min,
+	        				height: opts.img_min,
 	        				display: 'block',
 	        				float: 'left'
 	                    });
@@ -50,19 +42,25 @@
 					container.append(page);
 				}
 	        	obj.append(container);
+	        	
+	        	if (2 > pages.length) {
+	        		opts.show_controls = false;
+	        		reshape(container);
+	        	}
+	        	
+	        	if (opts.show_info || opts.show_controls) {
+	        		adds();
+	        	}
 
 	        	if (1 < pages.length) {
 	        		cycle(container);
-	        	} else {
-	        		opts.show_controls = false;
-	        		reshape(container);
 	        	}
 	        	
 	        	obj.find(opts.span_items).remove();
 	        	
 	        	obj.css({
 	        		width: container.width(),
-	        		height: container.height(),
+	        		height: container.height() + obj.height(),
 	        		position: 'relative'
 	        	});
         		
@@ -87,7 +85,7 @@
             	
         		obj.append(container);
         		obj.css('height',
-        			container.height() + obj.height()
+        			container.height()
         		);
 			}
         	
@@ -153,6 +151,7 @@
 		span_info: '.info',
 		count_per_page: 5,
 		show_controls: true,
-		show_info: true
+		show_info: true,
+		img_min: '108px'
 	};
 }(jQuery));

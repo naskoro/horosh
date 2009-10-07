@@ -27,11 +27,8 @@ fs = form.FieldSet('article',
 )
     
 class ArticleController(BaseController):
-    @fs.validate(form='new')
     def new(self):
-        if request.POST:
-            fs.set_values(self.form_result, use_ids=True)
-            
+        if request.POST and fs.is_valid(request.POST):
             node = model.Article()
             node.title = fs.title.value
             node.content = fs.content.value
@@ -49,12 +46,10 @@ class ArticleController(BaseController):
         c.node = self._get_article(id) 
         return render('/article/show.html')
 
-    @fs.validate(form='edit')            
     def edit(self, id):
         node = self._get_article(id)
-        if request.POST:
+        if request.POST and fs.is_valid(request.POST):
             time.sleep(5)
-            fs.set_values(self.form_result, use_ids=True)
             
             node.title = fs.title.value
             node.content = fs.content.value
