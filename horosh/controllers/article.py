@@ -19,19 +19,22 @@ from horosh import form
 
 log = logging.getLogger(__name__)
 
-fs = form.FieldSet('article',
-    form.Field('title', validator=form.v.String(not_empty=True)),
-    form.Field('album_user', validator=form.v.String()),
-    form.Field('album_id', validator=form.v.String()),
-    form.Field('content', validator=form.v.String(not_empty=True))
-)
+class ArticleForm(form.FieldSet):
+    def init(self):
+        self.adds(
+            form.Field('title', validator=form.v.String(not_empty=True)),
+            form.Field('album_user', validator=form.v.String()),
+            form.Field('album_id', validator=form.v.String()),
+            form.Field('content', validator=form.v.String(not_empty=True))
+        )
     
 class ArticleController(BaseController):
     def new(self):
+        fs = ArticleForm('article-new')
         if request.POST and fs.is_valid(request.POST):
             node = model.Article()
-            node.title = fs.title.value
-            node.content = fs.content.value
+            node.title = fs.fields.title.value
+            node.content = fs.fields.content.value
             node.filter = 'reStrucuredText'
             node.html_content = rst2html(node.content)
             node.node_user_id = session['current_user'].id
@@ -39,7 +42,7 @@ class ArticleController(BaseController):
             meta.Session.add(node)
             meta.Session.commit()
             return self._redirect_to_default(node.id)
-        c.fs = fs
+        c.fs = fs.fields
         return fs.render('/article/new.html', '/article/new_form.html', False)
 
     def show(self, id):
@@ -47,16 +50,16 @@ class ArticleController(BaseController):
         return render('/article/show.html')
 
     def edit(self, id):
+        fs = ArticleForm('article-edit')
         node = self._get_article(id)
         if request.POST and fs.is_valid(request.POST):
             time.sleep(5)
             
-            node.title = fs.title.value
-            node.content = fs.content.value
-            node.html_content = rst2html(node.content)
+            node.title = fs.fields.title.value
+            node.content = fs.fields.content.value
             
-            album_user = fs.album_user.value
-            album_id = fs.album_id.value 
+            album_user = fs.fields.album_user.value
+            album_id = fs.fields.album_id.value 
             if (album_user and album_id):
                 node.albums = [model.Album(
                     album_user,
@@ -78,7 +81,7 @@ class ArticleController(BaseController):
                 'album_user': album.settings_user,
                 'album_id': album.settings_id
             })
-        c.fs = fs
+        c.fs = fs.fields
         c.title = node.title
         return fs.render('/article/edit.html', '/article/edit_form.html')
     

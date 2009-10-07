@@ -7,24 +7,24 @@
         $(".markitup textarea").markItUp(mySettings);
     });
 </script>
-<div class="field">
-    ${h.title(u'Название', True, label_for='${c.fs.title.id}')}
+<div class="field span-30">
+    ${h.title(u'Название', True, label_for=c.fs.title.id)}
     ${h.text(name=c.fs.title.id, class_='text')}
 </div>
 
 <fieldset>
-<legend>Альбом Picasa</legend>
-<div class="field">
-    ${h.title(u'Имя пользователя', label_for='${c.fs.album_user.id}')}
-    ${h.text(name= c.fs.album_user.id, class_='text')}
-</div>
-<div class="field">
-    ${h.title(u'ID альбома', label_for='${c.fs.album_id.id}')}
-    ${h.text(name=c.fs.album_id.id, class_='text')}
-</div>
+	<legend>Альбом Picasa</legend>
+	<div class="span-13 right-2">
+	    ${h.title(u'Имя пользователя', label_for=c.fs.album_user.id)}
+	    ${h.text(name= c.fs.album_user.id, class_='text')}
+	</div>
+	<div class="span-13">
+	    ${h.title(u'ID альбома', label_for=c.fs.album_id.id)}
+	    ${h.text(name=c.fs.album_id.id, class_='text')}
+	</div>
 </fieldset>
 
 <div class="field markitup">
-    ${h.title(u'Содержание', True, label_for='${c.fs.content.id}')}
+    ${h.title(u'Содержание', True, label_for=c.fs.content.id)}
     ${h.textarea(name=c.fs.content.id)}
 </div>

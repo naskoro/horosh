@@ -13,36 +13,40 @@ from horosh import form
 
 log = logging.getLogger(__name__)
 
-fs = form.FieldSet('event',
-    form.Field('title', validator=form.v.String(not_empty=True)),
-    form.Field('start', 
-        validator=form.v.DateConverter(
-            not_empty=True, 
-            month_style='dd/mm/yyyy'
+class EventForm(form.FieldSet):
+    def init(self):
+        self.adds(
+            form.Field('title', validator=form.v.String(not_empty=True)),
+            form.Field('start', 
+                validator=form.v.DateConverter(
+                    not_empty=True, 
+                    month_style='dd/mm/yyyy'
+                )
+            ),
+            form.Field('finish',         
+                validator=form.v.DateConverter(
+                    not_empty=True, 
+                    month_style='dd/mm/yyyy'
+                )
+            ),
+            form.Field('summary', validator=form.v.String()
         )
-    ),
-    form.Field('finish',         
-        validator=form.v.DateConverter(
-            not_empty=True, 
-            month_style='dd/mm/yyyy'
-        )
-    ),
-    form.Field('summary', validator=form.v.String())
 )
 class EventController(BaseController):
     def new(self):
+        fs = EventForm('event-new')
         if request.POST and fs.is_valid(request.POST):
             node = model.Event()
-            node.title = fs.title.value
-            node.summary = fs.summary.value
-            node.start = fs.start.value
-            node.finish = fs.finish.value
+            node.title = fs.fields.title.value
+            node.summary = fs.fields.summary.value
+            node.start = fs.fields.start.value
+            node.finish = fs.fields.finish.value
             node.node_user_id = session['current_user'].id
             
             meta.Session.add(node)
             meta.Session.commit()
             return self._redirect_to_default(node.id)
-        c.fs = fs
+        c.fs = fs.fields
         return fs.render('/event/new.html', '/event/new_form.html', False)
     def show(self, id):
         c.node = self._get_row(model.Event, id)

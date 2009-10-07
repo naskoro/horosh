@@ -16,11 +16,13 @@
             },
             success: function(data) {
                 if (data.form){
-                    $('#${form_id()}-container').html(data.form).fadeIn('slow');
+                	$('#${form_id()}-container').html('')
+                    $('#${form_id()}-container').html(data.form);
                     $('#${form_id()}-loader').removeClass('loading')
+                    
                 }
                 if (data.script){
-                    $('script').html(data.script);
+                    $('#script').html(data.script);
                 }
             }  
         };
