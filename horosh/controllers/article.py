@@ -8,7 +8,6 @@ from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
 from pylons.decorators import validate
 from pylons.decorators.rest import restrict
-from sqlalchemy.orm.exc import NoResultFound
 
 from horosh.lib.base import BaseController, render
 from horosh.lib.util import rst2html

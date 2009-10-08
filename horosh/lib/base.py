@@ -8,9 +8,10 @@ Provides the BaseController class for subclassing.
 import json
 
 from pylons.controllers import WSGIController
-from pylons.controllers.util import redirect_to
+from pylons.controllers.util import abort, redirect_to
 from pylons import request, response, session, tmpl_context as c
 from pylons.templating import render_mako as render
+from sqlalchemy.orm.exc import NoResultFound
 
 from horosh.model import meta
 from horosh import model
