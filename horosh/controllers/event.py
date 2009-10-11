@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import logging
-
+from horosh import form, model
+from horosh.lib.base import BaseController, render
+from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
-
-from horosh.lib.base import BaseController, render
-from horosh.lib.util import rst2html
-from horosh.model import meta
-from horosh import model
-from horosh import form
+import logging
 
 log = logging.getLogger(__name__)
 
 class EventForm(form.FieldSet):
     def init(self):
         self.adds(
+            form.Field('category', validator=form.v.String(not_empty=True)),
             form.Field('title', validator=form.v.String(not_empty=True)),
             form.Field('start', 
                 validator=form.v.DateConverter(

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import logging
 from gdata.photos import service
-from webhelpers.html import tags
 from horosh.lib.base import render
+from webhelpers.html import tags
+import logging
 
 log = logging.getLogger(__name__)
 

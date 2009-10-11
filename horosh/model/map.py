@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import logging
-from sqlalchemy import orm
 from hashlib import md5
-
 from horosh.lib.util import rst2html
-from horosh.model import meta
-from horosh.model import db
+from horosh.model import db, meta
+from sqlalchemy import orm
+import logging
+
 
 log = logging.getLogger(__name__)
 

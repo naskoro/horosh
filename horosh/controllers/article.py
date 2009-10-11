@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from horosh import form, model
+from horosh.lib.base import BaseController, render
+from horosh.lib.util import rst2html
+from horosh.model import meta
+from pylons import request, response, session, tmpl_context as c
+from pylons.controllers.util import abort, redirect_to
 import logging
 import time
 
-import formencode as form 
-from pylons import request, response, session, tmpl_context as c
-from pylons.controllers.util import abort, redirect_to
-from pylons.decorators import validate
-from pylons.decorators.rest import restrict
 
-from horosh.lib.base import BaseController, render
-from horosh.lib.util import rst2html
-from horosh.lib.photos import Picasa
-from horosh.model import meta
-from horosh import model
-from horosh import form
 
 log = logging.getLogger(__name__)
 
@@ -45,12 +40,12 @@ class ArticleController(BaseController):
         return fs.render('/article/new.html', '/article/new_form.html', False)
 
     def show(self, id):
-        c.node = self._get_article(id) 
+        c.node = self._get_row(model.Article, id) 
         return render('/article/show.html')
 
     def edit(self, id):
         fs = ArticleForm('article-edit')
-        node = self._get_article(id)
+        node = self._get_row(model.Article, id)
         if request.POST and fs.is_valid(request.POST):
             time.sleep(5)
             
@@ -83,13 +78,6 @@ class ArticleController(BaseController):
         c.fs = fs.fields
         c.title = node.title
         return fs.render('/article/edit.html', '/article/edit_form.html')
-    
-    def _get_article(self, id):
-        try:
-            node = meta.Session.query(model.Article).filter_by(id=int(id)).one()
-        except NoResultFound:
-            abort(404)
-        return node
     
     def _redirect_to_default(self, id):
         return self._redirect_to(controller='article', action='show', id=id)

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from docutils.core import publish_parts
-from pylons.templating import pylons_globals
 from mako.template import Template
+from pylons.templating import pylons_globals
 
 def rst2html(text, use_ext=True):
     text = publish_parts(

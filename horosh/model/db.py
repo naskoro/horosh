@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """The application's tables definition"""
-from sqlalchemy import schema, types
 from datetime import datetime
-
 from horosh.model import meta
+from sqlalchemy import schema, types
+
 
 user = schema.Table('user', meta.metadata,
     schema.Column('id', types.Integer,

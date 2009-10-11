@@ -1,11 +1,10 @@
-import logging
-
+from horosh.lib.base import BaseController, render
+from horosh.lib.util import rst2html
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
 from pylons.decorators.rest import restrict
-
-from horosh.lib.base import BaseController, render
-from horosh.lib.util import rst2html
+from webhelpers.markdown import markdown
+import logging
 
 log = logging.getLogger(__name__)
 

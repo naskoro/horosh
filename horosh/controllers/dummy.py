@@ -1,11 +1,9 @@
-import logging
-
+from horosh.lib.base import BaseController, render
+from horosh.lib.photos import Picasa
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
 from webhelpers.html import tags
-
-from horosh.lib.base import BaseController, render
-from horosh.lib.photos import Picasa 
+import logging
 
 log = logging.getLogger(__name__)
 
