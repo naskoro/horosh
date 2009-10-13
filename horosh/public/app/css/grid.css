@@ -90,8 +90,9 @@ div.span-43, div.span-44, div.span-45, div.span-46, div.span-47, div.span-48 {
 /* Border with more whitespace, spans one column. */
 div.colborder {
   padding-right: 9px;
-  margin-right: 10px;
-  border-right: 1px solid #eee;
+  margin-right: 9px;
+  border-right: 2px solid #eee;
+  height: 100%;
 }
 
 /* Misc classes and elements
