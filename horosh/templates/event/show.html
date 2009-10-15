@@ -1,6 +1,8 @@
 <%inherit file="/main.html" />
-<%def name="title()">${c.node.title}</%def>
-title: ${c.node.title}<br/>
-Start date: ${c.node.start.strftime('%d %B %Y')}<br/>
-Finish date: ${c.node.finish.strftime('%d %B %Y')}<br/>
-Summary: ${c.node.html_summary|n}
+<%def name="title()">${c.node.category}-${c.node.title}</%def>
+<h2>${c.node.category}-${c.node.title}</h2>
+<div class="span-16"><b>Даты:</b> ${c.node.dates}</div>
+<div class="span-16"><b>Сводка:</b> ${c.node.html_summary|n}</div>
+<div class="span-16">Участники</div>
+<div class="span-16">Альбомы</div>
+<div class="span-32">Отчеты</div>

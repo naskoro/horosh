@@ -87,6 +87,19 @@ div.span-43, div.span-44, div.span-45, div.span-46, div.span-47, div.span-48 {
 .both-1 {padding: 0 10px;}
 .both-2 {padding: 0 20px;}
 
+.top-1 {padding-top:0.5em;}
+.bottom-1 {padding-bottom:0.5em;}
+
+.top-2 {padding-top:1em;}
+.bottom-2 {padding-bottom:1em;}
+
+.v-both-1 {padding: 0.5em 0;}
+.v-both-2 {padding: o.5em 0;}
+
+.all-side-1 {padding: 0.5em 10px}
+.all-side-2 {padding: 1em 20px}
+
+
 /* Border with more whitespace, spans one column. */
 div.colborder {
   padding-right: 9px;
@@ -97,14 +110,6 @@ div.colborder {
 
 /* Misc classes and elements
 -------------------------------------------------------------- */
-
-/* In case you need to add a gutter above/below an element */
-.top-1 {
-  margin-top:1em;
-}
-.bottom-1 {
-  margin-bottom:1em;
-}
 
 /* Use a .box to create a padded box inside a column.  */
 .box {

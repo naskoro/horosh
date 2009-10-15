@@ -7,14 +7,14 @@
         $(".markitup textarea").markItUp(mySettings);
     });
 </script>
-<div class="field span-30">
+<div class="field span-31">
     ${h.title(u'Название', True, label_for=c.fs.title.id)}
     ${h.text(name=c.fs.title.id, class_='text')}
 </div>
 
 <fieldset>
 	<legend>Альбом Picasa</legend>
-	<div class="span-13 right-2">
+	<div class="span-13 right-1">
 	    ${h.title(u'Имя пользователя', label_for=c.fs.album_user.id)}
 	    ${h.text(name= c.fs.album_user.id, class_='text')}
 	</div>
@@ -24,7 +24,7 @@
 	</div>
 </fieldset>
 
-<div class="field markitup">
+<div class="field span-31 markitup">
     ${h.title(u'Содержание', True, label_for=c.fs.content.id)}
     ${h.textarea(name=c.fs.content.id)}
 </div>

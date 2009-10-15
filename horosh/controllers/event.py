@@ -34,6 +34,7 @@ class EventController(BaseController):
         fs = EventForm('event-new')
         if request.POST and fs.is_valid(request.POST):
             node = model.Event()
+            node.category = fs.fields.category.value
             node.title = fs.fields.title.value
             node.summary = fs.fields.summary.value
             node.start = fs.fields.start.value

@@ -1,28 +1,28 @@
 <%namespace file="/include.html" name="include" import="*"/>
 <%def name="head()"></%def>
 
-<div class="field span-30">
+<div class="field span-31">
     ${h.title(u'Место', True, label_for=c.fs.category.id)}
-    ${h.text(name= c.fs.category.id)}
+    ${h.text(name= c.fs.category.id, class_='text')}
 </div>
 
-<div class="field span-30">
+<div class="field span-31">
 	${h.title(u'Название', True, label_for=c.fs.title.id)}
 	${h.text(name=c.fs.title.id, class_='text')}
 </div>
 
-<div class="field span-30">
-	<div class="span-14 right-2">
+<div class="field span-31">
+	<div class="span-15 right-1">
 	    ${h.title(u'Дата начала', True, label_for=c.fs.start.id)}
 	    ${h.text(name= c.fs.start.id, class_='text')}
 	</div>
-	<div class="span-14">
+	<div class="span-15">
 	    ${h.title(u'Дата окончания', True, label_for=c.fs.finish.id)}
 	    ${h.text(name=c.fs.finish.id, class_='text')}
 	</div>
 </div>
 
-<div class="field span-30">
+<div class="field span-31">
 	${h.title(u'Summary', label_for=c.fs.summary.id)}
 	${h.textarea(name=c.fs.summary.id, rows=7)}
 </div>

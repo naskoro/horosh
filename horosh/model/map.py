@@ -80,6 +80,29 @@ class Event(Node):
     @property
     def html_summary(self):
         return rst2html(self.summary, False)
+    @property
+    def dates(self):
+        date, format = '', ''
+        f_day, f_month, f_year = '%d ', '%b ', '%Y'
+        if self.start.year == self.finish.year:
+            date = self.start.strftime(f_year)
+        else:
+            format = f_year
+            
+        if self.start.month == self.finish.month:
+            date = self.start.strftime(f_month) + date
+        else:
+            format = f_month + format
+            
+        if self.start.day == self.finish.day:
+            date = self.start.strftime(f_day) + date
+        else:
+            format = f_day + format
+            
+        if format:
+            date = self.start.strftime(format) + ' - '  + self.finish.strftime(format) + ' '  + date
+            
+        return date 
     def __repr__(self):
         return "<Event('%s', '%s', '%s', '%s')>" % (self.id, self.title, self.start, self.finish)
 
