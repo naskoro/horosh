@@ -1,8 +1,15 @@
 <%inherit file="/main.html" />
 <%def name="title()">${c.node.category}-${c.node.title}</%def>
-<h2>${c.node.category}-${c.node.title}</h2>
-<div class="span-16"><b>Даты:</b> ${c.node.dates}</div>
-<div class="span-16"><b>Сводка:</b> ${c.node.html_summary|n}</div>
-<div class="span-16">Участники</div>
-<div class="span-16">Альбомы</div>
-<div class="span-32">Отчеты</div>
+<div class="event span-33">
+	<h2>${c.node.category}-${c.node.title}</h2>
+	<div class="event-info span-33">
+		<b>Даты:</b> ${c.node.date}
+		${c.node.html_summary|n}
+	</div>
+	<div class="event-members span-16 right-1">
+	    <div class="title">Участники</div>
+	    <div class="body"></div>
+	</div>
+	<div class="event-albums span-16">Альбомы</div>
+	<div class="event-reports span-33">Отчеты</div>
+</div>

@@ -9,8 +9,6 @@ from pylons.controllers.util import abort, redirect_to
 import logging
 import time
 
-
-
 log = logging.getLogger(__name__)
 
 class ArticleForm(form.FieldSet):

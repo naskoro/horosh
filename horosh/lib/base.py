@@ -4,23 +4,24 @@
 
 Provides the BaseController class for subclassing.
 """
-
-import json
-
+from horosh import model
+from horosh.model import meta
+from pylons import request, response, session, tmpl_context as c
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort, redirect_to
-from pylons import request, response, session, tmpl_context as c
 from pylons.templating import render_mako as render
 from sqlalchemy.orm.exc import NoResultFound
+import json
+import logging
 
-from horosh.model import meta
-from horosh import model
+log = logging.getLogger(__name__)
 
 class BaseController(WSGIController):
     def __before__(self):
         if 'current_user' not in session:
             session['current_user'] = meta.Session.query(model.User).filter_by(email='naspeh@pusto.org').one()
             session.save()
+       
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
         # WSGIController.__call__ dispatches to the Controller method
@@ -39,6 +40,7 @@ class BaseController(WSGIController):
             redirect_to(**url)
             result = "Moved temporarily"
         return result
+    
     def _get_row(self, model, id):
         try:
             row = meta.Session.query(model).filter_by(id=int(id)).one()

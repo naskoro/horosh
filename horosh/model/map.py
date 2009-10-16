@@ -81,9 +81,10 @@ class Event(Node):
     def html_summary(self):
         return rst2html(self.summary, False)
     @property
-    def dates(self):
+    def date(self):
         date, format = '', ''
         f_day, f_month, f_year = '%d ', '%b ', '%Y'
+        
         if self.start.year == self.finish.year:
             date = self.start.strftime(f_year)
         else:
