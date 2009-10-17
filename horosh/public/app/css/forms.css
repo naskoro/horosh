@@ -24,7 +24,7 @@ input.text, input.title,
 textarea, select {
   background-color:#fff;
   border:1px solid #bbb;
-  margin-left: -1;
+  margin-left: -1px;
 }
 input[type=text]:focus, input[type=password]:focus,
 input.text:focus, input.title:focus,
