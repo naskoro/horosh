@@ -6,7 +6,30 @@
 		<b>Даты:</b> ${c.node.date}
 		${c.node.html_summary|n}
 	</div>
-	<div class="container">
+ 	
+    <div class="box container">
+            <div class="box-title">Участники</div>
+            <div class="span-20"><div class="avatar-s">
+                <div class="avatar-img"><img alt="naspeh" src="http://pusto.org/sites/default/files/pictures/picture-1.jpg" /></div>
+                <div class="avatar-info">naspeh</div>
+            </div></div>
+            <div class="span-20"><div class="avatar-s">
+                <div class="avatar-img"><img alt="nayavu" src="http://pusto.org/sites/default/files/pictures/picture-4.jpg" /></div>
+                <div class="avatar-info">Катя Костюк</div>
+            </div></div>
+            <div class="span-20"><div class="avatar-s">
+                <div class="avatar-img"><img alt="nayavu" src="http://pusto.org/sites/default/files/pictures/picture-4.jpg" /></div>
+                <div class="avatar-info">Катя Костюк</div>
+            </div></div>
+            
+            <div class="span-20"><div class="avatar-s">
+                <div class="avatar-img"><img alt="nayavu" src="http://pusto.org/sites/default/files/pictures/picture-4.jpg" /></div>
+                <div class="avatar-info">Катя Костюк</div>
+            </div></div>
+    </div>
+ 	
+<%doc>
+  	<div class="container">
 		<div class="span-40"><div class="box container">
 			    <div class="box-title">Участники</div>
 			    <div class="span-50"><div class="avatar-s">
@@ -22,12 +45,10 @@
                     <div class="avatar-info">Катя Костюк</div>
                 </div></div>
                 
-                <%doc>
                 <div class="span-50"><div class="avatar-s">
                     <div class="avatar-img"><img alt="nayavu" src="http://pusto.org/sites/default/files/pictures/picture-4.jpg" /></div>
                     <div class="avatar-info">Катя Костюк</div>
                 </div></div>
-                </%doc>
 		</div></div>
 		<div class="span-60"><div class="box">
 	        <div class="box-title">Альбомы</div>
@@ -35,8 +56,14 @@
 	        ${h.Picasa.render('naspeh', '5313876340751828865', limit=5, count_per_page=3)}
 	    </div></div>
 	</div>
+</%doc>
+    <div class="box">
+        <div class="box-title">Альбомы</div>
+        ${h.Picasa.render('naspeh', '5313876340751828865', limit=5, count_per_page=5)}
+        ${h.Picasa.render('naspeh', '5313876340751828865', limit=16, count_per_page=5)}
+    </div>	
 	<div class="box">
         <div class="box-title">Отчеты</div>
-        ${h.Picasa.render('naspeh', '5313876340751828865', limit=5, count_per_page=5)}
+        ${h.Picasa.render('naspeh', '5313876340751828865', limit=8, count_per_page=5)}
     </div>
 </div>

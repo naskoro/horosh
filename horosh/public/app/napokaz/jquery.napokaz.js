@@ -79,9 +79,9 @@
         	function cycle(container) {
         		var options = {
                     fx:     'scrollHorz', 
-                    speed:  'fast',
-                    pause:   1
-                    //timeout: 0,
+                    //pause:   1,
+                    timeout: 0,
+                    speed:  'fast'
         		};
         		if (opts.show_controls) {
         			$.extend(options, {

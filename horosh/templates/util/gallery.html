@@ -7,7 +7,7 @@ $(document).ready(function(){
 })
 </script>
 <div id="${id}" class="gallery ${align}">
-    <div class="gallery-items clearfix">
+    <div class="gallery-items">
 	% for photo in photos:
 	    ${h.link_to(
 	        h.image(photo['url_pattern'] % 144, photo['title'], height='108px'),
