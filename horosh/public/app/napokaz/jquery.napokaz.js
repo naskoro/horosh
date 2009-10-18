@@ -43,35 +43,29 @@
 				}
 	        	obj.append(container);
 	        	
-	        	var obj_width;
 	        	if (1 < pages.length) {
 	        		if (opts.show_controls) {
 		        		var controls = getControls();
 		        		container.before(controls);
-		        		
-		        		cycle(container);
-		        		
-		        		obj_width = container.width() + controls.width();
-	        		} else {
-	        			cycle(container);
-	        			obj_width = container.width();
+		        		obj.css('padding-left', controls.outerWidth());
 	        		}
+	        		cycle(container);
 	        		
 	        	} else {
 	        		reshape(container);
-	        		obj_width = container.width();
 	        	}
 	        	
 	        	obj.find(opts.span_items).remove();
 	        	
 	        	obj.css({
-	        		width: obj_width,
+	        		width: container.width(),
 	        		height: container.height(),
 	        		position: 'relative'
 	        	});
         		
         		return container;
         	}
+        	
         	function getControls() {
         		var container = $('<div class="gallery-controls" />');
         		var buttons = $('<div class="gallery-controls-buttons" />');
@@ -80,27 +74,6 @@
         		container.append(buttons);
         		container.append('<div class="gallery-controls-pager"></div>');
         		return container;
-			}
-        	function adds() {
-        		var container = $('<div class="gallery-adds" />');
-            	if (opts.show_controls) {
-            		container.append('<div class="control-prev">prev</div>');
-            		container.append('<span class="gallery-adds-pager">');
-            		container.append('<div class="control-next">next</div>');
-            	}
-            	if (opts.show_info) {
-            		var info = obj.find(opts.span_info);
-            		var span_info = $('<span class="gallery-adds-info">');
-            		span_info.html(info.html());
-            		container.append(span_info);
-            	}
-            	
-            	obj.find(opts.span_info).remove();
-            	
-        		obj.append(container);
-        		obj.css('height',
-        			container.height()
-        		);
 			}
         	
         	function cycle(container) {
@@ -161,11 +134,9 @@
 	};
 	$.fn.napokaz.defaults = {
 		debug: true,
-		span_items: '.items',
-		span_info: '.info',
+		span_items: '.gallery-items',
 		count_per_page: 5,
 		show_controls: true,
-		show_info: true,
 		img_min: '108px'
 	};
 }(jQuery));

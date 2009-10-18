@@ -3,13 +3,11 @@
 $(document).ready(function(){
     $("#${id} a[rel='${id}']").colorbox();
     
-	$('#${id}').napokaz({
-		count_per_page: ${count_per_page}
-	});
+	$('#${id}').napokaz({ count_per_page: ${count_per_page} });
 })
 </script>
 <div id="${id}" class="gallery ${align}">
-    <div class="items">
+    <div class="gallery-items clearfix">
 	% for photo in photos:
 	    ${h.link_to(
 	        h.image(photo['url_pattern'] % 144, photo['title'], height='108px'),
