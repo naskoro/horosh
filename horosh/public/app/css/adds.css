@@ -22,10 +22,10 @@ body {
 	background-color: #fff;
 	border: 1px solid #ded;
 	border-top: none;
-	padding: 0 20px;
+	padding: 0 8px;
 }
 #main {
-	padding: 10px 20px 0 0;
+	padding: 10px 8px 0 0;
 }
 #sidebar {
 }
@@ -64,12 +64,12 @@ body {
 
 .box {
 	border: 1px solid #ded;
-	margin-bottom: 10px;
-	padding: 10px;
+	margin: 8px;
+	padding: 5px;
 }
 .box .box-title {
 	padding-left: 5px;
-	margin: -10px -10px 10px -10px;
+	margin: -5px -5px 5px -5px;
 	background: #ded;
 	color: #686;
 	font-weight: bold;
@@ -77,18 +77,38 @@ body {
 
 .box-bottom { margin-bottom: 0; }
 
-/* Event */
-.event {
+/* Avatar */
+.avatar-s {
+	border: 2px solid #9b9;
+	width: 102px;
+	text-align: center;
+    margin: 5px auto;
+    line-height: 1;	
+}
+.avatar-s img{
+	width: 100px;
+	height: 100px;
+	border: 1px solid #fff;
+}
+.avatar-s .avatar-img{
+    width: 102px;
+    height: 102px;
+}
+
+.avatar-s .avatar-info{
+    color: #666;
+    font-weight: bold;
+    font-size: 0.9em;
+	text-align: center;
+	padding: 2px;
+	background-color: #eee;
+	border-top: 2px solid #9b9;
 }
 /* Gallery styles*/
 .gallery {
-    border:1px solid #ccc;
-    background-color: #e6e5e5;
     text-align: center;
-    padding: 7px;
-
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+    line-height: 0.9;
+    margin: 5px auto;
 }
 .gallery .items {
     white-space: nowrap;
@@ -96,7 +116,8 @@ body {
     overflow: auto;
 }
 .gallery .items a {
-    margin: 3px;
+	padding: 1px;
+    margin: 1px;
 }
 .gallery.left {
     float: left;
@@ -106,3 +127,43 @@ body {
     float: right;
     margin: 10px 0 10px 10px;
 }
+
+/* Gallery napokaz*/
+.gallery-page {
+	background-color: #9b9;
+}
+.gallery-page a {
+    border: 1px solid #fff;
+    margin: 2px;
+}
+.gallery-controls {
+	float: left;
+    width: 46px;
+    
+    border: 2px solid #9b9;
+    border-right: none;
+    background-color: #e6e5e5;    
+}
+.gallery-controls-buttons {
+	height: 23px;
+	position: relative;
+}
+.gallery-controls-pager {
+	padding: 1px;
+    color: #666;
+    text-align: center;
+    font-weight: bold;    
+    font-size: 0.9em;
+}
+.control-prev, .control-next{
+    margin-right:3px;
+    background: url(../colorbox/images/controls.png) 0px 0px no-repeat;
+    width:23px; 
+    height:23px; 
+    text-indent:-9999px;
+    position: absolute;
+}
+.control-prev{top:0;left:0;background-position: -51px -25px;}
+.control-prev:hover{background-position:-51px 0px;}
+.control-next{top:0;left:23px;background-position:-75px -25px;}
+.control-next:hover{background-position:-75px 0px;}

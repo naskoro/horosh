@@ -43,30 +43,44 @@
 				}
 	        	obj.append(container);
 	        	
-	        	if (2 > pages.length) {
-	        		opts.show_controls = false;
-	        		reshape(container);
-	        	}
-	        	
-	        	if (opts.show_info || opts.show_controls) {
-	        		adds();
-	        	}
-
+	        	var obj_width;
 	        	if (1 < pages.length) {
-	        		cycle(container);
+	        		if (opts.show_controls) {
+		        		var controls = getControls();
+		        		container.before(controls);
+		        		
+		        		cycle(container);
+		        		
+		        		obj_width = container.width() + controls.width();
+	        		} else {
+	        			cycle(container);
+	        			obj_width = container.width();
+	        		}
+	        		
+	        	} else {
+	        		reshape(container);
+	        		obj_width = container.width();
 	        	}
 	        	
 	        	obj.find(opts.span_items).remove();
 	        	
 	        	obj.css({
-	        		width: container.width(),
-	        		height: container.height() + obj.height(),
+	        		width: obj_width,
+	        		height: container.height(),
 	        		position: 'relative'
 	        	});
         		
         		return container;
         	}
-
+        	function getControls() {
+        		var container = $('<div class="gallery-controls" />');
+        		var buttons = $('<div class="gallery-controls-buttons" />');
+        		buttons.append('<div class="control-prev">prev</div>');
+        		buttons.append('<div class="control-next">next</div>');
+        		container.append(buttons);
+        		container.append('<div class="gallery-controls-pager"></div>');
+        		return container;
+			}
         	function adds() {
         		var container = $('<div class="gallery-adds" />');
             	if (opts.show_controls) {
@@ -99,10 +113,10 @@
         		if (opts.show_controls) {
         			$.extend(options, {
         				slideExpr: '.gallery-page',
-                        next:   obj.find('.control-next'),
-                        prev:   obj.find('.control-prev'),
-                        after:   function(curr, next, opts) {
-                            obj.find('.gallery-adds-pager').html(
+                        next: obj.find('.control-next'),
+                        prev: obj.find('.control-prev'),
+                        after: function(curr, next, opts) {
+                            obj.find('.gallery-controls-pager').html(
                             	(opts.currSlide + 1) + ' из ' + opts.slideCount
                             );
                         }

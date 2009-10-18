@@ -41,6 +41,7 @@ class Picasa(object):
             'id': 'gallery-' + str(Picasa._count),
             'align': align,
             'photos': result,
+            'count_per_page': count_per_page
         })
     
     @staticmethod

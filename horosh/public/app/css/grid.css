@@ -8,7 +8,8 @@
 .span-40, .span-45, .span-50, .span-55, .span-60, .span-65, .span-70, 
 .span-75, .span-80, .span-85, .span-90, .span-95, .span-100, 
 .span-33, .span-66, .span-38, .span-62,
-.span-50-left, .span-50-right
+.span-50-left, .span-50-right,
+.span-60-left, .span-40-right
  { float: left;  }
 
 .span-5 { width: 5%; }
@@ -40,6 +41,8 @@
 
 .span-50-left { width: 49%; margin-right: 1%; }
 .span-50-right { width: 49%; margin-left: 1%; }
+.span-60-left { width: 59%; margin-right: 1%; } 
+.span-40-right { width: 39%; margin-left: 1%; }
 
 /* Clearing floats without extra markup
    Based on How To Clear Floats Without Structural Markup by PiE

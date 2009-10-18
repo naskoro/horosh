@@ -3,7 +3,9 @@
 $(document).ready(function(){
     $("#${id} a[rel='${id}']").colorbox();
     
-	$('#${id}').napokaz();
+	$('#${id}').napokaz({
+		count_per_page: ${count_per_page}
+	});
 })
 </script>
 <div id="${id}" class="gallery ${align}">
@@ -16,9 +18,5 @@ $(document).ready(function(){
 	        title=photo['title'],
 	    )}
 	% endfor
-	</div>
-	<div class="info">
-	info info info info info info info info info info
-	##info info info info info info info info info info
 	</div>
 </div>
