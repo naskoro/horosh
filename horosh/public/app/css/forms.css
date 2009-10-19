@@ -9,14 +9,13 @@
    * For inline forms, use .inline (even when using columns)
 
 -------------------------------------------------------------- */
-
 label       { font-weight: bold;}
 fieldset    { padding:1em 18px; margin: 1em 0 1em 0; border: 1px solid #ccc;}
 legend      { font-weight: bold; font-size:1.2em; padding: 0 0.5em}
 
 /* Form fields
 -------------------------------------------------------------- */
-.field {margin-bottom:0.8em;}
+.field {margin: 5px;}
 .form-container {position: relative;}
 
 input[type=text], input[type=password],

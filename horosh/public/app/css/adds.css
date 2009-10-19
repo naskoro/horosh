@@ -104,6 +104,15 @@ body {
 	background-color: #eee;
 	border-top: 2px solid #9b9;
 }
+/* Event */
+.event-members {
+	height: 265px;
+	overflow: auto; 
+}
+.event-albums {
+    height: 290px;
+    overflow-y: auto; 
+}
 /* Gallery styles*/
 .gallery {
     text-align: center;
@@ -141,19 +150,20 @@ body {
 .gallery-controls {
 	position: absolute;
 	left: 0;
-	top: 0;
-    width: 46px;
+	bottom: 0;
     
     border: 2px solid #9b9;
-    border-right: none;
+    border-top: none;
     background-color: #e6e5e5;    
 }
 .gallery-controls-buttons {
 	height: 23px;
 	position: relative;
+	float: left;
 }
 .gallery-controls-pager {
-	padding: 1px;
+	padding: 7px 5px 0 0;
+	margin-left: 50px;
     color: #666;
     text-align: center;
     font-weight: bold;    
@@ -167,7 +177,7 @@ body {
     text-indent:-9999px;
     position: absolute;
 }
-.control-prev{top:0;left:0;background-position: -51px -25px;}
+.control-prev{bottom:0;left:0;background-position: -51px -25px;}
 .control-prev:hover{background-position:-51px 0px;}
-.control-next{top:0;left:23px;background-position:-75px -25px;}
+.control-next{bottom:0;left:23px;background-position:-75px -25px;}
 .control-next:hover{background-position:-75px 0px;}

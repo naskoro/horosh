@@ -46,8 +46,8 @@
 	        	if (1 < pages.length) {
 	        		if (opts.show_controls) {
 		        		var controls = getControls();
-		        		container.before(controls);
-		        		obj.css('padding-left', controls.outerWidth());
+		        		obj.append(controls);
+		        		obj.css('padding-bottom', controls.outerHeight());
 	        		}
 	        		cycle(container);
 	        		
@@ -73,6 +73,8 @@
         		buttons.append('<div class="control-next">next</div>');
         		container.append(buttons);
         		container.append('<div class="gallery-controls-pager"></div>');
+        		
+        		//container.append('<div class="gallery-controls-pages"></div>');
         		return container;
 			}
         	
@@ -93,6 +95,7 @@
                             	(opts.currSlide + 1) + ' из ' + opts.slideCount
                             );
                         }
+        				//pager: obj.find('.gallery-controls-pages')
         			});
         		}
         		container.cycle(options);
