@@ -106,11 +106,11 @@ body {
 }
 /* Event */
 .event-members {
-	height: 265px;
+	max-height: 265px;
 	overflow: auto; 
 }
 .event-albums {
-    height: 290px;
+    max-height: 290px;
     overflow-y: auto; 
 }
 /* Gallery styles*/
