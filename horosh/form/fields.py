@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from formencode import Schema, htmlfill, Invalid
+from formencode import Schema, htmlfill, Invalid, variabledecode
 from horosh.lib.base import render
 from pylons import request
-import json
+from pylons.decorators import PylonsFormEncodeState
 import logging
 
 log = logging.getLogger(__name__)
@@ -80,15 +80,12 @@ class FieldSet(object):
         return self
     def render(self, template, template_partial, with_htmlfill=True):
         is_json = False;
-        if request.is_xhr:
+        if request.is_xhr or 'is_ajax' in request.params:
             template = template_partial
-            is_json = True
         if with_htmlfill or self.errors:
             result = self.htmlfill(render(template))
         else:
             result = render(template)
-        if is_json:
-            result = json.dumps({'form': result});
         return result
     def htmlfill(self, form):
         return htmlfill.render(form, self.get_values(use_ids=True), errors=self.errors)
@@ -96,6 +93,7 @@ class FieldSet(object):
         form_result = params
         result = True
         try:
+            params = variabledecode.variable_decode(params, '.', '--')
             form_result = self.schema.to_python(params)
         except Invalid, e:
             self.errors = e.unpack_errors()

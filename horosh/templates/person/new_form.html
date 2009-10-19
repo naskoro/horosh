@@ -1,0 +1,18 @@
+<%inherit file="/form.html" />
+<%namespace file="fields.html" name="fields" import="*"/>
+<%def name="adds_head()">
+    ${fields.head()}
+</%def>
+<%def name="title()">Новоя персона</%def>
+<%def name="form_id()">${c.form.name}</%def>
+
+##${h.form("", id = form_id(), method='post',  multipart=True)}
+<form id="${form_id()}" method="post" action="" enctype="multipart/form-data">
+    <div class="box">
+        <div class="box-title">
+            ${self.title()}
+        </div>
+	    ${fields.body()}
+	    ${h.submit(value=u"создать", name='person_save')}
+    </div>
+</form>

@@ -11,7 +11,6 @@ from pylons.controllers import WSGIController
 from pylons.controllers.util import abort, redirect_to
 from pylons.templating import render_mako as render
 from sqlalchemy.orm.exc import NoResultFound
-import json
 import logging
 
 log = logging.getLogger(__name__)
@@ -33,9 +32,9 @@ class BaseController(WSGIController):
             meta.Session.remove()
     
     def _redirect_to(self, **url):
-        if (request.is_xhr):
+        if request.is_xhr or 'is_ajax' in request.params:
             c.url = url
-            result = json.dumps({'script':render('/util/redirect.html')})
+            result = render('/util/redirect.html')
         else :
             redirect_to(**url)
             result = "Moved temporarily"

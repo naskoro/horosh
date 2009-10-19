@@ -19,6 +19,7 @@ def make_map():
     map.connect('/error/{action}/{id}', controller='error')
 
     # CUSTOM ROUTES HERE
+    map.connect('/person/new/for/{node_id}', controller='person', action='new')
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

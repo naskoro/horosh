@@ -1,5 +1,12 @@
 <%inherit file="/main.html" />
 <%def name="title()">${c.node.category}-${c.node.title}</%def>
+<%def name="actions(id)">
+	% if True:
+	    <div class="box-actions">
+            ${caller.body()}
+	    </div>
+	% endif
+</%def>
 <div class="event-show">
 	<h2>${c.node.category}-${c.node.title}</h2>
     <div class="container">
@@ -12,13 +19,18 @@
 			
 	        <div class="box">
 	            <div class="box-title">Отчеты</div>
-	            ${h.Picasa.render('naspeh', '5313876340751828865', limit=8, count_per_page=3)}
+	            ##${h.Picasa.render('naspeh', '5313876340751828865', limit=8, count_per_page=3)}
 	        </div>
         </div>
         
         <div class="span-40">
 	        <div class="box">
-	            <div class="box-title">Участники</div>
+	            <div class="box-title">
+	               Участники
+	               <%self:actions id="event-members-actions">
+	                   <a href="/person/new/for/${c.node.id}">Добавить</a>
+	               </%self:actions>
+	            </div>
 	            <div class="event-members container">
 		            <div class="span-50"><div class="avatar-s">
 		                <div class="avatar-img"><img alt="naspeh" src="http://pusto.org/sites/default/files/pictures/picture-1.jpg" /></div>
@@ -48,8 +60,8 @@
 		        <div class="box-title">Альбомы</div>
 		        <div class="event-albums">
 			        ${h.Picasa.render('naspeh', '5313876340751828865', limit=5, count_per_page=2)}
-			        ${h.Picasa.render('naspeh', '5313876340751828865', limit=16, count_per_page=2)}
-			        ${h.Picasa.render('naspeh', '5313876340751828865', limit=2, count_per_page=2)}
+			        ##${h.Picasa.render('naspeh', '5313876340751828865', limit=16, count_per_page=2)}
+			        ##${h.Picasa.render('naspeh', '5313876340751828865', limit=2, count_per_page=2)}
 		        </div>
 		    </div>
 		</div>

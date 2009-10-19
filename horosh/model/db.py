@@ -34,6 +34,7 @@ person = schema.Table('person', meta.metadata,
     schema.Column('email', types.String(50), nullable=False),
     schema.Column('nickname', types.Unicode(20)),    
     schema.Column('fullname', types.Unicode(50)),
+    schema.Column('avatar', types.Unicode(250)),
 
     schema.Column('created', types.DateTime(), default=datetime.now()),
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())

@@ -68,15 +68,23 @@ body {
 	padding: 5px;
 }
 .box .box-title {
+	position: relative;
 	padding-left: 5px;
 	margin: -5px -5px 5px -5px;
 	background: #ded;
 	color: #686;
 	font-weight: bold;
 }
-
-.box-bottom { margin-bottom: 0; }
-
+.box .box-actions {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding-right: 5px;
+}
+.box .box-actions a{
+	color: #686;
+    font-weight: bold;
+}
 /* Avatar */
 .avatar-s {
 	border: 2px solid #9b9;
@@ -154,16 +162,16 @@ body {
     
     border: 2px solid #9b9;
     border-top: none;
-    background-color: #e6e5e5;    
+    background-color: #eee;    
 }
 .gallery-controls-buttons {
-	height: 23px;
+	height: 16px;
 	position: relative;
 	float: left;
 }
 .gallery-controls-pager {
-	padding: 7px 5px 0 0;
-	margin-left: 50px;
+	padding: 4px 5px 0 0;
+	margin-left: 35px;
     color: #666;
     text-align: center;
     font-weight: bold;    
@@ -171,13 +179,14 @@ body {
 }
 .control-prev, .control-next{
     margin-right:3px;
-    background: url(../colorbox/images/controls.png) 0px 0px no-repeat;
-    width:23px; 
-    height:23px; 
+    background: url(../images/controls.png) 0px 0px no-repeat;
+    width:16px; 
+    height:16px; 
     text-indent:-9999px;
     position: absolute;
+    cursor: pointer;
 }
-.control-prev{bottom:0;left:0;background-position: -51px -25px;}
-.control-prev:hover{background-position:-51px 0px;}
-.control-next{bottom:0;left:23px;background-position:-75px -25px;}
-.control-next:hover{background-position:-75px 0px;}
+.control-prev{bottom:0;left:0;background-position: 0px 0px;}
+.control-prev:hover{background-position:0px -16px;}
+.control-next{bottom:0;left:16px;background-position:-16px 0px;}
+.control-next:hover{background-position:-16px -16px;}

@@ -108,7 +108,7 @@ class Event(Node):
         return "<Event('%s', '%s', '%s', '%s')>" % (self.id, self.title, self.start, self.finish)
 
 class Person(Node):
-    def __init__(self, email, nickname, fullname, user_id=None, node_user_id=None):
+    def init(self, email, nickname, fullname, user_id=None, node_user_id=None):
         self.email = email
         self.nickname = nickname
         self.fullname = fullname

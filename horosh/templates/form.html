@@ -8,31 +8,43 @@
 <%def name="all_body()">
 <script type="text/javascript">
     $(document).ready(function(){
-        var options = { 
-            dataType:  'json',
+        var options = {
+            url: "?is_ajax=1",
             beforeSubmit:  function() {
-                //$('#${form_id()} :input').enable(false);
+                $('#${form_id()}-informer').html('');
                 $('#${form_id()}-loader').addClass('loading')
             },
             success: function(data) {
-                if (data.form){
-                	$('#${form_id()}-container').html('')
-                    $('#${form_id()}-container').html(data.form);
-                    $('#${form_id()}-loader').removeClass('loading')
-                    
+                data = $(data)
+                var redirect_to = data.find('#system_redirect_to')
+                if (0 < redirect_to.length){
+                	$('#${form_id()}-informer').html(data);
+                    window.location = redirect_to[0].href;          
+                } else if (0 < data.find('#traceback_data').length) {
+                	$('#${form_id()}-informer').html(
+                		'<div class="box-error">Traceback</div>'
+                    );
+                	$('#${form_id()}-loader').removeClass('loading');
+                } else {
+                	$('#${form_id()}-container').html('');
+                    $('#${form_id()}-container').html(data);
+                    $('#${form_id()}-loader').removeClass('loading');
                 }
-                if (data.script){
-                    $('#script').html(data.script);
+            },
+            complete : function (responseText, statusText)  {
+            	if(statusText !== "success"){
+            		$('#${form_id()}-informer').html(
+            			'<div class="box-error">При выполнении запроса произшла ошибка.</div>'
+                    );
+                    $('#${form_id()}-loader').removeClass('loading');
                 }
-            }  
+            } 
         };
         
-        $('#${form_id()}').submit(function() {
-            $(this).ajaxSubmit(options);
-            return false;
-        })
+        $('#${form_id()}').ajaxForm(options);
     });
 </script>
+<div id="${form_id()}-informer"></div>
 <div id="${form_id()}-container" class="form-container">
     <div id="${form_id()}-loader"></div>
     ${next.body()}
