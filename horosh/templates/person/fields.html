@@ -2,13 +2,13 @@
 <%def name="head()"></%def>
 
 <div class="field">
-    ${h.title(u'Ник (кличка)', False, label_for=c.fs.nickname.id)}
-    ${h.text(name= c.fs.nickname.id, class_='text')}
+	${h.title(u'Полное имя', True, label_for=c.fs.fullname.id)}
+	${h.text(name=c.fs.fullname.id, class_='text')}
 </div>
 
 <div class="field">
-	${h.title(u'Полное имя', True, label_for=c.fs.fullname.id)}
-	${h.text(name=c.fs.fullname.id, class_='text')}
+    ${h.title(u'Ник', False, label_for=c.fs.nickname.id)}
+    ${h.text(name= c.fs.nickname.id, class_='text')}
 </div>
 
 <div class="field">
@@ -18,6 +18,9 @@
 
 <div class="field">
     ${h.title(u'Аватара', False, label_for=c.fs.avatar.id)}
-    ${h.file(name=c.fs.avatar.id+'.upload', class_='text')}
-    ${h.hidden(name=c.fs.avatar.id+'.static', value='1')}
+    ${h.file(name=c.fs.avatar.id, class_='text')}
+    
+    % if c.fs.avatar.value is not None:
+    <img alt="" src="/uploads/${c.fs.avatar.value}"/>
+    % endif
 </div>

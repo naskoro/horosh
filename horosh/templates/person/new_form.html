@@ -13,6 +13,9 @@
             ${self.title()}
         </div>
 	    ${fields.body()}
-	    ${h.submit(value=u"создать", name='person_save')}
+        <div class="field">
+            ${h.submit(value=u'соранить', name=c.fs.save.id)}
+            ${h.submit(value=u'отмена', name=c.fs.cancel.id)}
+        </div>
     </div>
 </form>

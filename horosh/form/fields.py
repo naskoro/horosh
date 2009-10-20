@@ -43,7 +43,8 @@ class FieldSet(object):
     def add(self, field):
         field.id = self.get_field_id(field.name) 
         self.fields.add(field)
-        self.schema.add_field(field.id, field.validator)
+        if field.validator is not None:
+            self.schema.add_field(field.id, field.validator)
         return self
     def adds(self, *fields):
         for field in fields:

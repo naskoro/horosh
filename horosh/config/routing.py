@@ -19,9 +19,11 @@ def make_map():
     map.connect('/error/{action}/{id}', controller='error')
 
     # CUSTOM ROUTES HERE
-    map.connect('/person/new/for/{node_id}', controller='person', action='new')
+    map.connect('/event/{event_id}/new/person/', controller='person', action='new')
+    map.connect('/event/{event_id}/edit/person/{id}', controller='person', action='edit')
+    map.connect('/event/{event_id}/remove/person/{id}', controller='person', action='remove')
 
     map.connect('/{controller}/{action}')
-    map.connect('/{controller}/{action}/{id}')
+    map.connect('/{controller}/{id}/{action}/')
 
     return map

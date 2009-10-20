@@ -26,9 +26,9 @@ class EventForm(form.FieldSet):
                     month_style='dd/mm/yyyy'
                 )
             ),
-            form.Field('summary', validator=form.v.String()
+            form.Field('summary', validator=form.v.String())
         )
-)
+        
 class EventController(BaseController):
     def new(self):
         fs = EventForm('event-new')
@@ -46,8 +46,10 @@ class EventController(BaseController):
             return self._redirect_to_default(node.id)
         c.fs = fs.fields
         return fs.render('/event/new.html', '/event/new_form.html', False)
+    
     def show(self, id):
         c.node = self._get_row(model.Event, id)
         return render('/event/show.html')
+    
     def _redirect_to_default(self, id):
         return self._redirect_to(controller='event', action='show', id=id)

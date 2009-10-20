@@ -31,9 +31,9 @@ person = schema.Table('person', meta.metadata,
     schema.Column('user_id', types.Integer,
         schema.ForeignKey('user.id'), nullable=True),
 
-    schema.Column('email', types.String(50), nullable=False),
+    schema.Column('email', types.String(50)),
     schema.Column('nickname', types.Unicode(20)),    
-    schema.Column('fullname', types.Unicode(50)),
+    schema.Column('fullname', types.Unicode(50), nullable=False),
     schema.Column('avatar', types.Unicode(250)),
 
     schema.Column('created', types.DateTime(), default=datetime.now()),

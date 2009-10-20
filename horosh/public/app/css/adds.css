@@ -86,31 +86,57 @@ body {
     font-weight: bold;
 }
 /* Avatar */
-.avatar-s {
-	border: 2px solid #9b9;
+.avatar {
+	position: relative;
+    display: block;
 	width: 102px;
 	text-align: center;
+	text-decoration: none;
     margin: 5px auto;
-    line-height: 1;	
-}
-.avatar-s img{
-	width: 100px;
-	height: 100px;
-	border: 1px solid #fff;
-}
-.avatar-s .avatar-img{
-    width: 102px;
-    height: 102px;
+    line-height: 1;
+    border: 2px solid #9b9;
 }
 
-.avatar-s .avatar-info{
+.avatar-img{
+	display: block;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #fff;
+}
+.avatar-info{
+    display: block;
+    width: 98px;
     color: #666;
+    overflow: hidden;    
     font-weight: bold;
     font-size: 0.9em;
-	text-align: center;
-	padding: 2px;
+    padding: 2px;
+    white-space: nowrap;
+    text-align: center;    
 	background-color: #eee;
 	border-top: 2px solid #9b9;
+}
+.node-actions {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: #ded;
+    border-left: 2px solid #9b9;
+    border-bottom: 2px solid #9b9;
+    text-align: left;
+    padding: 2px;
+    display:none;   
+}
+.node-actions a{
+	color: #666;
+    font-weight: bold;
+	text-decoration: none;
+    font-size: 0.9em;	
+}
+.node-actions a:hover{
+    color: #666;
+    font-weight: bold;
+    text-decoration: underline;
 }
 /* Event */
 .event-members {
