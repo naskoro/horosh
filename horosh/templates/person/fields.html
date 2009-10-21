@@ -20,7 +20,7 @@
     ${h.title(u'Аватара', False, label_for=c.fs.avatar.id)}
     ${h.file(name=c.fs.avatar.id, class_='text')}
     
-    % if c.fs.avatar.value is not None:
+    % if c.fs.avatar.value:
     <img alt="" src="/uploads/${c.fs.avatar.value}"/>
     % endif
 </div>

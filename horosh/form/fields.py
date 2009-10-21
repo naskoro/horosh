@@ -3,7 +3,6 @@
 from formencode import Schema, htmlfill, Invalid, variabledecode
 from horosh.lib.base import render
 from pylons import request
-from pylons.decorators import PylonsFormEncodeState
 import logging
 
 log = logging.getLogger(__name__)
@@ -38,22 +37,28 @@ class FieldSet(object):
         if fields:
             self.adds(*fields)
         self.init()
+        
     def init(self):
         pass
+    
     def add(self, field):
         field.id = self.get_field_id(field.name) 
         self.fields.add(field)
         if field.validator is not None:
             self.schema.add_field(field.id, field.validator)
         return self
+    
     def adds(self, *fields):
         for field in fields:
             self.add(field)
+            
     def add_pre_validator(self, validator):
         self.schema.add_pre_validator(validator)
         return self
+    
     def get_field_id(self, name):
         return self.name + '-' + name
+    
     def get_values(self, use_ids=False):
         values = {}
         if use_ids:
@@ -65,6 +70,7 @@ class FieldSet(object):
         for name, field in self.fields.items():
             values[name] = field.value
         return values
+    
     def set_values(self, params, use_ids=False):
         if use_ids:
             for name, field in self.fields.items():
@@ -75,12 +81,13 @@ class FieldSet(object):
         for name, field in self.fields.items():
             if(name in params):
                 field.value = params[name]
+                
     def clean(self):
         for field in self.fields.values():
             field.value = None
         return self
+    
     def render(self, template, template_partial, with_htmlfill=True):
-        is_json = False;
         if request.is_xhr or 'is_ajax' in request.params:
             template = template_partial
         if with_htmlfill or self.errors:
@@ -88,8 +95,10 @@ class FieldSet(object):
         else:
             result = render(template)
         return result
+    
     def htmlfill(self, form):
         return htmlfill.render(form, self.get_values(use_ids=True), errors=self.errors)
+    
     def is_valid(self, params):
         form_result = params
         result = True
