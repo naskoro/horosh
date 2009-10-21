@@ -5,7 +5,7 @@
 </%def>
 <%def name="title()">Редактирование персоны</%def>
 <%def name="form_id()">${c.form.name}</%def>
-<form id="${form_id()}" method="post" action="">
+<form id="${form_id()}" method="post" action="${c.form.action}">
     <div class="box">
         <div class="box-title">
             ${self.title()}

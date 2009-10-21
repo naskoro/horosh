@@ -72,7 +72,7 @@ class PersonController(BaseController):
             meta.Session.commit()
 
             return self._redirect_to_default(event_node.id)
-            
+        
         c.form = fs
         c.fs = fs.fields
         return fs.render('/person/new.html', '/person/new_form.html', False)
@@ -85,7 +85,7 @@ class PersonController(BaseController):
         
         if request.POST and fs.fields.cancel.id in request.POST:
             return self._redirect_to_default(event_node.id)
-        
+
         if request.POST and fs.is_valid(request.POST):
             node.nickname = fs.fields.nickname.value
             node.fullname = fs.fields.fullname.value
@@ -125,6 +125,7 @@ class PersonController(BaseController):
                 'email': node.email,
                 'avatar': node.avatar
             })
+            
         c.node = node
         c.form = fs
         c.fs = fs.fields

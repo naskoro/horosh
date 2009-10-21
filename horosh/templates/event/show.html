@@ -1,5 +1,8 @@
 <%inherit file="/main.html" />
 <%def name="title()">${c.node.category}-${c.node.title}</%def>
+<%def name="adds_head()">
+    ##${self.include.jquery_form()}
+</%def>
 <%def name="actions()">
 	% if True:
 	    <div class="box-actions">
@@ -19,20 +22,41 @@
     $(document).ready(function(){
         $('.avatar').hover(
         	function() {
-				$(this).find('.node-actions').slideDown();
+				$(this).find('.node-actions').slideDown('fast');
 			},
             function() {
-                $(this).find('.node-actions').slideUp();
+                $(this).find('.node-actions').slideUp('fast');
             }
         );
         $('.avatar a.confirm').click(
         	function() {
 				return confirm(this.rel)
 			}
-        )
+        );
+        /*
+        $('a.modal').click(
+   		    function() {
+   		    	var link = $(this);
+   	   		    $.ajax({
+   	   		        url: this.href,
+   	   		        success: function(data){
+   	   		            var container = $('#modal-case');
+   	   		            container.html(data);
+   	   		            link.colorbox({
+   	   	   		         
+   	   	   		            opacity:0.5,
+
+   	   	   	   		    }).trigger('click.colorbox');
+   	   		            
+   	   		        }
+   	   		    });
+   	   		    return false;
+            }
+        );*/
+        
+        //$('.modal').colorbox({opacity:0.5})
     });
 </script>
-
 <div class="event-show">
 	<h2>${c.node.category}-${c.node.title}</h2>
     <div class="container">
@@ -54,7 +78,7 @@
 	            <div class="box-title">
 	               Участники
 	               <%self:actions>
-	                   <a href="${h.url_for(controller='person', action='new', event_id=c.node.id, id=None)}">Добавить</a>
+	                   <a href="${h.url_for(controller='person', action='new', event_id=c.node.id, id=None)}" class="modal cboxelement">Добавить</a>
 	               </%self:actions>
 	            </div>
 	            <div class="event-members container">
@@ -65,7 +89,7 @@
                         <div class="avatar-info">${person.fullname}</div>
                         </a>
                         <%self:node_actions>
-	                        <a href="${h.url_for(controller='person', action='edit', event_id=c.node.id, id=person.id)}">Изменить</a><br/>
+	                        <a href="${h.url_for(controller='person', action='edit', event_id=c.node.id, id=person.id)}" class="modal">Изменить</a><br/>
 	                        <a href="${h.url_for(controller='person', action='remove', event_id=c.node.id, id=person.id)}" class="confirm" rel="Точно хотите удалить?">Удалить</a>
 	                   </%self:node_actions>
                     </div></div>

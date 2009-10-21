@@ -1,4 +1,4 @@
-<%namespace file="/include.html" name="include" import="*"/>
+<%namespace file="/include.html" name="include" import="*" inheritable="True"/>
 <%def name="head()">
     ${include.jquery_form()}
     ${self.adds_head()}
@@ -9,7 +9,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var options = {
-            url: "?is_ajax=1",
+            url: '${c.form.action}?is_ajax=1',
             beforeSubmit:  function() {
                 $('#${form_id()}-informer').html('');
                 $('#${form_id()}-loader').addClass('loading')

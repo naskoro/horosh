@@ -1,6 +1,10 @@
 <%def name="jquery()">
 	${h.javascript_link(h.url_for('/app/jquery/jquery.js'))}
 </%def>
+<%def name="jquery_ui()">
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
+    ${h.stylesheet_link(h.url_for('/app/jquery-ui/smoothness/jquery-ui.css'))}
+</%def>
 <%def name="jquery_form()">
 	${h.javascript_link(h.url_for('/app/jquery/jquery.form.js'))}
 </%def>

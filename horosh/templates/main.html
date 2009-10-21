@@ -1,12 +1,12 @@
 <%inherit file="/base.html" />
-<%namespace file="/include.html" name="include" import="*"/>
 <%def name="title()">Main Layout</%def>
 <%def name="head()">
-    ${include.jquery()}
-    ${include.jquery_colorbox()}
-    ${include.jquery_cicle()}
-    ${include.jquery_napokaz()}
-    ##<script src="http://cdn.jquerytools.org/1.1.2/tiny/jquery.tools.min.js"></script>
+    ${self.include.jquery()}
+    ##${self.include.jquery_ui()}
+    ${self.include.jquery_colorbox()}
+    ${self.include.jquery_cicle()}
+    ${self.include.jquery_napokaz()}
+    
     
     ${self.adds_head()}
     

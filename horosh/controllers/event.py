@@ -44,6 +44,8 @@ class EventController(BaseController):
             meta.Session.add(node)
             meta.Session.commit()
             return self._redirect_to_default(node.id)
+        
+        c.form = fs
         c.fs = fs.fields
         return fs.render('/event/new.html', '/event/new_form.html', False)
     
