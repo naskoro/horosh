@@ -1,0 +1,9 @@
+<%namespace file="new_form.html" name="form" import="*" />
+<taconite>
+    <replaceContent select="#${c.form.name}-form">
+        ${form.body()}
+    </replaceContent>
+    <eval><![CDATA[
+        ${form.script()}
+    ]]></eval>
+</taconite>
