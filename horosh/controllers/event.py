@@ -47,7 +47,14 @@ class EventController(BaseController):
         
         c.form = fs
         c.fs = fs.fields
-        return fs.render('/event/new.html', '/event/new_form.html', False)
+        
+        if self.is_ajax():
+            result = render('/event/new_partial.html')
+        else:
+            result = render('/event/new.html')
+        if request.POST:
+            result = fs.htmlfill(result)
+        return result
     
     def show(self, id):
         c.node = self._get_row(model.Event, id)

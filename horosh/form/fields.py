@@ -88,7 +88,7 @@ class FieldSet(object):
             field.value = None
         return self
     
-    def render(self, template, template_partial, with_htmlfill=True):
+    def _render(self, template, template_partial, with_htmlfill=True):
         if request.is_xhr or 'is_ajax' in request.params:
             template = template_partial
         if with_htmlfill or self.errors:

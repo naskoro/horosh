@@ -1,4 +1,11 @@
-<div class="box-success">
-Подождите, страница перенаправляется. Если перенапровления долго не происходит, 
-нажмите <a id="system_redirect_to" href="${h.url_for(**c.url)}">тут</a>.
-</div>
+<taconite>
+    <replaceContent select="#informer">    
+		<div class="box-success">
+		Подождите, страница перенаправляется. Если перенапровления долго не происходит, 
+		нажмите <a href="${h.url_for(**c.url)}">тут</a>.
+		</div>
+	</replaceContent>
+    <eval><![CDATA[
+        window.location='${h.url_for(**c.url)}'
+    ]]></eval>
+</taconite>

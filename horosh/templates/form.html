@@ -1,6 +1,7 @@
 <%namespace file="/include.html" name="include" import="*" inheritable="True"/>
 <%def name="head()">
     ${include.jquery_form()}
+        
     ${self.adds_head()}
 </%def>
 <%def name="adds_head()"></%def>
@@ -12,37 +13,29 @@
                 $('#${self.id()}-informer').html('');
                 $('#${self.id()}-loader').addClass('loading')
             },
-            complete : function (responseText, statusText)  {
-                if(statusText !== "success"){
+            success: function (data)  {
+                data = data
+            },
+            complete: function (xhr, type)  {
+                if(type !== "success"){
                     $('#${self.id()}-informer').html(
                         '<div class="box-error">При выполнении запроса произшла ошибка.</div>'
                     );
-                    $('#${self.id()}-loader').removeClass('loading');
-                } else {
-                    data = $(responseText.responseText)
-                    var redirect_to = data.find('#system_redirect_to')
-                    if (0 < redirect_to.length){
-                        $('#${self.id()}-informer').html(data);
-                        window.location = redirect_to[0].href;          
-                    } else if (0 < data.find('#traceback_data').length) {
-                        $('#${self.id()}-informer').html(
-                            '<div class="box-error">Traceback</div>'
-                        );
-                        $('#${self.id()}-loader').removeClass('loading');
-                    } else {
-                        $('#${self.id()}-form').html(data);
-                        $('#${self.id()}-loader').removeClass('loading');
-                    }
                 }
+                if (0 == xhr.status && xhr.responseXML) {
+                    $.taconite(xhr.responseXML)
+                }
+                $('#${self.id()}-loader').removeClass('loading'); 
             } 
         };
-        
         $('#${self.id()} form').ajaxForm(options);
     });
 </%def>
 <%def name="all_body()">
 <script type="text/javascript">
-    ${self.script()}
+/* <![CDATA[ */
+        ${self.script()}
+/* ]]> */
 </script>
 <div id="${self.id()}" class="form-container">
     <div id="${self.id()}-informer"></div>

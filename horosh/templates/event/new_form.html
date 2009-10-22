@@ -1,14 +1,10 @@
 <%inherit file="/form.html" />
-<%namespace file="fields.html" name="fields" import="*"/>
-<%def name="adds_head()">
-    ${fields.head()}
-</%def>
+<%def name="adds_head()"></%def>
 <%def name="title()">Новое событие</%def>
 <%def name="id()">event-new</%def>
 <%def name="actions()">
     ${h.submit(value=u"создать", name='event_save')}
 </%def>
-
 <form id="${self.id()}" method="post" action="">
     <div class="box">
         <div class="box-title">

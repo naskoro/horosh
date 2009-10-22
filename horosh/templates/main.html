@@ -2,15 +2,14 @@
 <%def name="title()">Main Layout</%def>
 <%def name="head()">
     ${self.include.jquery()}
+    ${self.include.jquery_form()}
     ${self.include.jquery_taconite()}
     ##${self.include.jquery_ui()}
     ${self.include.jquery_colorbox()}
     ${self.include.jquery_cicle()}
     ${self.include.jquery_napokaz()}
     
-    
     ${self.adds_head()}
-    
     
     ${h.stylesheet_link(h.url_for('/app/css/style.css'))}
     <!--[if lt IE 8]>
@@ -27,6 +26,7 @@
     </div>
     <div id="center" class="container">
         <div class="span-75"><div id="main">
+            <div id="informer"></div>
             ${next.body()}
         </div></div>
         <div class="span-25"><div id="sidebar">
@@ -43,5 +43,4 @@
         <span class="copyright">&copy; 2009 horosh.org</span> 
         При использовании материалов сайта гиперссылка на <a href="http://horosh.org">horosh.org</a> обязательна. </div>       
     </div>
-    <div id="script"></div>
 </div>

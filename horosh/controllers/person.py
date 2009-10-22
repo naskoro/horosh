@@ -75,7 +75,14 @@ class PersonController(BaseController):
         
         c.form = fs
         c.fs = fs.fields
-        return fs.render('/person/new.html', '/person/new_form.html', False)
+        
+        if self.is_ajax():
+            result = render('/person/new_partial.html')
+        else:
+            result = render('/person/new.html')
+        if request.POST:
+            result = fs.htmlfill(result)
+        return result
     
     def edit(self, id, event_id):
         event_node = self._get_row(model.Event, event_id)
@@ -129,7 +136,12 @@ class PersonController(BaseController):
         c.node = node
         c.form = fs
         c.fs = fs.fields
-        return fs.render('/person/edit.html', '/person/edit_form.html')
+
+        if self.is_ajax():
+            result = render('/person/new_partial.html')
+        else:
+            result = render('/person/new.html')
+        return fs.htmlfill(result)
     
     def remove(self, id, event_id):
         event_node = self._get_row(model.Event, event_id)
