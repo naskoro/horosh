@@ -1,20 +1,44 @@
 <%inherit file="/form.html" />
-<%namespace file="fields.html" name="fields" import="*"/>
-<%def name="adds_head()">
-    ${fields.head()}
-</%def>
+<%def name="adds_head()"></%def>
 <%def name="title()">Новоя персона</%def>
-<%def name="form_id()">${c.form.name}</%def>
+<%def name="id()">${c.form.name}</%def>
+<%def name="actions()">
+	${h.submit(value=u'создать', name=c.fs.save.id)}
+	${h.submit(value=u'отмена', name=c.fs.cancel.id)}
+</%def>
 ##${h.form("", id = form_id(), method='post',  multipart=True)}
-<form id="${form_id()}" method="post" action="${c.form.action}" enctype="multipart/form-data">
+<form method="post" action="${c.form.action}" enctype="multipart/form-data">
     <div class="box">
         <div class="box-title">
             ${self.title()}
         </div>
-	    ${fields.body()}
+	    
+	    <div class="field">
+		    ${h.title(u'Полное имя', True, label_for=c.fs.fullname.id)}
+		    ${h.text(name=c.fs.fullname.id, class_='text')}
+		</div>
+		
+		<div class="field">
+		    ${h.title(u'Ник', False, label_for=c.fs.nickname.id)}
+		    ${h.text(name= c.fs.nickname.id, class_='text')}
+		</div>
+		
+		<div class="field">
+		    ${h.title(u'Email', False, label_for=c.fs.email.id)}
+		    ${h.text(name=c.fs.email.id, class_='text')}
+		</div>
+		
+		<div class="field">
+		    ${h.title(u'Аватара', False, label_for=c.fs.avatar.id)}
+		    ${h.file(name=c.fs.avatar.id, class_='text')}
+		    
+		    % if c.fs.avatar.value:
+		    <img alt="" src="/uploads/${c.fs.avatar.value}"/>
+		    % endif
+		</div>
+        
         <div class="field">
-            ${h.submit(value=u'соранить', name=c.fs.save.id)}
-            ${h.submit(value=u'отмена', name=c.fs.cancel.id)}
+            ${self.actions()}
         </div>
     </div>
 </form>

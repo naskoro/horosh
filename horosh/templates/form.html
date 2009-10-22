@@ -4,50 +4,52 @@
     ${self.adds_head()}
 </%def>
 <%def name="adds_head()"></%def>
-<%def name="form_id()">${next.form_id()}</%def>
-<%def name="all_body()">
-<script type="text/javascript">
+<%def name="script()">
     $(document).ready(function(){
         var options = {
             url: '${c.form.action}?is_ajax=1',
             beforeSubmit:  function() {
-                $('#${form_id()}-informer').html('');
-                $('#${form_id()}-loader').addClass('loading')
-            },
-            success: function(data) {
-                data = $(data)
-                var redirect_to = data.find('#system_redirect_to')
-                if (0 < redirect_to.length){
-                	$('#${form_id()}-informer').html(data);
-                    window.location = redirect_to[0].href;          
-                } else if (0 < data.find('#traceback_data').length) {
-                	$('#${form_id()}-informer').html(
-                		'<div class="box-error">Traceback</div>'
-                    );
-                	$('#${form_id()}-loader').removeClass('loading');
-                } else {
-                	$('#${form_id()}-container').html('');
-                    $('#${form_id()}-container').html(data);
-                    $('#${form_id()}-loader').removeClass('loading');
-                }
+                $('#${self.id()}-informer').html('');
+                $('#${self.id()}-loader').addClass('loading')
             },
             complete : function (responseText, statusText)  {
-            	if(statusText !== "success"){
-            		$('#${form_id()}-informer').html(
-            			'<div class="box-error">При выполнении запроса произшла ошибка.</div>'
+                if(statusText !== "success"){
+                    $('#${self.id()}-informer').html(
+                        '<div class="box-error">При выполнении запроса произшла ошибка.</div>'
                     );
-                    $('#${form_id()}-loader').removeClass('loading');
+                    $('#${self.id()}-loader').removeClass('loading');
+                } else {
+                    data = $(responseText.responseText)
+                    var redirect_to = data.find('#system_redirect_to')
+                    if (0 < redirect_to.length){
+                        $('#${self.id()}-informer').html(data);
+                        window.location = redirect_to[0].href;          
+                    } else if (0 < data.find('#traceback_data').length) {
+                        $('#${self.id()}-informer').html(
+                            '<div class="box-error">Traceback</div>'
+                        );
+                        $('#${self.id()}-loader').removeClass('loading');
+                    } else {
+                        $('#${self.id()}-form').html(data);
+                        $('#${self.id()}-loader').removeClass('loading');
+                    }
                 }
             } 
         };
         
-        $('#${form_id()}').ajaxForm(options);
+        $('#${self.id()} form').ajaxForm(options);
     });
+</%def>
+<%def name="all_body()">
+<script type="text/javascript">
+    ${self.script()}
 </script>
-<div id="${form_id()}-informer"></div>
-<div id="${form_id()}-container" class="form-container">
-    <div id="${form_id()}-loader"></div>
-    ${next.body()}
+<div id="${self.id()}" class="form-container">
+    <div id="${self.id()}-informer"></div>
+    <div id="${self.id()}-loader"></div>
+    <div id="${self.id()}-form">
+        ${next.body()}
+    </div>
 </div>
 </%def>
-${all_body()}
+${self.all_body()}

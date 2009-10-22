@@ -1,7 +1,7 @@
 <%inherit file="/main.html" />
 <%def name="title()">${c.node.category}-${c.node.title}</%def>
 <%def name="adds_head()">
-    ##${self.include.jquery_form()}
+    ${self.include.jquery_form()}
 </%def>
 <%def name="actions()">
 	% if True:
@@ -54,7 +54,7 @@
             }
         );*/
         
-        //$('.modal').colorbox({opacity:0.5})
+        $('.modal').colorbox({opacity:0.5})
     });
 </script>
 <div class="event-show">

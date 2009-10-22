@@ -15,6 +15,8 @@ jQuery Cycle Plugin
 jQuery Form Plugin
 2.33 (22-SEP-2009)
 
+jQuery Taconite Plugin
+3.07 (09-SEP-2009)
 
 CSS
 ----------
