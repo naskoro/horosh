@@ -15,6 +15,9 @@ import logging
 
 log = logging.getLogger(__name__)
 
+def is_ajax():
+    return request.is_xhr or 'is_ajax' in request.params
+
 class BaseController(WSGIController):
     def __before__(self):
         if 'current_user' not in session:
@@ -22,7 +25,7 @@ class BaseController(WSGIController):
             session.save()
     
     def __after__(self):
-        if self.is_ajax():
+        if is_ajax():
             response.content_type = 'text/xml'
                
     def __call__(self, environ, start_response):
@@ -35,11 +38,8 @@ class BaseController(WSGIController):
         finally:
             meta.Session.remove()
     
-    def is_ajax(self):
-        return request.is_xhr or 'is_ajax' in request.params
-    
     def _redirect_to(self, **url):
-        if request.is_xhr or 'is_ajax' in request.params:
+        if is_ajax():
             c.url = url
             result = render('/util/redirect.html')
         else :

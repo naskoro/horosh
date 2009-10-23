@@ -17,8 +17,8 @@
         </div>
     % endif
 </%def>
-
 <script type="text/javascript">
+/* <![CDATA[ */
     $(document).ready(function(){
         $('.avatar').hover(
         	function() {
@@ -33,30 +33,41 @@
 				return confirm(this.rel)
 			}
         );
-        /*
-        $('a.modal').click(
+        
+        $('a.on_page').click(
    		    function() {
-   		    	var link = $(this);
+   		    	var link = this;
+   		        $('#modal-container div').html(
+   		   		    '<div class="box-error">При выполнении запроса произшла ошибка.</div>'
+   		   		);   		    	
    	   		    $.ajax({
    	   		        url: this.href,
+   	   		        data : {on_page:1},
    	   		        success: function(data){
-   	   		            var container = $('#modal-case');
-   	   		            container.html(data);
-   	   		            link.colorbox({
-   	   	   		         
-   	   	   		            opacity:0.5,
-
-   	   	   	   		    }).trigger('click.colorbox');
-   	   		            
+   	   		            if ($(link).hasClass('modal')) {
+	   	   		            $.fn.colorbox({
+	   	   		                open:true,
+	   	   	   		            inline: true,
+		   	   		            href: link.rev,
+	   	   	   		            opacity:0.5,
+	   	   	   		            height: '500px',
+	   	   	   		            width: '450px'
+	   	   	   	   		    });
+	   	   	   	   		}
    	   		        }
    	   		    });
    	   		    return false;
             }
-        );*/
+        );
         
         //$('.modal').colorbox({opacity:0.5})
     });
+/* ]]> */
 </script>
+<div id="modal-container" class="hide">
+    <div id="person-edit"></div>
+    <div id="person-new"></div>
+</div>
 <div class="event-show">
 	<h2>${c.node.category}-${c.node.title}</h2>
     <div class="container">
@@ -78,7 +89,7 @@
 	            <div class="box-title">
 	               Участники
 	               <%self:actions>
-	                   <a href="${h.url_for(controller='person', action='new', event_id=c.node.id)}" class="modal cboxelement">Добавить</a>
+	                   <a href="${h.url_for(controller='person', action='new', event_id=c.node.id)}" class="on_page modal" rev="#person-new">Добавить</a>
 	               </%self:actions>
 	            </div>
 	            <div class="event-members container">
@@ -89,8 +100,8 @@
                         <div class="avatar-info">${person.fullname}</div>
                         </a>
                         <%self:node_actions>
-	                        <a href="${h.url_for(controller='person', action='edit', event_id=c.node.id, id=person.id)}" class="modal">Изменить</a><br/>
-	                        <a href="${h.url_for(controller='person', action='remove', event_id=c.node.id, id=person.id)}" class="confirm" rel="Точно хотите удалить?">Удалить</a>
+	                        <a href="${h.url_for(controller='person', action='edit', event_id=c.node.id, id=person.id)}" class="on_page modal" rev="#person-edit">Изменить</a><br/>
+	                        <a href="${h.url_for(controller='person', action='remove', event_id=c.node.id, id=person.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
 	                   </%self:node_actions>
                     </div></div>
 	                % endfor

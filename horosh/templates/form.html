@@ -8,7 +8,8 @@
 <%def name="script()">
     $(document).ready(function(){
         var options = {
-            url: '${c.form.action}?is_ajax=1',
+            url: '${c.form.action}',
+            data : {is_ajax:1},
             beforeSubmit:  function() {
                 $('#${self.id()}-informer').html('');
                 $('#${self.id()}-loader').addClass('loading')
@@ -21,28 +22,31 @@
                     $('#${self.id()}-informer').html(
                         '<div class="box-error">При выполнении запроса произшла ошибка.</div>'
                     );
+                    $('#${self.id()}-loader').removeClass('loading');
                 }
                 if (0 == xhr.status && xhr.responseXML) {
                     $.taconite(xhr.responseXML)
                 }
-                $('#${self.id()}-loader').removeClass('loading'); 
             } 
         };
         $('#${self.id()} form').ajaxForm(options);
     });
 </%def>
+<%def name="container()">
+	<div id="${self.id()}" class="form-container">
+	    <div id="${self.id()}-informer"></div>
+	    <div id="${self.id()}-loader"></div>
+	    <div id="${self.id()}-form">
+	        ${next.body()}
+	    </div>
+	</div>
+</%def>
 <%def name="all_body()">
-<script type="text/javascript">
-/* <![CDATA[ */
-        ${self.script()}
-/* ]]> */
-</script>
-<div id="${self.id()}" class="form-container">
-    <div id="${self.id()}-informer"></div>
-    <div id="${self.id()}-loader"></div>
-    <div id="${self.id()}-form">
-        ${next.body()}
-    </div>
-</div>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+	        ${self.script()}
+	/* ]]> */
+	</script>
+    ${self.container()}
 </%def>
 ${self.all_body()}

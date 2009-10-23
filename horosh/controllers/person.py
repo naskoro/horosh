@@ -2,7 +2,7 @@
 
 from cStringIO import StringIO
 from horosh import form, model
-from horosh.lib.base import BaseController, render
+from horosh.lib.base import BaseController, render, is_ajax
 from horosh.model import meta
 from mimetypes import guess_type
 from pylons import config, request, response, session, tmpl_context as c
@@ -76,7 +76,7 @@ class PersonController(BaseController):
         c.form = fs
         c.fs = fs.fields
         
-        if self.is_ajax():
+        if is_ajax():
             result = render('/person/new_partial.html')
         else:
             result = render('/person/new.html')
@@ -132,12 +132,13 @@ class PersonController(BaseController):
                 'email': node.email,
                 'avatar': node.avatar
             })
-            
+
         c.node = node
         c.form = fs
         c.fs = fs.fields
-
-        if self.is_ajax():
+        log.debug(fs.get_values())
+        
+        if is_ajax():
             result = render('/person/edit_partial.html')
         else:
             result = render('/person/edit.html')

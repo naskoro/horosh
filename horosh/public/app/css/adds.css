@@ -24,6 +24,10 @@ body {
 	border-top: none;
 	padding: 0 8px;
 }
+#informer {
+    padding: 5px 8px 0 0;
+    display: none;	
+}
 #main {
 	padding: 10px 8px 0 0;
 }
@@ -84,6 +88,10 @@ body {
 .box .box-actions a{
 	color: #686;
     font-weight: bold;
+}
+.box-img {
+	border: 2px solid #9b9;
+	padding: 1px; 
 }
 /* Avatar */
 .avatar {

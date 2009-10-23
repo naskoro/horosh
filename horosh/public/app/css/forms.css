@@ -55,14 +55,14 @@ form.inline { line-height:3; }
 form.inline p { margin-bottom:0; }
 
 form .required-symbol { font-weight: bold; color: #d00}
-form .required, form .no-required{display: block;}
+form .required, form .not-required{display: block;}
 
 /* Success, notice and error boxes
 -------------------------------------------------------------- */
 
 .box-error,
 .box-notice,
-.box-success    { padding: 5px; margin: 0 2% 1em 2%; border: 2px solid #ddd; }
+.box-success    { padding: 5px; margin: 0 3% 0 3%; border: 2px solid #ddd; }
 
 .box-error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
 .box-notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }

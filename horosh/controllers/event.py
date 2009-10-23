@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from horosh import form, model
-from horosh.lib.base import BaseController, render
+from horosh.lib.base import BaseController, render, is_ajax
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
@@ -48,7 +48,7 @@ class EventController(BaseController):
         c.form = fs
         c.fs = fs.fields
         
-        if self.is_ajax():
+        if is_ajax():
             result = render('/event/new_partial.html')
         else:
             result = render('/event/new.html')
@@ -58,7 +58,12 @@ class EventController(BaseController):
     
     def show(self, id):
         c.node = self._get_row(model.Event, id)
-        return render('/event/show.html')
+        
+        if is_ajax():
+            result = render('/event/show_partial.html')
+        else:
+            result = render('/event/show.html')
+        return result
     
     def _redirect_to_default(self, id):
         return self._redirect_to(controller='event', action='show', id=id)

@@ -27,7 +27,7 @@ class FieldSet(object):
             return self._fields.items()
             
     def __init__(self, name, *fields):
-        self.action = request.path_info
+        self.action = request.path_qs
         schema = Schema()
         schema.allow_extra_fields = True
         schema.filter_extra_fields = True
