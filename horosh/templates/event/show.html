@@ -28,14 +28,12 @@
                 $(this).find('.node-actions').slideUp('fast');
             }
         );
-        $('.avatar a.confirm').click(
-        	function() {
-				return confirm(this.rel)
-			}
-        );
         
         $('a.on_page').click(
    		    function() {
+   		    	if ($(this).hasClass('confirm') && !confirm(this.rel)) {
+   	                return false
+   	            }
    		    	var link = this;
    		        $('#modal-container div').html(
    		   		    '<div class="box-error">При выполнении запроса произшла ошибка.</div>'
@@ -46,10 +44,11 @@
    	   		        success: function(data){
    	   		            if ($(link).hasClass('modal')) {
 	   	   		            $.fn.colorbox({
-	   	   		                open:true,
+	   	   		                open: true,
 	   	   	   		            inline: true,
 		   	   		            href: link.rev,
-	   	   	   		            opacity:0.5,
+	   	   	   		            opacity: 0.5,
+	   	   	   		            title: " ",
 	   	   	   		            height: '500px',
 	   	   	   		            width: '450px'
 	   	   	   	   		    });
