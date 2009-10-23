@@ -156,7 +156,7 @@ class PersonController(BaseController):
             controller='event', 
             action='show', 
             id=id,
-            event_id=None
+            #event_id=None
         )
 
     def _check_access(self, node):

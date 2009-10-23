@@ -10,8 +10,8 @@ from routes import Mapper
 def make_map():
     """Create, configure and return the routes Mapper"""
     map = Mapper(directory=config['pylons.paths']['controllers'],
-                 always_scan=config['debug'])
-    map.minimization = False
+                 always_scan=config['debug'], explicit=True)
+    map.minimization = True
 
     # The ErrorController route (handles 404/500 error pages); it should
     # likely stay at the top, ensuring it can always be resolved
@@ -19,12 +19,21 @@ def make_map():
     map.connect('/error/{action}/{id}', controller='error')
 
     # CUSTOM ROUTES HERE
-    map.connect('/event/{event_id}/new/person', controller='person', action='new')
-    map.connect('/event/{event_id}/edit/person/{id}', controller='person', action='edit')
-    map.connect('/event/{event_id}/remove/person/{id}', controller='person', action='remove')
+    map.connect('/event/{event_id}/new/person', 
+        controller='person', action='new',
+        requirements=dict(event_id='\d*')
+    )
+    map.connect('/event/{event_id}/edit/person/{id}', 
+        controller='person', action='edit',
+        requirements=dict(event_id='\d*', id='\d*')
+    )
+    map.connect('/event/{event_id}/remove/person/{id}', 
+        controller='person', action='remove',
+        requirements=dict(event_id='\d*', id='\d*')
+    )
     
+    map.connect('/{controller}/{id}/{action}', action='show', requirements=dict(id='\d*'))
     map.connect('/{controller}/{action}')
-    map.connect('/{controller}/{id}/{action}')
     
 
     return map
