@@ -13,7 +13,7 @@ class FileUploadValidator(FancyValidator):
 
 class ImageUploadValidator(FileUploadValidator):
     messages = {
-        'invalid_image': u'Ваш файл не каринка или испорченая картика'
+        'invalid_image': u'Ваш файл не картинка или испорченая картинка'
     }
     def validate_python(self, value, state):
         file = StringIO(value.value)

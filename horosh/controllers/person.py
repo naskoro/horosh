@@ -138,9 +138,9 @@ class PersonController(BaseController):
         c.fs = fs.fields
 
         if self.is_ajax():
-            result = render('/person/new_partial.html')
+            result = render('/person/edit_partial.html')
         else:
-            result = render('/person/new.html')
+            result = render('/person/edit.html')
         return fs.htmlfill(result)
     
     def remove(self, id, event_id):
