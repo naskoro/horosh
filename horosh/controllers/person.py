@@ -136,7 +136,6 @@ class PersonController(BaseController):
         c.node = node
         c.form = fs
         c.fs = fs.fields
-        log.debug(fs.get_values())
         
         if is_ajax():
             result = render('/person/edit_partial.html')

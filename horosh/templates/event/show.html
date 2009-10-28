@@ -1,21 +1,12 @@
 <%inherit file="/main.html" />
-<%def name="title()">${c.node.category}-${c.node.title}</%def>
+<%def name="title()">${c.node.category} ${c.node.title}</%def>
 <%def name="adds_head()">
     
 </%def>
 <%def name="actions()">
 	% if True:
-	    <div class="box-actions">
-            ${caller.body()}
-	    </div>
+        ${caller.body()}
 	% endif
-</%def>
-<%def name="node_actions()">
-    % if True:
-        <div class="node-actions">
-            ${caller.body()}
-        </div>
-    % endif
 </%def>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -36,7 +27,7 @@
    	            }
    		    	var link = this;
    		        $('#modal-container div').html(
-   		   		    '<div class="box-error">При выполнении запроса произшла ошибка.</div>'
+   		   		    '<div class="box-error">загрузка...</div>'
    		   		);   		    	
    	   		    $.ajax({
    	   		        url: this.href,
@@ -63,20 +54,25 @@
     });
 /* ]]> */
 </script>
-<div id="modal-container" class="hide">
-    <div id="person-edit"></div>
-    <div id="person-new"></div>
-</div>
 <div class="event-show">
-	<h2>${c.node.category}-${c.node.title}</h2>
+    <div class="title">
+        <h1>${self.title()}</h1>
+    </div>
+
     <div class="container">
 
         <div class="span-60">
-	        <div class="box">
-				<b>Даты:</b> ${c.node.date}
-				${c.node.html_summary|n}
-			</div>
-			
+		    <div class="box">
+		        <%self:actions>
+		            <div class="box-actions">
+		                <a href="${h.url_for(controller='event', action='edit', id=c.node.id)}" class="on_page modal" rev="#event-edit">Изменить</a>
+		            </div>         
+		        </%self:actions>
+		        
+		        <b>Даты:</b> ${c.node.date}
+		        <div>${c.node.summary|n}</div>
+		    </div>
+        
 	        <div class="box">
 	            <div class="box-title">Отчеты</div>
 	            ##${h.Picasa.render('naspeh', '5313876340751828865', limit=8, count_per_page=3)}
@@ -87,10 +83,12 @@
 	        <div class="box">
 	            <div class="box-title">
 	               Участники
-	               <%self:actions>
-	                   <a href="${h.url_for(controller='person', action='new', event_id=c.node.id)}" class="on_page modal" rev="#person-new">Добавить</a>
-	               </%self:actions>
 	            </div>
+                <%self:actions>
+                    <div class="box-actions">
+                        <a href="${h.url_for(controller='person', action='new', event_id=c.node.id)}" class="on_page modal" rev="#person-new">Добавить</a>
+                    </div>
+                </%self:actions>
 	            <div class="event-members container">
 	                % for person in c.node.members:
                     <div class="span-50"><div class="avatar">
@@ -98,10 +96,12 @@
                         <div class="avatar-img" style="background: #333 url(/uploads/${person.avatar}) no-repeat center;"></div>
                         <div class="avatar-info">${person.fullname}</div>
                         </a>
-                        <%self:node_actions>
-	                        <a href="${h.url_for(controller='person', action='edit', event_id=c.node.id, id=person.id)}" class="on_page modal" rev="#person-edit">Изменить</a><br/>
-	                        <a href="${h.url_for(controller='person', action='remove', event_id=c.node.id, id=person.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
-	                   </%self:node_actions>
+                        <%self:actions>
+                            <div class="node-actions">
+		                        <a href="${h.url_for(controller='person', action='edit', event_id=c.node.id, id=person.id)}" class="on_page modal" rev="#person-edit">Изменить</a>
+		                        <a href="${h.url_for(controller='person', action='remove', event_id=c.node.id, id=person.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+		                    </div>
+	                   </%self:actions>
                     </div></div>
 	                % endfor
                 </div>
@@ -116,6 +116,12 @@
 		    </div>
 		</div>
 	</div>
+</div>
+
+<div id="modal-container" class="hide">
+    <div id="event-edit"></div>
+    <div id="person-edit"></div>
+    <div id="person-new"></div>
 </div>
 
 <%doc>

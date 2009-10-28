@@ -9,6 +9,9 @@ import logging
 
 log = logging.getLogger(__name__)
 
+DATE_FORMAT = '%d/%m/%Y'
+MONTH_STYLE = 'dd/mm/yyyy' # 'dd/mm/yyyy' or 'mm/dd/yyyy' 
+
 class EventForm(form.FieldSet):
     def init(self):
         self.adds(
@@ -17,16 +20,18 @@ class EventForm(form.FieldSet):
             form.Field('start', 
                 validator=form.v.DateConverter(
                     not_empty=True, 
-                    month_style='dd/mm/yyyy'
+                    month_style=MONTH_STYLE
                 )
             ),
             form.Field('finish',         
                 validator=form.v.DateConverter(
                     not_empty=True, 
-                    month_style='dd/mm/yyyy'
+                    month_style=MONTH_STYLE
                 )
             ),
-            form.Field('summary', validator=form.v.String())
+            form.Field('summary', validator=form.v.String()),
+            form.Field('save'),
+            form.Field('cancel')
         )
         
 class EventController(BaseController):
@@ -55,6 +60,43 @@ class EventController(BaseController):
         if request.POST:
             result = fs.htmlfill(result)
         return result
+    
+    def edit(self, id):
+        node = self._get_row(model.Event, id)
+        fs = EventForm('event-edit')
+        
+        if request.POST and fs.fields.cancel.id in request.POST:
+            return self._redirect_to_default(node.id)
+
+        if request.POST and fs.is_valid(request.POST):
+            node.category = fs.fields.category.value
+            node.title = fs.fields.title.value
+            node.summary = fs.fields.summary.value
+            node.start = fs.fields.start.value
+            node.finish = fs.fields.finish.value
+            
+            meta.Session.commit()
+
+            return self._redirect_to_default(node.id)
+        
+        if not request.POST:
+            fs.set_values({
+                'category': node.category,
+                'title': node.title,
+                'start': node.start.strftime(DATE_FORMAT),
+                'finish': node.finish.strftime(DATE_FORMAT),
+                'summary': node.summary
+            })
+
+        c.node = node
+        c.form = fs
+        c.fs = fs.fields
+        
+        if is_ajax():
+            result = render('/event/edit_partial.html')
+        else:
+            result = render('/event/edit.html')
+        return fs.htmlfill(result)
     
     def show(self, id):
         c.node = self._get_row(model.Event, id)

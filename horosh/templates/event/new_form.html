@@ -1,11 +1,11 @@
 <%inherit file="/form.html" />
 <%def name="adds_head()"></%def>
 <%def name="title()">Новое событие</%def>
-<%def name="id()">event-new</%def>
+<%def name="id()">${c.form.name}</%def>
 <%def name="actions()">
     ${h.submit(value=u"создать", name='event_save')}
 </%def>
-<form id="${self.id()}" method="post" action="">
+<form id="${self.id()}" method="post" action="${c.form.action}">
     <div class="box">
         <div class="box-title">
             ${self.title()}

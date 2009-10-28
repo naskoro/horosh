@@ -1,5 +1,5 @@
 <taconite>
-% if 'on_page' in request.params and h.is_ajax:
+% if h.on_page():
     <eval><![CDATA[
         $('#main').load('${h.url_for(**c.url)}')
         $.fn.colorbox.close()

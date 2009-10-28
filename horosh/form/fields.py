@@ -15,6 +15,7 @@ class FieldSet(object):
         def __getattr__(self, name):
             if name in self._fields:
                 return self._fields[name]
+            return None
         def __iter__(self):
             return self
         def next(self):

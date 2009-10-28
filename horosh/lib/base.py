@@ -14,9 +14,11 @@ from sqlalchemy.orm.exc import NoResultFound
 import logging
 
 log = logging.getLogger(__name__)
-
 def is_ajax():
     return request.is_xhr or 'is_ajax' in request.params
+
+def on_page():
+    return 'on_page' in request.params and is_ajax()
 
 class BaseController(WSGIController):
     def __before__(self):

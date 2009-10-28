@@ -1,13 +1,16 @@
 body { 
   color: #222; 
   background: #9b9;
-  font-family: Verdana, Arial, sans-serif;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
+
+/* Containers */
 #layout {
 	width: 960px;
     margin: 0 auto;
     padding: 0 5px;
 }
+
 #header {
     background-color: #aca;
     margin: 0 -5px;
@@ -18,19 +21,23 @@ body {
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
 }
+
 #center {
 	background-color: #fff;
 	border: 1px solid #ded;
 	border-top: none;
 	padding: 0 8px;
 }
+
 #informer {
     padding: 5px 8px 0 0;
     display: none;	
 }
+
 #main {
 	padding: 10px 8px 0 0;
 }
+
 #sidebar {
 }
 
@@ -49,6 +56,7 @@ body {
     color: #336;
 }
 
+/* Misc classes */
 .logo {
     background: url(../images/logo.png) no-repeat center;
     height: 50px;
@@ -66,33 +74,52 @@ body {
     background: #fefefe url(../images/loading.gif) no-repeat center;
 }
 
+.title {
+	margin: 0 8px;
+	border-bottom: 2px solid #ded;
+}
+.title h1{
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #686;
+	margin-bottom: 0;
+}
+
+/* Box */
 .box {
 	border: 1px solid #ded;
 	margin: 8px;
 	padding: 5px;
-}
-.box .box-title {
 	position: relative;
+}
+.box-title {
 	padding-left: 5px;
 	margin: -5px -5px 5px -5px;
 	background: #ded;
 	color: #686;
 	font-weight: bold;
 }
-.box .box-actions {
+.box-actions {
 	position: absolute;
 	right: 0;
 	top: 0;
-	padding-right: 5px;
+	padding: 0 5px;
+	background-color: #ded;
+	border-left: 2px solid #aca;
 }
-.box .box-actions a{
+.box-actions a{
 	color: #686;
     font-weight: bold;
+    text-decoration: none;
+}
+.box-actions a:hover{
+    text-decoration: underline;
 }
 .box-img {
 	border: 2px solid #9b9;
 	padding: 1px; 
 }
+
 /* Avatar */
 .avatar {
 	position: relative;
@@ -124,28 +151,31 @@ body {
 	background-color: #eee;
 	border-top: 2px solid #9b9;
 }
+
+/* Node Actions */
 .node-actions {
 	position: absolute;
 	top: 0;
 	right: 0;
-	background-color: #ded;
-    border-left: 2px solid #9b9;
-    border-bottom: 2px solid #9b9;
+	background-color: #9b9;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
     text-align: left;
-    padding: 2px;
-    display:none;   
+    display:none;
+    padding: 0 0 2px 2px;
 }
 .node-actions a{
-	color: #666;
+	color: #efe;
     font-weight: bold;
 	text-decoration: none;
-    font-size: 0.9em;	
+    font-size: 0.9em;
+    padding: 2px;
+    display: block;
 }
 .node-actions a:hover{
-    color: #666;
-    font-weight: bold;
     text-decoration: underline;
 }
+
 /* Event */
 .event-members {
 	max-height: 265px;
@@ -155,6 +185,7 @@ body {
     max-height: 290px;
     overflow-y: auto; 
 }
+
 /* Gallery styles*/
 .gallery {
     text-align: center;
@@ -211,6 +242,8 @@ body {
     font-weight: bold;    
     font-size: 0.9em;
 }
+
+/* Controls */
 .control-prev, .control-next{
     margin-right:3px;
     background: url(../images/controls.png) 0px 0px no-repeat;
