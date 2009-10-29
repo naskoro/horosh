@@ -62,7 +62,11 @@
             </div>         
         </%self:actions>
     </div>
-
+    <div class="title-info container">
+        <div class="first">${c.node.node_user.email}</div>
+        <div>${c.node.updated.strftime('%d %B %Y')}</div>
+    </div>
+    
     <div class="container">
 
         <div class="span-60">
@@ -124,7 +128,7 @@
 		    <div class="box">
 		        <div class="box-title">Альбомы</div>
 		        <div class="event-albums">
-			        ${h.Picasa.render('naspeh', '5313876340751828865', limit=5, count_per_page=2)}
+			        ##${h.Picasa.render('naspeh', '5313876340751828865', limit=5, count_per_page=2)}
 			        ##${h.Picasa.render('naspeh', '5313876340751828865', limit=16, count_per_page=2)}
 			        ##${h.Picasa.render('naspeh', '5313876340751828865', limit=2, count_per_page=2)}
 		        </div>

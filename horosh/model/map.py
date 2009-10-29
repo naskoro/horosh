@@ -126,7 +126,7 @@ orm.mapper(Node, db.node,
     properties={
         'node_user_id': db.node.c.user_id,
         'node_type': db.node.c.type,
-        'node_owner': orm.relation(User),
+        'node_user': orm.relation(User),
         'node_paths': orm.relation(Path),
     },
     polymorphic_on=db.node.c.type, polymorphic_identity='node'
