@@ -49,26 +49,24 @@
    	   		    return false;
             }
         );
-        
-        //$('.modal').colorbox({opacity:0.5})
     });
 /* ]]> */
 </script>
 <div class="event-show">
     <div class="title">
         <h1>${self.title()}</h1>
+        <%self:actions>
+            <div class="box-actions">
+                <a href="${h.url_for(controller='event', action='edit', id=c.node.id)}" class="on_page modal" rev="#event-edit">Изменить</a>
+                <a href="${h.url_for(controller='event', action='remove', id=c.node.id)}" class="on_page">Удалить</a>
+            </div>         
+        </%self:actions>
     </div>
 
     <div class="container">
 
         <div class="span-60">
 		    <div class="box">
-		        <%self:actions>
-		            <div class="box-actions">
-		                <a href="${h.url_for(controller='event', action='edit', id=c.node.id)}" class="on_page modal" rev="#event-edit">Изменить</a>
-		            </div>         
-		        </%self:actions>
-		        
 		        <b>Даты:</b> ${c.node.date}
 		        <div>${c.node.summary|n}</div>
 		    </div>

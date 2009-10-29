@@ -77,6 +77,7 @@ body {
 .title {
 	margin: 0 8px;
 	border-bottom: 2px solid #ded;
+	position: relative;
 }
 .title h1{
 	font-size: 1.5em;
@@ -103,14 +104,17 @@ body {
 	position: absolute;
 	right: 0;
 	top: 0;
-	padding: 0 5px;
 	background-color: #ded;
-	border-left: 2px solid #aca;
+	
 }
 .box-actions a{
+	padding: 0 5px;
+	border-left: 2px solid #aca;
 	color: #686;
     font-weight: bold;
     text-decoration: none;
+    display: block;
+    float: left;
 }
 .box-actions a:hover{
     text-decoration: underline;
