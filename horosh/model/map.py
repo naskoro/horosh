@@ -133,31 +133,39 @@ orm.mapper(Node, db.node,
 )
 orm.mapper(Album, db.album,
     properties={
+        'events': orm.relation(Event, secondary=db.event_album),
+        'articles': orm.relation(Article, secondary=db.article_album),
     },
     inherits=Node, polymorphic_identity='album'
 )
 orm.mapper(Article, db.article, 
     properties={
         'albums': orm.relation(Album, secondary=db.article_album),
+        'events': orm.relation(Event, secondary=db.event_article),
     },
     inherits=Node, polymorphic_identity='article'
 )
 orm.mapper(Event, db.event, 
     properties={
         'albums': orm.relation(Album, secondary=db.event_album),
-        'reports': orm.relation(Article, secondary=db.event_article),
-        'members': orm.relation(Person, secondary=db.event_person),
+        'articles': orm.relation(Article, secondary=db.event_article),
+        'persons': orm.relation(Person, secondary=db.event_person),
     },
     inherits=Node, polymorphic_identity='event'
 )
 orm.mapper(Person, db.person,
     properties={
         'user': orm.relation(User),
+        'events': orm.relation(Event, secondary=db.event_person),
     },
     inherits=Node, polymorphic_identity='person'
 )
 orm.mapper(User, db.user,
     properties={
-        'persons': orm.relation(Person, primaryjoin=db.person.c.user_id==db.user.c.id)
+        'persons': orm.relation(
+            Person, 
+            primaryjoin=db.person.c.user_id==db.user.c.id, 
+            cascade='all'
+        )
     }
 )

@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from cStringIO import StringIO
 from horosh import form, model
 from horosh.lib.base import BaseController, render, is_ajax
+from horosh.lib.photos import Photo
 from horosh.model import meta
-from mimetypes import guess_type
-from pylons import config, request, response, session, tmpl_context as c
+from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
-import string
-import random
-import Image
 import logging
-import os
-import shutil
 
 log = logging.getLogger(__name__)
 
@@ -48,27 +42,13 @@ class PersonController(BaseController):
 
             if fs.fields.avatar.value is not None:
                 avatar_source = fs.fields.avatar.value
-                avatar_url = self.relative_path(
-                    avatar_source.filename.replace(os.sep, '_')
-                ) 
-                avatar_path = os.path.join(
-                    config['app_conf']['permanent_store'],
-                    avatar_url
-                )
-                dirname = os.path.dirname(avatar_path)
-                if not os.path.isdir(dirname):
-                    os.makedirs(dirname)
-                avatar = Image.open(StringIO(avatar_source.value))
-                avatar.thumbnail(THUMBNAIL_SIZE)
-                avatar.save(avatar_path, "JPEG")
-
-                node.avatar = avatar_url
-                log.debug('node.avatar: %s' % node.avatar)
+                photo = Photo(avatar_source.filename, avatar_source.value)
+                node.avatar = photo.thumbnail_url(THUMBNAIL_SIZE)
             
             node.node_user_id = session['current_user'].id
             
             meta.Session.add(node)
-            event_node.members.append(node)
+            event_node.persons.append(node)
             meta.Session.commit()
 
             return self._redirect_to_default(event_node.id)
@@ -88,6 +68,8 @@ class PersonController(BaseController):
         event_node = self._get_row(model.Event, event_id)
         self._check_access(event_node)
         node = self._get_row(model.Person, id)
+        self._event_has_person(event_node, node)
+        
         fs = PersonForm('person-edit')
         
         if request.POST and fs.fields.cancel.id in request.POST:
@@ -100,27 +82,13 @@ class PersonController(BaseController):
 
             if fs.fields.avatar.value is not None:
                 avatar_source = fs.fields.avatar.value
-                avatar_url = self.relative_path(
-                    avatar_source.filename.replace(os.sep, '_')
-                ) 
-                avatar_path = os.path.join(
-                    config['app_conf']['permanent_store'],
-                    avatar_url
-                )
-                dirname = os.path.dirname(avatar_path)
-                if not os.path.isdir(dirname):
-                    os.makedirs(dirname)
-                avatar = Image.open(StringIO(avatar_source.value))
-                avatar.thumbnail(THUMBNAIL_SIZE)
-                avatar.save(avatar_path, "JPEG")
-
-                node.avatar = avatar_url
-                log.debug('node.avatar: %s' % node.avatar)
+                photo = Photo(avatar_source.filename, avatar_source.value)
+                node.avatar = photo.thumbnail_url(THUMBNAIL_SIZE)
             
             node.node_user_id = session['current_user'].id
             
             meta.Session.add(node)
-            event_node.members.append(node)
+            event_node.persons.append(node)
             meta.Session.commit()
 
             return self._redirect_to_default(event_node.id)
@@ -147,26 +115,21 @@ class PersonController(BaseController):
         event_node = self._get_row(model.Event, event_id)
         self._check_access(event_node)
         node = self._get_row(model.Person, id)
+        self._event_has_person(event_node, node)
+        
         meta.Session.delete(node)
         meta.Session.commit()
         return self._redirect_to_default(event_node.id)
+
+    def _event_has_person(self, event, person):
+        for item in event.persons:
+            if item.id == person.id:
+                return
+        abort(404)
     
     def _redirect_to_default(self, id):
         return self._redirect_to(
             controller='event', 
             action='show', 
-            id=id,
-            #event_id=None
+            id=id
         )
-
-    def _check_access(self, node):
-        if node.node_user_id != session['current_user'].id:
-            abort(403)
-
-    def relative_path(self, filename):
-        """return the file path relative to root
-        """
-        rdir = lambda: ''.join(random.sample(string.ascii_lowercase, 8))
-        path = '/'.join([rdir(), filename])
-        return path
-        

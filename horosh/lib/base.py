@@ -55,3 +55,7 @@ class BaseController(WSGIController):
         except NoResultFound:
             abort(404)
         return row
+
+    def _check_access(self, node):
+        if node.node_user_id != session['current_user'].id:
+            abort(403)            
