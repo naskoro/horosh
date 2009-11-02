@@ -93,12 +93,7 @@ body {
 }
 .title-info div{
 	float: left;
-	border-left: 2px solid #ded;
-	padding: 0 5px; 
-}
-.title-info div.first{
-    border-left: none;
-    padding-left: 0;
+	padding-right: 15px; 
 }
 .title .box-actions {
 	bottom: 0;
