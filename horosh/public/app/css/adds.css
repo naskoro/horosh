@@ -23,8 +23,7 @@ body {
 }
 
 #center {
-	background-color: #fff;
-	border: 1px solid #ded;
+	background-color: #ded;
 	border-top: none;
 	padding: 0 8px;
 }
@@ -42,7 +41,7 @@ body {
 }
 
 #footer {
-	color: #efe;
+	color: #ded;
 	padding: 5px 0;
 	text-align: center;
 }
@@ -76,20 +75,20 @@ body {
 
 .title {
 	margin: 0 8px;
-	border-bottom: 2px solid #ded;
+	border-bottom: 2px solid #9b9;
 	position: relative;
 }
 .title h1{
 	font-size: 1.6em;
 	font-weight: bold;
-	color: #686;
+	color: #464;
 	margin-bottom: 0;
 }
 .title-info {
 	margin: 0 8px;
 	font-size: 0.9em;
     font-weight: bold;
-    color: #686;
+    color: #464;
 }
 .title-info div{
 	float: left;
@@ -102,29 +101,28 @@ body {
 
 /* Box */
 .box {
-	border: 1px solid #ded;
 	margin: 8px;
 	padding: 5px;
 	position: relative;
+	background: #fff;
 }
 .box-title {
 	padding-left: 5px;
 	margin: -5px -5px 5px -5px;
-	background: #ded;
-	color: #686;
+	background: #9b9;
+	color: #efe;
 	font-weight: bold;
-	border: 1px solid #ded;
 }
 .box-actions {
 	position: absolute;
 	right: 0;
 	top: 0;
-	background-color: #ded;
+	background-color: #9b9;
 }
 .box-actions a{
 	padding: 0 5px;
-	border-left: 2px solid #aca;
-	color: #686;
+	border-left: 2px solid #ded;
+	color: #efe;
     font-weight: bold;
     text-decoration: none;
     display: block;
