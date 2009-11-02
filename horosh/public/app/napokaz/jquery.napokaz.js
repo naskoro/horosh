@@ -31,6 +31,7 @@
 						photo.css({
 	                        backgroundImage: 'url(' + img.attr('src') + ')',
 	                        backgroundPosition: 'center',
+	                        backgroundRepeat: 'no-repeat',
 	        				width: opts.img_min,
 	        				height: opts.img_min,
 	        				display: 'block',

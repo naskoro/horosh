@@ -72,7 +72,14 @@ body {
 	height:100%;
     background: #fefefe url(../images/loading.gif) no-repeat center;
 }
-
+.picasa {
+	background: url(../images/picasa.png) no-repeat left;
+	height: 16px;
+	width: 16px;
+	float: left;
+	margin-top: 1px;
+	margin-right: 3px;
+}
 .title {
 	margin: 0 8px;
 	border-bottom: 2px solid #9b9;
@@ -141,13 +148,10 @@ body {
 
 /* Avatar */
 .avatar {
-	position: relative;
-    display: block;
 	width: 102px;
 	text-align: center;
 	text-decoration: none;
     margin: 5px auto;
-    line-height: 1;
     border: 2px solid #9b9;
 }
 
@@ -170,8 +174,12 @@ body {
 	background-color: #eee;
 	border-top: 2px solid #9b9;
 }
-
 /* Node Actions */
+.node {
+    position: relative;
+    display: block;
+    line-height: 1;    
+}
 .node-actions {
 	position: absolute;
 	top: 0;
@@ -182,7 +190,7 @@ body {
     text-align: left;
     display:none;
     padding: 0 0 2px 2px;
-    z-index: 5;
+    z-index: 25;
 }
 .node-actions a{
 	color: #efe;
@@ -197,29 +205,33 @@ body {
 }
 
 /* Event */
-.event-members {
+.event-persons {
 	max-height: 265px;
 	overflow: auto; 
 }
 .event-albums {
-    max-height: 290px;
+    max-height: 279px;
     overflow-y: auto; 
 }
-
+.event-albums .node-actions {
+	top: 2px;
+	right: 2px;
+}
 /* Gallery styles*/
 .gallery {
     text-align: center;
     line-height: 0.9;
     margin: 5px auto;
+    position: relative;
 }
-.gallery .gallery-items {
+.gallery-items {
     white-space: nowrap;
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     background-color: #9b9;
 }
-.gallery .gallery-items img {
+.gallery-items img {
     border: 1px solid #fff;
     margin: 2px;
 }

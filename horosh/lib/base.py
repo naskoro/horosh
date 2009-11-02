@@ -52,6 +52,7 @@ class BaseController(WSGIController):
     def _get_row(self, model, id):
         try:
             row = meta.Session.query(model).filter_by(id=int(id)).one()
+            log.debug('_get_row: %s' % row)
         except NoResultFound:
             abort(404)
         return row

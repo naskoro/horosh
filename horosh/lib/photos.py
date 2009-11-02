@@ -4,7 +4,6 @@ from cStringIO import StringIO
 from gdata.photos import service
 from horosh.lib.base import render
 from pylons import config
-from webhelpers.html import tags
 import Image
 import logging
 import os
@@ -44,45 +43,46 @@ class Picasa(object):
     client = service.PhotosService()
     _count = 0
     
-    @staticmethod
-    def debug(debug=True):
-        Picasa.client.debug = debug
-    
-    @staticmethod
-    def photos(user, album, limit=None):
-        url = '/data/feed/api/user/%s/albumid/%s?kind=photo' % (user, album)
-        return Picasa.client.GetFeed(url, limit=limit).entry
+    def photos(self, user, albumid, limit=None):
+        url = 'http://picasaweb.google.com/data/feed/api/user/%s/albumid/%s?kind=photo' % (user, albumid)
+        return self.client.GetFeed(url, limit=limit)
 
-    @staticmethod
-    def photo_url(photo):
-        return photo.media.content[0].url
-    
-    @staticmethod
-    def render(username, albumid, photos_list=[], limit=None, 
+    def render(self, photos, photos_list=[], limit=None, 
                align=None, count_per_page=5, template='/util/gallery.html'):
-        photos = Picasa.photos(username, albumid, limit)
+        photos = photos.entry
         result = []
         if photos_list:
             for photo in photos:
                 if photo.gphoto_id.text in photos_list :
-                    result.append(Picasa.photo_prepare(photo))
+                    result.append(self.photo_prepare(photo))
         else:
             for photo in photos:
-                result.append(Picasa.photo_prepare(photo))
+                result.append(self.photo_prepare(photo))
         Picasa._count += 1
         return render(template, {
-            'id': 'gallery-' + str(Picasa._count),
+            'id': 'gallery-' + str(self._count),
             'align': align,
             'photos': result,
             'count_per_page': count_per_page
         })
+
+    def photo_url(self, photo):
+        return photo.media.content[0].url
     
-    @staticmethod
-    def photo_prepare(photo):
+    def photo_prepare(self, photo):
         result = dict(
-            url = Picasa.photo_url(photo),
-            url_pattern = Picasa.photo_url(photo) + '?imgmax=%s', 
+            url = self.photo_url(photo),
+            url_pattern = self.photo_url(photo) + '?imgmax=%s', 
             name = photo.title.text,
             title = photo.summary.text or photo.title.text 
         )
         return result
+
+def picasa_by_user(username, albumid, limit, **kwargs):
+    picasa = Picasa()
+    data = picasa.photos(username, albumid, limit)
+    return picasa.render(data, **kwargs)
+
+def picasa_by_data(data, **kwargs):
+    picasa = Picasa()
+    return picasa.render(data, **kwargs)

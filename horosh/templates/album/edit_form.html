@@ -1,0 +1,9 @@
+<%inherit file="new_form.html" />
+<%def name="title()">Редактирование альбома Picasa</%def>
+<%def name="actions()">
+    ${h.submit(value=u'соранить', name=c.fs.save.id)}
+    ${h.submit(value=u'отмена', name=c.fs.cancel.id)}
+</%def>
+<%def name="body()">
+    ${parent.body()}
+</%def>

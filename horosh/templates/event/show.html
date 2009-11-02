@@ -11,7 +11,7 @@
 <script type="text/javascript">
 /* <![CDATA[ */
     $(document).ready(function(){
-        $('.avatar').hover(
+        $('.event-persons .avatar').hover(
         	function() {
 				$(this).find('.node-actions').slideDown('fast');
 			},
@@ -19,6 +19,20 @@
                 $(this).find('.node-actions').slideUp('fast');
             }
         );
+        $('.event-albums .gallery').each(function() {
+            var gallery = $(this)
+			var actions = gallery.parent('.node').find('.node-actions')
+			gallery.append(actions.clone(true))
+			actions.remove()
+			gallery.hover(
+	            function() {
+	                $(this).find('.node-actions').slideDown('fast');
+	            },
+	            function() {
+	                $(this).find('.node-actions').slideUp('fast');
+	            }
+	        );
+		})
         
         $('a.on_page').click(
    		    function() {
@@ -82,7 +96,6 @@
 	                   Пока отчетов нет.
 	               </div>
 	            % endif
-	            ##${h.Picasa.render('naspeh', '5313876340751828865', limit=8, count_per_page=3)}
 	        </div>
         </div>
         
@@ -99,7 +112,7 @@
                         ${self.person_add_url()}
                     </div>
                 </%self:actions>
-	            <div class="event-members container">
+	            <div class="event-persons container">
 	                % if 0 == len(c.node.persons):
 	                   <div class="box-empty">
 	                       Участников нет.
@@ -110,7 +123,7 @@
 	                % endif
 	            
 	                % for person in c.node.persons:
-                    <div class="span-50"><div class="avatar">
+                    <div class="span-50"><div class="node avatar">
                         <a title="${person.fullname}">
                         <div class="avatar-img" style="background: #333 url(/uploads/${person.avatar}) no-repeat center;"></div>
                         <div class="avatar-info">${person.fullname}</div>
@@ -127,10 +140,36 @@
 	        </div>
 		    <div class="box">
 		        <div class="box-title">Альбомы</div>
-		        <div class="event-albums">
-			        ##${h.Picasa.render('naspeh', '5313876340751828865', limit=5, count_per_page=2)}
-			        ##${h.Picasa.render('naspeh', '5313876340751828865', limit=16, count_per_page=2)}
-			        ##${h.Picasa.render('naspeh', '5313876340751828865', limit=2, count_per_page=2)}
+		        <%def name="album_add_url(title=u'Добавить')">
+                   <a href="${h.url_for(controller='album', action='new', event_id=c.node.id)}" class="on_page modal" rev="#album-new">${title}</a>
+                </%def>
+                <%self:actions>
+                    <div class="box-actions">
+                        ${self.album_add_url()}
+                    </div>
+                </%self:actions>
+		        <div class="event-albums container">
+                    % if 0 == len(c.node.albums):
+                       <div class="box-empty">
+                           Альбомов нет.
+                           <%self:actions>
+                               Но можно ${self.album_add_url(u'добавить')}.
+                           </%self:actions>
+                       </div>
+                    % endif
+                    % for album in c.node.albums:
+                    <div class="node">
+                        ${h.picasa_by_data(album.settings, count_per_page=2)}
+                        <%self:actions>
+                            <div class="node-actions">
+                                ##<a href="${h.url_for(controller='album', action='edit', event_id=c.node.id, id=album.id)}" class="on_page modal" rev="#person-edit">Изменить</a>
+                                <a href="${h.url_for(controller='album', action='remove', event_id=c.node.id, id=album.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                            </div>
+                       </%self:actions>
+                    </div>
+                    % endfor
+		        
+			        ${h.picasa_by_user('naspeh', '5313876340751828865', limit=5, count_per_page=2)}
 		        </div>
 		    </div>
 		</div>
@@ -143,33 +182,3 @@
     <div id="person-new"></div>
     <div id="album-new"></div>
 </div>
-
-<%doc>
-    <div class="container">
-        <div class="span-40"><div class="box container">
-                <div class="box-title">Участники</div>
-                <div class="span-50"><div class="avatar-s">
-                    <div class="avatar-img"><img alt="naspeh" src="http://pusto.org/sites/default/files/pictures/picture-1.jpg" /></div>
-                    <div class="avatar-info">naspeh</div>
-                </div></div>
-                <div class="span-50"><div class="avatar-s">
-                    <div class="avatar-img"><img alt="nayavu" src="http://pusto.org/sites/default/files/pictures/picture-4.jpg" /></div>
-                    <div class="avatar-info">Катя Костюк</div>
-                </div></div>
-                <div class="span-50"><div class="avatar-s">
-                    <div class="avatar-img"><img alt="nayavu" src="http://pusto.org/sites/default/files/pictures/picture-4.jpg" /></div>
-                    <div class="avatar-info">Катя Костюк</div>
-                </div></div>
-                
-                <div class="span-50"><div class="avatar-s">
-                    <div class="avatar-img"><img alt="nayavu" src="http://pusto.org/sites/default/files/pictures/picture-4.jpg" /></div>
-                    <div class="avatar-info">Катя Костюк</div>
-                </div></div>
-        </div></div>
-        <div class="span-60"><div class="box">
-            <div class="box-title">Альбомы</div>
-            ${h.Picasa.render('naspeh', '5313876340751828865', limit=5, count_per_page=3)}
-            ${h.Picasa.render('naspeh', '5313876340751828865', limit=5, count_per_page=3)}
-        </div></div>
-    </div>
-</%doc>

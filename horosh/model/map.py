@@ -39,10 +39,8 @@ class Path(object):
         return "<Path('%s', '%s')>" % (self.path, self.node_id)
 
 class Album(Node):
-    def __init__(self, username, albumid, node_user_id):
-        self.settings = {'username': username, 'albumid': albumid}
+    def __init__(self):
         self.type = 'picasa'
-        Node.__init__(self, node_user_id)
         
     def __repr__(self):
         return "<Album('%s', '%s', '%s')>" % (self.id, self.settings, self.type)
@@ -53,9 +51,6 @@ class Album(Node):
     @property
     def settings_id(self):
         return self.settings['albumid']
-
-class AlbumPicasa(Album):
-    album = None
 
 class Article(Node):
     def init(self, title, content, filter, node_user_id=None):

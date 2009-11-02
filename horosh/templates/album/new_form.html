@@ -1,0 +1,30 @@
+<%inherit file="/form.html" />
+<%def name="adds_head()"></%def>
+<%def name="title()">Новый альбом Picasa</%def>
+<%def name="id()">${c.form.name}</%def>
+<%def name="actions()">
+    ${h.submit(value=u'создать', name=c.fs.save.id)}
+    ${h.submit(value=u'отмена', name=c.fs.cancel.id)}
+</%def>
+<form id="${self.id()}" method="post" action="${c.form.action}">
+    <div class="box">
+        <div class="box-title">
+            <div class="picasa"></div>${self.title()}
+        </div>
+
+		<div class="field container">
+		    <div class="span-50-left">
+		        ${h.title(u'Имя пользователя', True, label_for=c.fs.user.id)}
+		        ${h.text(name= c.fs.user.id, class_='text')}
+		    </div>
+		    <div class="span-50-right">
+		        ${h.title(u'ID альбома', True, label_for=c.fs.albumid.id)}
+		        ${h.text(name=c.fs.albumid.id, class_='text')}
+		    </div>
+		</div>
+
+        <div class="field">
+            ${self.actions()}
+        </div>	    
+    </div>
+</form>

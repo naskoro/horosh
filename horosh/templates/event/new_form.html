@@ -3,7 +3,7 @@
 <%def name="title()">Новое событие</%def>
 <%def name="id()">${c.form.name}</%def>
 <%def name="actions()">
-    ${h.submit(value=u"создать", name='event_save')}
+    ${h.submit(value=u'создать', name=c.fs.save.id)}
 </%def>
 <form id="${self.id()}" method="post" action="${c.form.action}">
     <div class="box">
