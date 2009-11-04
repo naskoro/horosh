@@ -3,7 +3,7 @@
 <%def name="adds_head()">
     
 </%def>
-<%def name="actions()">
+<%def name="actions(**kwargs)">
 	% if True:
         ${caller.body()}
 	% endif
@@ -160,8 +160,9 @@
                     % for album in c.node.albums:
                     <div class="node">
                         ${h.picasa_by_data(album.settings, count_per_page=2)}
-                        <%self:actions>
+                        <%self:actions album="${album}">
                             <div class="node-actions">
+                                <a href="${album.settings.GetHtmlLink().href}" title="Посмотреть в Picasa" target="_blank">В Picasa</a>
                                 ##<a href="${h.url_for(controller='album', action='edit', event_id=c.node.id, id=album.id)}" class="on_page modal" rev="#person-edit">Изменить</a>
                                 <a href="${h.url_for(controller='album', action='remove', event_id=c.node.id, id=album.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
                             </div>
