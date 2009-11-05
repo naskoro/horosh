@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 
+from cStringIO import StringIO
 from horosh import form, model
 from horosh.lib.base import BaseController, render, is_ajax
-from horosh.lib.photos import Photo
 from horosh.model import meta
-from pylons import request, response, session, tmpl_context as c
+from pylons import config, request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
+import os.path
+import time
+import Image
 import logging
 
 log = logging.getLogger(__name__)
 
 THUMBNAIL_SIZE = 100, 100
+NO_AVATAR = 'images/no-avatar.png'
 
 class PersonForm(form.FieldSet):
     def init(self):
@@ -41,9 +45,7 @@ class PersonController(BaseController):
             node.email = fs.fields.email.value
 
             if fs.fields.avatar.value is not None:
-                avatar_source = fs.fields.avatar.value
-                photo = Photo(avatar_source.filename, avatar_source.value)
-                node.avatar = photo.thumbnail_url(THUMBNAIL_SIZE)
+                node.avatar = self._avatar_prepare(fs.fields.avatar.value.file)
             
             node.node_user_id = session['current_user'].id
             
@@ -81,11 +83,7 @@ class PersonController(BaseController):
             node.email = fs.fields.email.value
 
             if fs.fields.avatar.value is not None:
-                avatar_source = fs.fields.avatar.value
-                photo = Photo(avatar_source.filename, avatar_source.value)
-                node.avatar = photo.thumbnail_url(THUMBNAIL_SIZE)
-            
-            node.node_user_id = session['current_user'].id
+                node.avatar = self._avatar_prepare(fs.fields.avatar.value.file)
             
             meta.Session.add(node)
             event_node.persons.append(node)
@@ -121,6 +119,37 @@ class PersonController(BaseController):
         meta.Session.commit()
         return self._redirect_to_default(event_node.id)
 
+    def avatar(self, id):
+        node = self._get_row(model.Person, id)
+        response.content_type = 'image/png'
+        
+        if node.avatar is None: 
+            filename = os.path.join(
+                config['app_conf']['public_dir'],
+                NO_AVATAR
+            )
+            log.debug(filename)
+            if not os.path.exists(filename):
+                return 'No such file'
+            permanent_file = open(filename, 'rb')
+            data = permanent_file.read()
+            permanent_file.close()
+            return data
+        
+        response.expires = 'Mon, 26 Jul 1990 05:00:00 GMT'
+        response.last_modified = time.strftime('%a, %d %b %Y %H:%M:%S GMT', time.gmtime())
+        response.cache_control = 'no-cache, must-revalidate'
+        response.pragma = 'no-cache' 
+        return node.avatar
+    
+    def _avatar_prepare(self, avatar):
+        pic = Image.open(avatar)
+        pic.thumbnail(THUMBNAIL_SIZE)
+        buffer = StringIO()
+        pic.save(buffer, pic.format)
+        buffer.seek(0)
+        return buffer.read()
+    
     def _event_has_person(self, event, person):
         for item in event.persons:
             if item.id == person.id:

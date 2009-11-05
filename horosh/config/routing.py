@@ -44,7 +44,11 @@ def make_map():
         controller='album', action='remove',
         requirements=dict(event_id='\d*', id='\d*')
     )
-
+    
+    map.connect('/person/{id}/avatar.jpg',
+        controller='person', action='avatar',
+        requirements=dict(event_id='\d*')
+    )
     
     map.connect('/{controller}/{id}/{action}', action='show', requirements=dict(id='\d*'))
     map.connect('/{controller}/{action}')

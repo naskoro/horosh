@@ -1,15 +1,15 @@
 <%def name="jquery()">
-	${h.javascript_link(h.url_for('/app/jquery/jquery.js'))}
+	${h.javascript_link(h.url_for('/jquery/jquery.js'))}
 </%def>
 <%def name="jquery_ui()">
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
-    ${h.stylesheet_link(h.url_for('/app/jquery-ui/smoothness/jquery-ui.css'))}
+    ${h.stylesheet_link(h.url_for('/jquery-ui/smoothness/jquery-ui.css'))}
 </%def>
 <%def name="jquery_form()">
-	${h.javascript_link(h.url_for('/app/jquery/jquery.form.js'))}
+	${h.javascript_link(h.url_for('/jquery/jquery.form.js'))}
 </%def>
 <%def name="jquery_taconite()">
-    ${h.javascript_link(h.url_for('/app/jquery/jquery.taconite.js'))}
+    ${h.javascript_link(h.url_for('/jquery/jquery.taconite.js'))}
     <script type="text/javascript">
         $(document).ready(function(){
             $.taconite.debug = true;
@@ -17,19 +17,19 @@
     </script>
 </%def>
 <%def name="jquery_cicle()">
-	${h.javascript_link(h.url_for('/app/jquery/jquery.cycle.js'))}
+	${h.javascript_link(h.url_for('/jquery/jquery.cycle.js'))}
 </%def>
 <%def name="jquery_colorbox()">
-	${h.javascript_link(h.url_for('/app/colorbox/jquery.colorbox.js'))}
-	${h.stylesheet_link(h.url_for('/app/colorbox/colorbox.css'))}
+	${h.javascript_link(h.url_for('/colorbox/jquery.colorbox.js'))}
+	${h.stylesheet_link(h.url_for('/colorbox/colorbox.css'))}
 </%def>
 <%def name="jquery_markitup()">
-    ${h.javascript_link(h.url_for('/app/markitup/jquery.markitup.js'))}
-    ${h.stylesheet_link(h.url_for('/app/markitup/skins/simple/style.css'))}
-    ${h.javascript_link(h.url_for('/app/markitup/sets/markdown/set.js'))}
-    ${h.stylesheet_link(h.url_for('/app/markitup/sets/markdown/style.css'))}
+    ${h.javascript_link(h.url_for('/markitup/jquery.markitup.js'))}
+    ${h.stylesheet_link(h.url_for('/markitup/skins/simple/style.css'))}
+    ${h.javascript_link(h.url_for('/markitup/sets/markdown/set.js'))}
+    ${h.stylesheet_link(h.url_for('/markitup/sets/markdown/style.css'))}
 </%def>
 <%def name="jquery_napokaz()">
-    ${h.javascript_link(h.url_for('/app/napokaz/jquery.napokaz.js'))}
-    ${h.stylesheet_link(h.url_for('/app/napokaz/napokaz.css'))}
+    ${h.javascript_link(h.url_for('/napokaz/jquery.napokaz.js'))}
+    ##${h.stylesheet_link(h.url_for('/napokaz/napokaz.css'))}
 </%def>

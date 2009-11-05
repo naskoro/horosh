@@ -15,8 +15,8 @@
 <%namespace file="/include.html" name="include" import="*" inheritable="True"/>
 <%def name="head()">
     ${self.include.jquery()}
-    ${h.stylesheet_link(h.url_for('/app/css/reset.css'))}
-    ${h.stylesheet_link(h.url_for('/app/css/typography.css'))}
+    ${h.stylesheet_link(h.url_for('/css/reset.css'))}
+    ${h.stylesheet_link(h.url_for('/css/typography.css'))}
     ${self.adds_head()}
 </%def>
 <%def name="adds_head()"></%def>

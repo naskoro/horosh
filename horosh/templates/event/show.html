@@ -78,7 +78,7 @@
     </div>
     <div class="title-info container">
         <div>${c.node.node_user.email}</div>
-        <div>${c.node.updated.strftime('%d %B %Y')}</div>
+        <div>${c.node.created.strftime('%d %B %Y')}</div>
     </div>
     
     <div class="container">
@@ -125,7 +125,7 @@
 	                % for person in c.node.persons:
                     <div class="span-50"><div class="node avatar">
                         <a title="${person.fullname}">
-                        <div class="avatar-img" style="background: #333 url(/uploads/${person.avatar}) no-repeat center;"></div>
+                        <div class="avatar-img" style="background: #333 url(${h.url_for(controller='person', action='avatar', id=person.id, time=h.time.time())}) no-repeat center;"></div>
                         <div class="avatar-info">${person.fullname}</div>
                         </a>
                         <%self:actions>

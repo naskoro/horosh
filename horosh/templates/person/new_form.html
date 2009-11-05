@@ -33,7 +33,7 @@
 		    ${h.file(name=c.fs.avatar.id, class_='text')}
 		    
 		    % if c.node:
-		    <img class="box-img" alt="${c.node.fullname}" src="/uploads/${c.node.avatar}"/>
+		    <img class="box-img" alt="${c.node.fullname}" src="${h.url_for(controller='person', action='avatar', id=c.node.id)}"/>
 		    % endif
 		</div>
         
