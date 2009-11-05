@@ -63,6 +63,8 @@ class EventController(BaseController):
     
     def edit(self, id):
         node = self._get_row(model.Event, id)
+        self._check_access(node)
+        
         fs = EventForm('event-edit')
         
         if request.POST and fs.fields.cancel.id in request.POST:
@@ -106,6 +108,14 @@ class EventController(BaseController):
         else:
             result = render('/event/show.html')
         return result
-    
+
+    def remove(self, id):
+        node = self._get_row(model.Event, id)
+        self._check_access(node)
+        
+        meta.Session.delete(node)
+        meta.Session.commit()
+        return self._redirect_to(controller='event', action='new')
+
     def _redirect_to_default(self, id):
         return self._redirect_to(controller='event', action='show', id=id)
