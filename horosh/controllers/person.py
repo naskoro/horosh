@@ -128,7 +128,6 @@ class PersonController(BaseController):
                 config['app_conf']['public_dir'],
                 NO_AVATAR
             )
-            log.debug(filename)
             if not os.path.exists(filename):
                 return 'No such file'
             permanent_file = open(filename, 'rb')

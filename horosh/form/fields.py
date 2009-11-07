@@ -123,3 +123,8 @@ class Field(object):
         self.instructions = instructions
         self.id = id
         self.value = value
+    
+    def not_empty(self):
+        if self.validator is not None and hasattr(self.validator, 'not_empty'):
+            return self.validator.not_empty
+        return False

@@ -19,6 +19,19 @@ def make_map():
     map.connect('/error/{action}/{id}', controller='error')
 
     # CUSTOM ROUTES HERE
+    map.connect('/event/{event_id}/add/report', 
+        controller='article', action='new',
+        requirements=dict(event_id='\d*')
+    )
+    map.connect('/event/{event_id}/edit/report/{id}', 
+        controller='article', action='edit',
+        requirements=dict(event_id='\d*', id='\d*')
+    )
+    map.connect('/event/{event_id}/remove/report/{id}', 
+        controller='article', action='remove',
+        requirements=dict(event_id='\d*', id='\d*')
+    )
+    
     map.connect('/event/{event_id}/add/person', 
         controller='person', action='new',
         requirements=dict(event_id='\d*')
@@ -36,10 +49,7 @@ def make_map():
         controller='album', action='new',
         requirements=dict(event_id='\d*')
     )
-    #map.connect('/event/{event_id}/edit/album/{id}', 
-    #    controller='album', action='edit',
-    #    requirements=dict(event_id='\d*', id='\d*')
-    #)
+
     map.connect('/event/{event_id}/remove/album/{id}', 
         controller='album', action='remove',
         requirements=dict(event_id='\d*', id='\d*')

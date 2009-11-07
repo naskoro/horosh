@@ -104,7 +104,8 @@ class EventController(BaseController):
         c.node = self._get_row(model.Event, id)
         
         if is_ajax():
-            result = render('/event/show_partial.html')
+            result = self.taconite(render('/event/show_partial.html'))
+            #result = render('/event/show_partial.html')
         else:
             result = render('/event/show.html')
         return result

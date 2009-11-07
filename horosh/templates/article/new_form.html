@@ -1,14 +1,29 @@
 <%inherit file="/form.html" />
-<%namespace file="fields.html" name="fields" import="*"/>
-<%def name="adds_head()">
-    ${fields.head()}
+<%def name="adds_head()"></%def>
+<%def name="title()">Новый отчет</%def>
+<%def name="id()">${c.form.name}</%def>
+<%def name="actions()">
+    ${h.submit(value=u'создать', name=c.fs.save.id)}
+    ${h.submit(value=u'отмена', name=c.fs.cancel.id)}
 </%def>
-<%def name="title()">Новая статья</%def>
-<%def name="form_id()">article-edit</%def>
-<form id="${form_id()}" method="post" action="">
-    <fieldset>
-    <legend>${self.title()}</legend>
-    ${fields.body()}
-    ${h.submit(value=u"создать", name='article_save')}
-    </fieldset>
+<form id="${self.id()}" method="post" action="${c.form.action}">
+    <div class="box">
+        <div class="box-title">
+            ${self.title()}
+        </div>
+
+        <div class="field">
+            ${h.title(u'Название', c.fs.title.not_empty(), label_for=c.fs.title.id)}
+            ${h.text(name=c.fs.title.id, class_='text')}
+        </div>
+        
+        <div class="field">
+		    ${h.title(u'Содержание', c.fs.content.not_empty(), label_for=c.fs.content.id)}
+		    ${h.textarea(name=c.fs.content.id, rows=30)}
+        </div>
+        
+        <div class="field">
+            ${self.actions()}
+        </div>      
+    </div>
 </form>

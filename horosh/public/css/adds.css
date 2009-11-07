@@ -104,6 +104,7 @@ body {
 .title .box-actions {
 	bottom: 0;
 	top: auto;
+	margin-bottom: -2px;
 }
 
 /* Box */
@@ -124,7 +125,6 @@ body {
 	position: absolute;
 	right: 0;
 	top: 0;
-	background-color: #9b9;
 }
 .box-actions a{
 	padding: 0 5px;
@@ -134,10 +134,18 @@ body {
     text-decoration: none;
     display: block;
     float: left;
+    background-color: #9b9;
 }
 .box-actions a:hover{
     background-color: #b99;
     color: #fee;
+}
+.box-actions .accent {
+	letter-spacing: 3px;
+	background-color: #8a8;
+}
+.box-actions a.no-border {
+    border-left: none;
 }
 .box-img {
 	border: 2px solid #9b9;
@@ -169,6 +177,7 @@ body {
     overflow: hidden;    
     font-weight: bold;
     font-size: 0.9em;
+    line-height: 1.2;
     padding: 2px;
     white-space: nowrap;
     text-align: center;    
@@ -179,7 +188,6 @@ body {
 .node {
     position: relative;
     display: block;
-    line-height: 1;    
 }
 .node-actions {
 	position: absolute;
@@ -187,6 +195,7 @@ body {
 	right: 0;
 	background-color: #9b9;
     text-align: left;
+    line-height: 1;    
     display:none;
     z-index: 25;
 }
@@ -207,10 +216,14 @@ body {
 }
 
 /* Event */
+.event-show {
+	position: relative;
+}
 .event-persons {
-	max-height: 265px;
+	max-height: 270px;
 	overflow: auto; 
 }
+
 .event-albums {
     max-height: 279px;
     overflow-y: auto; 
@@ -219,6 +232,22 @@ body {
 	top: 2px;
 	right: 2px;
 }
+.event-reports {
+}
+.event-reports .node {
+	border: 2px solid #9b9;
+	padding: 5px;
+	margin-top: 10px;
+}
+.event-reports .box-actions {
+	bottom: 0;
+	top: auto;
+	margin-bottom: -2px;
+}
+.event-reports .box-actions a{
+	border-color: #fff;
+}
+
 /* Gallery styles*/
 .gallery {
     text-align: center;

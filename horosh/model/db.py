@@ -59,8 +59,7 @@ article = schema.Table('article', meta.metadata,
     schema.Column('title', types.Unicode()),
     schema.Column('content', types.Unicode(), nullable=False),
     schema.Column('filter', types.Unicode(20), nullable=False),
-    schema.Column('html_content', types.Unicode(), nullable=False),
-    schema.Column('published', types.Boolean, default=False),
+    schema.Column('published', types.DateTime),
     
     schema.Column('created', types.DateTime(), default=datetime.now()),
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())

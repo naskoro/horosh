@@ -5,6 +5,7 @@
 Provides the BaseController class for subclassing.
 """
 from horosh import model
+from horosh.lib import taconite
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers import WSGIController
@@ -39,6 +40,12 @@ class BaseController(WSGIController):
             return WSGIController.__call__(self, environ, start_response)
         finally:
             meta.Session.remove()
+    
+    def taconite(self, xhtml):
+        return render('/util/taconite.html', {
+                'xhtml': taconite.clean(xhtml),
+                'scripts': taconite.scripts(xhtml),
+            })
     
     def _redirect_to(self, **url):
         if is_ajax():
