@@ -25,7 +25,7 @@ body {
 #center {
 	background-color: #ded;
 	border-top: none;
-	padding: 0 8px;
+	padding: 0 8px 8px 8px;
 }
 
 #informer {
@@ -81,6 +81,7 @@ body {
 	margin-right: 3px;
 }
 .title {
+	height: 1.6em;
 	margin: 0 8px;
 	border-bottom: 2px solid #9b9;
 	position: relative;
@@ -105,6 +106,11 @@ body {
 	bottom: 0;
 	top: auto;
 	margin-bottom: -2px;
+}
+/* reStructuredText */
+.section h1 a{
+	text-decoration: none;
+	color: #222;
 }
 
 /* Box */
@@ -234,6 +240,14 @@ body {
 }
 .event-reports {
 }
+.event-reports .title {
+	height: 1.3em;
+	margin: 0 0 1em 0;
+	border: none;
+}
+.event-reports .title h1{
+    font-size: 1.3em;
+}
 .event-reports .node {
 	border: 2px solid #9b9;
 	padding: 5px;
@@ -244,10 +258,20 @@ body {
 	top: auto;
 	margin-bottom: -2px;
 }
-.event-reports .box-actions a{
-	border-color: #fff;
-}
 
+/* Reports */
+.report-show {}
+.report-persons {
+	overflow-y: auto;
+    height: 135px;	
+}
+.report-persons .node {
+	float: left;
+	margin: 5px 10px;
+}
+.report-box {
+	margin-top: 0;
+}
 /* Gallery styles*/
 .gallery {
     text-align: center;

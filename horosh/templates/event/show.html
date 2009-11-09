@@ -1,8 +1,6 @@
 <%inherit file="/main.html" />
 <%def name="title()">${c.node.category} ${c.node.title}</%def>
-<%def name="adds_head()">
-    
-</%def>
+<%def name="adds_head()"></%def>
 <%def name="actions(**kwargs)">
 	% if True:
         ${caller.body()}
@@ -79,7 +77,7 @@
         <%self:actions>
             <div class="box-actions">
                 <a href="${h.url_for(controller='event', action='edit', id=c.node.id)}" class="on_page modal no-border" rev="#event-edit">Изменить</a>
-                <a href="${h.url_for(controller='event', action='remove', id=c.node.id)}" class="on_page" rev=".event-show">Удалить</a>
+                <a href="${h.url_for(controller='event', action='remove', id=c.node.id)}" class="on_page">Удалить</a>
             </div>         
         </%self:actions>
     </div>
@@ -117,12 +115,20 @@
                     % endif
                     % for article in c.node.articles:
                     <div class="node">
+                        <div class="title">
+                            <h1>
+                                Отчет №${article.number}.
+		                        % if article.title:
+		                            ${article.title}
+		                        % endif
+	                        </h1>
+                        </div>
                         ${h.rst2html(h.truncate(article.content, 500))|n}
                         <%self:actions>
                             <div class="box-actions">
-                                <a href="${h.url_for(controller='article', action='show', event_id=c.node.id, id=article.id)}" class="accent no-border">Читать</a>
-                                <a href="${h.url_for(controller='article', action='edit', event_id=c.node.id, id=article.id)}">Изменить</a>
-                                <a href="${h.url_for(controller='article', action='remove', event_id=c.node.id, id=article.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                                <a href="${h.url_for(controller='article', action='show', event_id=c.node.id, id=article.number)}" class="accent no-border">Читать</a>
+                                <a href="${h.url_for(controller='article', action='edit', event_id=c.node.id, id=article.number)}">Изменить</a>
+                                <a href="${h.url_for(controller='article', action='remove', event_id=c.node.id, id=article.number)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
                             </div>
                        </%self:actions>
                     </div>

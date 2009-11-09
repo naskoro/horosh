@@ -27,6 +27,10 @@ def make_map():
         controller='article', action='edit',
         requirements=dict(event_id='\d*', id='\d*')
     )
+    map.connect('/event/{event_id}/show/report/{id}', 
+        controller='article', action='show',
+        requirements=dict(event_id='\d*', id='\d*')
+    )
     map.connect('/event/{event_id}/remove/report/{id}', 
         controller='article', action='remove',
         requirements=dict(event_id='\d*', id='\d*')

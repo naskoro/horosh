@@ -46,6 +46,9 @@ class Album(Node):
 
 class Article(Node):
     @property
+    def number(self):
+        return self.event.articles.index(self) + 1
+    @property
     def html_content(self):
         return rst2html(self.content)
     
@@ -53,6 +56,12 @@ class Article(Node):
         return "<Article('%s')>" % self.id
 
 class Event(Node):
+    def report_by_number(self, number):
+        try:
+            node = self.articles[int(number)-1]
+            return node
+        except IndexError:
+            return None
     @property
     def date(self):
         date, format = '', ''
@@ -109,7 +118,7 @@ orm.mapper(Album, db.album,
 orm.mapper(Article, db.article, 
     properties={
         'albums': orm.relation(Album, secondary=db.article_album),
-        'events': orm.relation(Event, secondary=db.event_article),
+        'event': orm.relation(Event, secondary=db.event_article, uselist=False),
     },
     inherits=Node, polymorphic_identity='article'
 )

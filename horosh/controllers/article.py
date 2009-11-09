@@ -29,7 +29,7 @@ class ArticleController(BaseController):
         fs = ArticleForm('article-new')
 
         if request.POST and fs.fields.cancel.id in request.POST:
-            return self._redirect_to_default(event_node.id)
+            return self._redirect_to_default(event_node)
         
         if request.POST and fs.is_valid(request.POST):
             node = model.Article()
@@ -42,7 +42,7 @@ class ArticleController(BaseController):
             event_node.articles.append(node)
             meta.Session.commit()
             
-            return self._redirect_to_default(event_node.id)
+            return self._redirect_to_default(event_node, node)
         
         c.form = fs
         c.fs = fs.fields
@@ -55,55 +55,65 @@ class ArticleController(BaseController):
             result = fs.htmlfill(result)
         return result
 
-    def show(self, id):
-        c.node = self._get_row(model.Article, id) 
+    def show(self, event_id, id):
+        event_node = self._get_row(model.Event, event_id)
+        self._check_access(event_node)
+        
+        node = event_node.report_by_number(id)
+        if node is None:
+            abort(404)
+         
+        c.node = node
+        
         return render('/article/show.html')
 
-    def edit(self, id):
+    def edit(self, id, event_id):
+        event_node = self._get_row(model.Event, event_id)
+        self._check_access(event_node)
+        node = event_node.report_by_number(id)
+        if node is None:
+            abort(404)
+
         fs = ArticleForm('article-edit')
-        node = self._get_row(model.Article, id)
+
+        if request.POST and fs.fields.cancel.id in request.POST:
+            return self._redirect_to_default(event_node, node)
+
         if request.POST and fs.is_valid(request.POST):
             time.sleep(5)
             
             node.title = fs.fields.title.value
             node.content = fs.fields.content.value
             
-            album_user = fs.fields.album_user.value
-            album_id = fs.fields.album_id.value 
-            if (album_user and album_id):
-                node.albums = [model.Album(
-                    album_user,
-                    album_id,
-                    session['current_user'].id
-                )]
-            
             meta.Session.commit()
-            return self._redirect_to_default(node.id)
+            return self._redirect_to_default(event_node, node)
 
         fs.set_values({
             'title': node.title,
             'content': node.content
         })
         
-        if (node.albums):
-            album = node.albums[0]
-            fs.set_values({
-                'album_user': album.settings_user,
-                'album_id': album.settings_id
-            })
+        c.form = fs
         c.fs = fs.fields
-        c.title = node.title
-        return fs.render('/article/edit.html', '/article/edit_form.html')
+        c.node = node
+        
+        if is_ajax():
+            result = render('/article/edit_partial.html')
+        else:
+            result = render('/article/edit.html')
+        return fs.htmlfill(result)
+
 
     def remove(self, id, event_id):
         event_node = self._get_row(model.Event, event_id)
         self._check_access(event_node)
-        node = self._get_row(model.Article, id)
-        self._event_has_article(event_node, node)
+        node = event_node.report_by_number(id)
+        if node is None:
+            abort(404)
         
         meta.Session.delete(node)
         meta.Session.commit()
-        return self._redirect_to_default(event_node.id)
+        return self._redirect_to_default(event_node)
     
     def _event_has_article(self, event, article):
         for item in event.articles:
@@ -111,9 +121,17 @@ class ArticleController(BaseController):
                 return
         abort(404)
     
-    def _redirect_to_default(self, id):
+    def _redirect_to_default(self, event_node, node = None):
+        if node is None:
+            return self._redirect_to(
+                controller='event', 
+                action='show', 
+                id=event_node.id,
+            )
+            
         return self._redirect_to(
-            controller='event', 
+            controller='article', 
             action='show', 
-            id=id
+            event_id=event_node.id,
+            id = node.number,
         )
