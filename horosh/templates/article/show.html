@@ -35,12 +35,12 @@
             % endif
         
             % for person in c.node.event.persons:
-            <div class="node avatar">
+            <div class="span-20"><div class="node avatar">
                 <a title="${person.fullname}">
                 <div class="avatar-img" style="background: #333 url(${h.url_for(controller='person', action='avatar', id=person.id, time=h.time.time())}) no-repeat center;"></div>
                 <div class="avatar-info">${person.fullname}</div>
                 </a>
-            </div>
+            </div></div>
             % endfor
         </div>
     </div>

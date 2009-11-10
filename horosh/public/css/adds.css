@@ -265,10 +265,6 @@ body {
 	overflow-y: auto;
     height: 135px;	
 }
-.report-persons .node {
-	float: left;
-	margin: 5px 10px;
-}
 .report-box {
 	margin-top: 0;
 }
