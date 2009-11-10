@@ -17,21 +17,23 @@
             <p><b>Пример:</b><br/>
             Ссылка на альбом: 
             <blockquote>
-                http://picasaweb.google.com/<span style="color:blue">naspeh</span>/<span style="color:green">Naspeh</span>#
+                http://picasaweb.google.com/<span style="color:blue">naspeh</span>/<span style="color:green">20070824_Krym_Tarhankut</span>#
             </blockquote>
             Имя пользователя: <b><span style="color:blue">naspeh</span></b><br/>
-            ID альбома: <b><span style="color:green">Naspeh</span></b>
+            ID альбома: <b><span style="color:green">20070824_Krym_Tarhankut</span></b>
             </p>
         </div>      
         ${self.form_errors()}
 		<div class="field container">
 		    <div class="span-50-left">
-		        ${h.title(u'Имя пользователя', True, label_for=c.fs.user.id)}
+		        ${h.title(u'Имя пользователя', c.fs.user.not_empty(), label_for=c.fs.user.id)}
 		        ${h.text(name= c.fs.user.id, class_='text')}
+		        ${self.field_errors(c.fs.user.id)}
 		    </div>
 		    <div class="span-50-right">
-		        ${h.title(u'ID альбома', True, label_for=c.fs.albumid.id)}
+		        ${h.title(u'ID альбома', c.fs.albumid.not_empty(), label_for=c.fs.albumid.id)}
 		        ${h.text(name=c.fs.albumid.id, class_='text')}
+		        ${self.field_errors(c.fs.albumid.id)}
 		    </div>
 		</div>
 

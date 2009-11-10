@@ -15,7 +15,7 @@ legend      { font-weight: bold; font-size:1.2em; padding: 0 0.5em}
 
 /* Form fields
 -------------------------------------------------------------- */
-.field {margin: 5px;}
+.field {margin: 5px 5px 1em 5px;}
 .form-container {position: relative;}
 
 input[type=text], input[type=password],
@@ -35,17 +35,18 @@ input.text.error, input.title.error,
 textarea.error, select.error {
   border-color: #d00;
 }
-input[type=text], input[type=password],
-input.text, input.title,
-textarea, select {
-  margin-bottom:0.8em;
-}
 
 input.text,
 input.title   { width: 100%;}
 input.title   { font-size:1.5em; }
 textarea      { width: 100%;}
 /*
+input[type=text], input[type=password],
+input.text, input.title,
+textarea, select {
+  margin-bottom:0.8em;
+}
+
 input[type=checkbox], input[type=radio],
 input.checkbox, input.radio {
   position:relative; top:.25em;
@@ -71,4 +72,4 @@ form .required, form .not-required{display: block;}
 .box-notice a   { color: #514721; }
 .box-success a  { color: #264409; }
 
-.error-message  { margin-left:10px; color: #b00; }
+.error-message  { color: #b00; }

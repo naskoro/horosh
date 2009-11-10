@@ -15,10 +15,12 @@
         <div class="field">
             ${h.title(u'Название', c.fs.title.not_empty(), label_for=c.fs.title.id)}
             ${h.text(name=c.fs.title.id, class_='text')}
+            ${self.field_errors(c.fs.title.id)}
         </div>
         
         <div class="field">
 		    ${h.title(u'Содержание', c.fs.content.not_empty(), label_for=c.fs.content.id)}
+		    ${self.field_errors(c.fs.content.id)}
 		    ${h.textarea(name=c.fs.content.id, rows=30)}
         </div>
         
