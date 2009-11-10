@@ -11,7 +11,19 @@
         <div class="box-title">
             <div class="picasa"></div>${self.title()}
         </div>
-
+        <div class="box-notice">
+            <p>Вам нужно загрузить альбом в <a href="http://picasaweb.google.com/">Picasa</a>. 
+            Потом из ссылки на альбом вставить данные.</p> 
+            <p><b>Пример:</b><br/>
+            Ссылка на альбом: 
+            <blockquote>
+                http://picasaweb.google.com/<span style="color:blue">naspeh</span>/<span style="color:green">Naspeh</span>#
+            </blockquote>
+            Имя пользователя: <b><span style="color:blue">naspeh</span></b><br/>
+            ID альбома: <b><span style="color:green">Naspeh</span></b>
+            </p>
+        </div>      
+        ${self.form_errors()}
 		<div class="field container">
 		    <div class="span-50-left">
 		        ${h.title(u'Имя пользователя', True, label_for=c.fs.user.id)}
@@ -25,6 +37,6 @@
 
         <div class="field">
             ${self.actions()}
-        </div>	    
+        </div>
     </div>
 </form>

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from formencode.validators import *
-from cgi import FieldStorage
 from cStringIO import StringIO
-import logging
+from formencode.validators import *
+from gdata.photos.service import GooglePhotosException
+from horosh.lib.photos import Picasa
 import Image
+import logging
 
 log = logging.getLogger(__name__)
 
@@ -34,3 +35,28 @@ class ImageUploadValidator(FileUploadValidator):
             trial_image.verify()
         except Exception: # Python Imaging Library doesn't recognize it as an image
             raise Invalid(self.message('invalid_image', state), value, state)
+
+class PicasaAlbumValidator(FormValidator):
+    show_match = False
+    field_names = None
+    validate_partial_form = True
+    __unpackargs__ = ('*', 'field_names')
+        
+    messages = {
+        'invalid_album': u'Неправильно введено "Имя пользователя" или "ID альбома"'
+    }
+    
+    def __init__(self, *args, **kw):
+        super(FormValidator, self).__init__(*args, **kw)
+        if len(self.field_names) < 2:
+            raise TypeError("FieldsMatch() requires at least two field names") 
+   
+    def validate_python(self, field_dict, state):
+        try:
+            user = field_dict[self.field_names[0]]
+            albumid = field_dict[self.field_names[1]]
+            Picasa().photos(user, albumid, limit=1)
+        except GooglePhotosException:
+            error_message = self.message('invalid_album', state)
+            errors = {'form': Invalid(error_message, field_dict, state)}
+            raise Invalid(error_message, field_dict, state, error_dict= errors)

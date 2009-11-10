@@ -39,6 +39,13 @@
         %endif
     });
 </%def>
+<%def name="form_errors()">
+    % if c.form.has_errors():
+        <div class="box-error">
+            <form:error name="form"/>
+        </div>
+    % endif
+</%def>
 <%def name="container()">
 	<div id="${self.id()}" class="form-container">
 	    <div id="${self.id()}-informer"></div>

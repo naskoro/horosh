@@ -34,7 +34,7 @@ class FieldSet(object):
         schema.filter_extra_fields = True
         self.schema = schema
         self.name = name
-        self.errors = {}
+        self.errors = None
         self.fields = self.Fields()
         if fields:
             self.adds(*fields)
@@ -47,7 +47,7 @@ class FieldSet(object):
         field.id = self.get_field_id(field.name) 
         self.fields.add(field)
         if field.validator is not None:
-            self.schema.add_field(field.id, field.validator)
+            self.schema.add_field(field.name, field.validator)
         return self
     
     def adds(self, *fields):
@@ -102,18 +102,40 @@ class FieldSet(object):
         return htmlfill.render(form, self.get_values(use_ids=True), errors=self.errors)
     
     def is_valid(self, params):
-        form_result = params
+        self.set_values(params, use_ids=True)
+        params = self.get_values()
         result = True
         try:
             params = variabledecode.variable_decode(params, '.', '--')
             form_result = self.schema.to_python(params)
+            self.set_values(form_result)
         except Invalid, e:
-            self.errors = e.unpack_errors()
+            self.set_errors(e.unpack_errors())
             result = False
             
-        self.set_values(form_result, use_ids=True)
         return result
-
+    
+    def set_errors(self, errors):
+        if isinstance(errors, (str, unicode)):
+            self.errors = errors
+            return
+        result = {}
+        for key, error in errors.items():
+            if key == 'form':
+                result[key] = error
+            else:
+                result[self.get_field_id(key)] = error
+        self.errors = result
+    
+    def has_errors(self, name='form'):
+        if self.errors is None:
+            return False
+        try:
+            self.errors[name]
+        except KeyError:
+            return False
+        return True
+    
 class Field(object):
     def __init__(self, name=None, id=None, validator=None, label=None, 
                  instructions=None, value = None):

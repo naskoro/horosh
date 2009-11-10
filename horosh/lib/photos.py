@@ -44,7 +44,7 @@ class Picasa(object):
     _count = 0
     
     def photos(self, user, albumid, limit=None):
-        url = 'http://picasaweb.google.com/data/feed/api/user/%s/albumid/%s?kind=photo' % (user, albumid)
+        url = 'http://picasaweb.google.com/data/feed/api/user/%s/album/%s?kind=photo' % (user, albumid)
         return self.client.GetFeed(url, limit=limit)
 
     def render(self, photos, photos_list=[], limit=None, 

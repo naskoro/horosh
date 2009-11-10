@@ -17,7 +17,9 @@ class AlbumForm(form.FieldSet):
             form.Field('albumid', validator=form.v.String(not_empty=True)),
             form.Field('save'),
             form.Field('cancel')
+            
         )
+        self.schema.chained_validators = [form.v.PicasaAlbumValidator('user', 'albumid')]
 
 class AlbumController(BaseController):
     def new(self, event_id):
