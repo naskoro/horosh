@@ -263,7 +263,7 @@ body {
 .report-show {}
 .report-persons {
 	overflow-y: auto;
-    height: 135px;	
+    max-height: 135px;	
 }
 .report-box {
 	margin-top: 0;
