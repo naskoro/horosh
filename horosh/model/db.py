@@ -10,6 +10,7 @@ user = schema.Table('user', meta.metadata,
     schema.Column('id', types.Integer,
         schema.Sequence('user_id__seq', optional=True), primary_key=True),
 
+    schema.Column('nickname', types.Unicode(20)),
     schema.Column('email', types.String(50), nullable=False, unique=True),
     schema.Column('password', types.String(32)),    
 
@@ -30,11 +31,12 @@ person = schema.Table('person', meta.metadata,
         schema.ForeignKey('node.id'), primary_key=True),
     schema.Column('user_id', types.Integer,
         schema.ForeignKey('user.id'), nullable=True),
+    schema.Column('event_id', types.Integer, 
+        schema.ForeignKey('event.id'), nullable=False),
 
-    schema.Column('email', types.String(50)),
-    schema.Column('nickname', types.Unicode(20)),    
     schema.Column('fullname', types.Unicode(50), nullable=False),
     schema.Column('avatar', types.Binary()),
+    schema.Column('details', types.Unicode(500)),
 
     schema.Column('created', types.DateTime(), default=datetime.now()),
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())
@@ -92,7 +94,8 @@ event = schema.Table('event', meta.metadata,
 report = schema.Table('report', meta.metadata,
     schema.Column('id', types.Integer,
         schema.ForeignKey('node.id'), primary_key=True),
-    schema.Column('event_id', types.Integer, schema.ForeignKey('event.id')),
+    schema.Column('event_id', types.Integer, 
+        schema.ForeignKey('event.id'), nullable=False),
         
     schema.Column('title', types.Unicode()),
     schema.Column('content', types.Unicode(), nullable=False),
@@ -101,13 +104,6 @@ report = schema.Table('report', meta.metadata,
     
     schema.Column('created', types.DateTime(), default=datetime.now()),
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())
-)
-
-event_person = schema.Table('event_person', meta.metadata,
-    schema.Column('event_id', types.Integer,
-        schema.ForeignKey('event.id'), nullable=False),
-    schema.Column('person_id', types.Integer,
-        schema.ForeignKey('person.id'), nullable=False),
 )
 
 event_album = schema.Table('event_album', meta.metadata,

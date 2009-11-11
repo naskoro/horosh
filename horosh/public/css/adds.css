@@ -107,6 +107,7 @@ body {
 	top: auto;
 	margin-bottom: -2px;
 }
+
 /* reStructuredText */
 .section h1 a{
 	text-decoration: none;
@@ -155,7 +156,8 @@ body {
 }
 .box-img {
 	border: 2px solid #9b9;
-	padding: 1px; 
+	padding: 1px;
+	margin: 10px; 
 }
 .box-empty {
 	padding: 25px;
@@ -168,15 +170,16 @@ body {
 	text-decoration: none;
     margin: 5px auto;
     border: 2px solid #9b9;
+    position: relative;
 }
 
-.avatar-img{
+.avatar-img {
 	display: block;
     width: 100px;
     height: 100px;
     border: 1px solid #fff;
 }
-.avatar-info{
+.avatar-info {
     display: block;
     width: 98px;
     color: #666;
@@ -190,6 +193,7 @@ body {
 	background-color: #eee;
 	border-top: 2px solid #9b9;
 }
+
 /* Node Actions */
 .node {
     position: relative;

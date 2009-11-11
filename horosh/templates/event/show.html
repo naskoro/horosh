@@ -82,8 +82,8 @@
         </%self:actions>
     </div>
     <div class="title-info container">
-        <div>${c.node.node_user.email}</div>
-        <div>${c.node.created.strftime('%d %B %Y')}</div>
+        <div>${c.node.node_user.nickname}</div>
+        <div>${h.ru_strftime(u'%d %B %Y', date=c.node.created, inflected=True)}</div>
     </div>
     
     <div class="container">

@@ -63,7 +63,7 @@ form .required, form .not-required{display: block;}
 
 .box-error,
 .box-notice,
-.box-success    { padding: 5px; margin: 0 3% 1em 3%; border: 2px solid #ddd; }
+.box-success    { padding: 5px; margin: 0 0 1em 0; border: 2px solid #ddd; }
 
 .box-error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
 .box-notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }

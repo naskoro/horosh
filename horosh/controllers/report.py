@@ -35,11 +35,11 @@ class ReportController(BaseController):
             node = model.Report()
             node.title = fs.fields.title.value
             node.content = fs.fields.content.value
-            node.filter = DEFAULT_FILTER 
+            node.filter = DEFAULT_FILTER
+            node.event = event_node 
             node.node_user_id = session['current_user'].id
             
             meta.Session.add(node)
-            event_node.reports.append(node)
             meta.Session.commit()
             
             return self._redirect_to_default(event_node, node)
@@ -57,7 +57,6 @@ class ReportController(BaseController):
 
     def show(self, event_id, id):
         event_node = self._get_row(model.Event, event_id)
-        self._check_access(event_node)
         
         node = event_node.report_by_number(id)
         if node is None:

@@ -14,21 +14,9 @@
         </div>
 	    
 	    <div class="field">
-		    ${h.title(u'Полное имя', c.fs.fullname.not_empty(), label_for=c.fs.fullname.id)}
+		    ${h.title(u'Имя', c.fs.fullname.not_empty(), label_for=c.fs.fullname.id)}
 		    ${h.text(name=c.fs.fullname.id, class_='text')}
 		    ${self.field_errors(c.fs.fullname.id)}
-		</div>
-		
-		<div class="field">
-		    ${h.title(u'Ник', c.fs.nickname.not_empty(), label_for=c.fs.nickname.id)}
-		    ${h.text(name= c.fs.nickname.id, class_='text')}
-		    ${self.field_errors(c.fs.nickname.id)}
-		</div>
-		
-		<div class="field">
-		    ${h.title(u'Email', c.fs.email.not_empty(), label_for=c.fs.email.id)}
-		    ${h.text(name=c.fs.email.id, class_='text')}
-		    ${self.field_errors(c.fs.email.id)}
 		</div>
 		
 		<div class="field">
@@ -37,7 +25,7 @@
 		    ${self.field_errors(c.fs.avatar.id)}
 		    
 		    % if c.node:
-		    <img class="box-img" alt="${c.node.fullname}" src="${h.url_for(controller='person', action='avatar', id=c.node.id)}"/>
+		        <img class="box-img" alt="${c.node.fullname}" src="${h.url_for(controller='person', action='avatar', id=c.node.id)}"/>
 		    % endif
 		</div>
         

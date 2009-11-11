@@ -4,6 +4,7 @@ from hashlib import md5
 from horosh.lib.util import rst2html
 from horosh.model import db, meta
 from sqlalchemy import orm
+from pytils.dt import ru_strftime
 import logging
 
 
@@ -18,8 +19,9 @@ def init_model(engine):
     meta.Session = orm.scoped_session(sessionmaker)
     
 class User(object):
-    def __init__(self, email, password=None):
+    def __init__(self, nickname, email, password=None):
         self.email = email
+        self.nickname = nickname
         if (password):
             self.password = md5(password).hexdigest()
             
@@ -73,25 +75,29 @@ class Event(Node):
     @property
     def date(self):
         date, format = '', ''
-        f_day, f_month, f_year = '%d ', '%b ', '%Y'
+        f_day, f_month, f_year = u'%d ', u'%B ', u'%Y'
         
         if self.start.year == self.finish.year:
-            date = self.start.strftime(f_year)
+            date = ru_strftime(f_year, date=self.start)
         else:
             format = f_year
             
         if self.start.month == self.finish.month:
-            date = self.start.strftime(f_month) + date
+            date = ru_strftime(f_month, date=self.start, inflected=True) + date
         else:
             format = f_month + format
             
         if self.start.day == self.finish.day:
-            date = self.start.strftime(f_day) + date
+            date = ru_strftime(f_day, date=self.start) + date
         else:
             format = f_day + format
             
         if format:
-            date = self.start.strftime(format) + ' - '  + self.finish.strftime(format) + ' '  + date
+            date = '%s - %s %s' % (
+                ru_strftime(format, date=self.start, inflected=True), 
+                ru_strftime(format, date=self.finish, inflected=True), 
+                date
+            )
             
         return date
      
@@ -143,14 +149,20 @@ orm.mapper(Event, db.event,
             Report,
             primaryjoin=db.report.c.event_id==db.event.c.id,
         ),
-        'persons': orm.relation(Person, secondary=db.event_person),
+        'persons': orm.relation(
+            Person, 
+            primaryjoin=db.person.c.event_id==db.event.c.id,
+        ),
     },
     inherits=Node, polymorphic_identity='event'
 )
 orm.mapper(Person, db.person,
     properties={
         'user': orm.relation(User),
-        'events': orm.relation(Event, secondary=db.event_person),
+        'event': orm.relation(
+            Event,
+            primaryjoin=db.person.c.event_id==db.event.c.id,
+        ),
     },
     inherits=Node, polymorphic_identity='person'
 )

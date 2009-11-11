@@ -19,9 +19,7 @@ NO_AVATAR = 'images/no-avatar.png'
 class PersonForm(form.FieldSet):
     def init(self):
         self.adds(
-            form.Field('nickname', validator=form.v.String(not_empty=False, min=3, max=20)),
             form.Field('fullname', validator=form.v.String(not_empty=True, min=3, max=30)),
-            form.Field('email', validator=form.v.Email()),
             form.Field('avatar', validator=form.v.ImageUploadValidator()),
             form.Field('save'),
             form.Field('cancel')
@@ -40,17 +38,15 @@ class PersonController(BaseController):
         
         if request.POST and fs.is_valid(request.POST):
             node = model.Person()
-            node.nickname = fs.fields.nickname.value
             node.fullname = fs.fields.fullname.value
-            node.email = fs.fields.email.value
-
+            node.event = event_node
+            
             if fs.fields.avatar.value is not None:
                 node.avatar = self._avatar_prepare(fs.fields.avatar.value.file)
             
             node.node_user_id = session['current_user'].id
             
             meta.Session.add(node)
-            event_node.persons.append(node)
             meta.Session.commit()
 
             return self._redirect_to_default(event_node.id)
@@ -78,9 +74,7 @@ class PersonController(BaseController):
             return self._redirect_to_default(event_node.id)
 
         if request.POST and fs.is_valid(request.POST):
-            node.nickname = fs.fields.nickname.value
             node.fullname = fs.fields.fullname.value
-            node.email = fs.fields.email.value
 
             if fs.fields.avatar.value is not None:
                 node.avatar = self._avatar_prepare(fs.fields.avatar.value.file)
@@ -93,9 +87,7 @@ class PersonController(BaseController):
         
         if not request.POST:
             fs.set_values({
-                'nickname': node.nickname,
                 'fullname': node.fullname,
-                'email': node.email,
                 'avatar': node.avatar
             })
 

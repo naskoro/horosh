@@ -16,8 +16,8 @@ def setup_app(command, conf, vars):
     # Create the tables if they don't already exist
     meta.metadata.create_all(bind=meta.engine)
     
-    log.info("Adding root user")
-    user = User("naspeh@pusto.org", u"1")
+    log.info('Adding root user')
+    user = User('naspeh', 'naspeh@pusto.org', u'1')
     meta.Session.add(user)
     
     meta.Session.commit()
