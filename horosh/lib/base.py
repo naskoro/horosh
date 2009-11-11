@@ -21,12 +21,25 @@ def is_ajax():
 def on_page():
     return 'on_page' in request.params and is_ajax()
 
+def is_node_owner(node):
+    if node.node_user_id == current_user().id:
+        return True
+    return False
+
+def authkit_user():
+    if not request.environ.get('REMOTE_USER'):
+        user = 'nobody'
+    else:
+        user = request.environ.get('REMOTE_USER')
+    return user
+
+def current_user():
+    if not request.environ.get('current_user'):
+        user = meta.Session.query(model.User).filter_by(nickname=authkit_user).one()
+        request.environ['current_user'] = user
+    return request.environ.get('current_user')
+
 class BaseController(WSGIController):
-    def __before__(self):
-        if 'current_user' not in session:
-            session['current_user'] = meta.Session.query(model.User).filter_by(email='naspeh@pusto.org').one()
-            session.save()
-    
     def __after__(self):
         if is_ajax():
             response.content_type = 'text/xml'
@@ -47,12 +60,13 @@ class BaseController(WSGIController):
                 'scripts': taconite.scripts(xhtml),
             })
     
-    def _redirect_to(self, **url):
+    def _redirect_to(self, *args, **kwargs):
         if is_ajax():
-            c.url = url
+            c.args = args
+            c.kwargs = kwargs
             result = render('/util/redirect.html')
         else :
-            redirect_to(**url)
+            redirect_to(*args, **kwargs)
             result = "Moved temporarily"
         return result
     
@@ -64,5 +78,5 @@ class BaseController(WSGIController):
         return row
 
     def _check_access(self, node):
-        if node.node_user_id != session['current_user'].id:
+        if not is_node_owner(node):
             abort(403)            

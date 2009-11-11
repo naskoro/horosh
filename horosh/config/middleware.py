@@ -1,15 +1,15 @@
 """Pylons middleware initialization"""
 from beaker.middleware import CacheMiddleware, SessionMiddleware
+from horosh.config.environment import load_environment
 from paste.cascade import Cascade
+from paste.deploy.converters import asbool
 from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
-from paste.deploy.converters import asbool
 from pylons import config
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
-
-from horosh.config.environment import load_environment
+import authkit.authenticate
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
@@ -53,6 +53,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     if asbool(full_stack):
         # Handle Python exceptions
         app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
+        
+        app = authkit.authenticate.middleware(app, app_conf)
 
         # Display error documents for 401, 403, 404 status codes (and
         # 500 when debug is disabled)

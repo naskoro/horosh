@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax
+from horosh.lib.base import BaseController, render, is_ajax, current_user
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
@@ -44,7 +44,7 @@ class EventController(BaseController):
             node.summary = fs.fields.summary.value
             node.start = fs.fields.start.value
             node.finish = fs.fields.finish.value
-            node.node_user_id = session['current_user'].id
+            node.node_user_id = current_user().id
             
             meta.Session.add(node)
             meta.Session.commit()

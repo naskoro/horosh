@@ -2,14 +2,14 @@
 
 from cStringIO import StringIO
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax
+from horosh.lib.base import BaseController, render, is_ajax, current_user
 from horosh.model import meta
 from pylons import config, request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
-import os.path
-import time
 import Image
 import logging
+import os.path
+import time
 
 log = logging.getLogger(__name__)
 
@@ -44,7 +44,7 @@ class PersonController(BaseController):
             if fs.fields.avatar.value is not None:
                 node.avatar = self._avatar_prepare(fs.fields.avatar.value.file)
             
-            node.node_user_id = session['current_user'].id
+            node.node_user_id = current_user().id
             
             meta.Session.add(node)
             meta.Session.commit()

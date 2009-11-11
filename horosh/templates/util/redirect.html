@@ -1,20 +1,20 @@
 <taconite>
 % if h.on_page():
     <eval><![CDATA[
-        $.ajax({url: '${h.url_for(**c.url)}'});
-        ##$('#main').load('${h.url_for(**c.url)}')
+        $.ajax({url: '${h.url_for(*c.args, **c.kwargs)}'});
+        ##$('#main').load('${h.url_for(*c.args, **c.kwargs)}')
         $.fn.colorbox.close()
         $('#loader').show();        
     ]]></eval>    
 % else:
     <eval><![CDATA[
         $('#informer').show();
-        window.location='${h.url_for(**c.url)}';
+        window.location='${h.url_for(*c.args, **c.kwargs)}';
     ]]></eval>
     <replaceContent select="#informer">    
         <div class="box-success">
         Подождите, страница перенаправляется. Если перенапровления долго не происходит, 
-        нажмите <a href="${h.url_for(**c.url)}">тут</a>.
+        нажмите <a href="${h.url_for(*c.args, **c.kwargs)}">тут</a>.
         </div>
     </replaceContent>
 % endif

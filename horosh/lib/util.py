@@ -3,6 +3,9 @@
 from docutils.core import publish_parts
 from mako.template import Template
 from pylons.templating import pylons_globals
+import logging
+
+log = logging.getLogger(__name__)
 
 def rst2html(text, use_ext=True):
     text = publish_parts(

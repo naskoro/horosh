@@ -19,30 +19,11 @@ def setup_app(command, conf, vars):
     log.info('Adding root user')
     user = User('naspeh', 'naspeh@pusto.org', u'1')
     meta.Session.add(user)
+
+    log.info('Adding nobody user')
+    user = User('nobody', 'nobody@pusto.org')
+    meta.Session.add(user)
     
     meta.Session.commit()
     
-    # Test models
-    if(False):
-        log.info("Adding album")
-        album = Album('naspeh', "5322049975408703009", user.id)
-        meta.Session.add(album)
-    
-        log.info("Adding persons")
-    
-        person1 = Person("naspeh@pusto.org", u"naspeh", u"Na Speh", None, user.id)
-        meta.Session.add(person1)
-        log.info("person1: %s" % person1)
-        
-        person2 = Person("naspeh@pusto.org", u"naspeh", u"Na Speh", user.id, user.id)
-        meta.Session.add(person2)
-        log.info("person2: %s" % person2)
-        
-        meta.Session.commit()
-        
-        album = meta.Session.query(Album).all()[0]
-        log.info("album.settings: %s" % album.settings)
-        log.info("album.node_owner: %s" % album.node_owner)
-        log.info("album.node_paths: %s" % album.node_paths)
-        
     log.info("Successfully set up.")

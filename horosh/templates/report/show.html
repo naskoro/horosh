@@ -1,7 +1,7 @@
 <%inherit file="/main.html" />
 <%def name="title()">Отчет №${c.id}. ${c.node.event.category} ${c.node.event.title}</%def>
 <%def name="actions(**kwargs)">
-    % if True:
+    % if h.is_node_owner(c.node):
         ${caller.body()}
     % endif
 </%def>

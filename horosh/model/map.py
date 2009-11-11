@@ -26,7 +26,7 @@ class User(object):
             self.password = md5(password).hexdigest()
             
     def __repr__(self):
-        return "<User('%s')>" % self.email
+        return "<User('%s', '%s')>" % (self.nickname, self.email)
 
 class Node(object):
     def __init__(self, node_user_id=None):
@@ -106,7 +106,7 @@ class Event(Node):
 
 class Person(Node):
     def __repr__(self):
-        return "<Person('%s', '%s', '%s')>" % (self.id, self.nickname, self.email)
+        return "<Person('%s', '%s')>" % (self.id, self.fuulname)
 
 orm.mapper(Path, db.path, 
     properties={

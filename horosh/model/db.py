@@ -10,7 +10,7 @@ user = schema.Table('user', meta.metadata,
     schema.Column('id', types.Integer,
         schema.Sequence('user_id__seq', optional=True), primary_key=True),
 
-    schema.Column('nickname', types.Unicode(20)),
+    schema.Column('nickname', types.String(20), nullable=False, unique=True),
     schema.Column('email', types.String(50), nullable=False, unique=True),
     schema.Column('password', types.String(32)),    
 

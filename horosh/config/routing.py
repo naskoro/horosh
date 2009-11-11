@@ -19,6 +19,9 @@ def make_map():
     map.connect('/error/{action}/{id}', controller='error')
 
     # CUSTOM ROUTES HERE
+    map.connect('/login', controller='util', action='login')
+    map.connect('/logout', controller='util', action='logout')
+    
     map.connect('/event/{event_id}/add/report', 
         controller='report', action='new',
         requirements=dict(event_id='\d*')

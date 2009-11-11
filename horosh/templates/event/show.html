@@ -2,7 +2,7 @@
 <%def name="title()">${c.node.category} ${c.node.title}</%def>
 <%def name="adds_head()"></%def>
 <%def name="actions(**kwargs)">
-	% if True:
+	% if h.is_node_owner(c.node):
         ${caller.body()}
 	% endif
 </%def>
@@ -49,6 +49,14 @@
    	   		        beforeSend: function(){
    	   		            $('#loader').show();
    	   		        },
+					complete: function (xhr, type)  {
+					    if(type !== "success"){
+					        $('#informer').html(
+					            '<div class="box-error">При выполнении запроса произшла ошибка.</div>'
+					        ).show();
+					        $('#loader').hide();
+					    }
+					},
    	   		        success: function(data){
    	   		            if ($(link).hasClass('modal')) {
    	                        $('#loader').hide();   	   	   		            
@@ -124,13 +132,13 @@
 	                        </h1>
                         </div>
                         ${h.rst2html(h.truncate(report.content, 500))|n}
-                        <%self:actions>
-                            <div class="box-actions">
-                                <a href="${h.url_for(controller='report', action='show', event_id=c.node.id, id=report.number)}" class="accent no-border">Читать</a>
+                        <div class="box-actions">
+                            <a href="${h.url_for(controller='report', action='show', event_id=c.node.id, id=report.number)}" class="accent no-border">Читать</a>
+                            <%self:actions>
                                 <a href="${h.url_for(controller='report', action='edit', event_id=c.node.id, id=report.number)}">Изменить</a>
                                 <a href="${h.url_for(controller='report', action='remove', event_id=c.node.id, id=report.number)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
-                            </div>
-                       </%self:actions>
+                            </%self:actions>
+                       </div>
                     </div>
                     % endfor
                 </div>	        

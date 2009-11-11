@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax
-from pylons import request, response, session, tmpl_context as c
-from pylons.controllers.util import abort, redirect_to
+from horosh.lib.base import BaseController, render, is_ajax, current_user
 from horosh.lib.photos import Picasa
 from horosh.model import meta
+from pylons import request, response, session, tmpl_context as c
+from pylons.controllers.util import abort, redirect_to
 import logging
 
 log = logging.getLogger(__name__)
@@ -36,7 +36,7 @@ class AlbumController(BaseController):
             
             node = model.Album()
             node.settings = album.photos(fs.fields.user.value, fs.fields.albumid.value, limit=30)
-            node.node_user_id = session['current_user'].id
+            node.node_user_id = current_user().id
             
             meta.Session.add(node)
             event_node.albums.append(node)
