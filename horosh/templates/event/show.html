@@ -96,39 +96,39 @@
         
 	        <div class="box">
 	            <div class="box-title">Отчеты</div>
-                <%def name="article_add_url(title=u'Добавить')">
-                   <a href="${h.url_for(controller='article', action='new', event_id=c.node.id)}">${title}</a>
+                <%def name="report_add_url(title=u'Добавить')">
+                   <a href="${h.url_for(controller='report', action='new', event_id=c.node.id)}">${title}</a>
                 </%def>
                 <%self:actions>
                     <div class="box-actions">
-                        ${article_add_url()}
+                        ${report_add_url()}
                     </div>
                 </%self:actions>
                 <div class="event-reports">
-                    % if 0 == len(c.node.articles):
+                    % if 0 == len(c.node.reports):
                        <div class="box-empty">
                            Отчетов нет.
                            <%self:actions>
-                               Но можно ${article_add_url(u'добавить')}.
+                               Но можно ${report_add_url(u'добавить')}.
                            </%self:actions>
                        </div>
                     % endif
-                    % for article in c.node.articles:
+                    % for report in c.node.reports:
                     <div class="node">
                         <div class="title">
                             <h1>
-                                Отчет №${article.number}.
-		                        % if article.title:
-		                            ${article.title}
+                                Отчет №${report.number}.
+		                        % if report.title:
+		                            ${report.title}
 		                        % endif
 	                        </h1>
                         </div>
-                        ${h.rst2html(h.truncate(article.content, 500))|n}
+                        ${h.rst2html(h.truncate(report.content, 500))|n}
                         <%self:actions>
                             <div class="box-actions">
-                                <a href="${h.url_for(controller='article', action='show', event_id=c.node.id, id=article.number)}" class="accent no-border">Читать</a>
-                                <a href="${h.url_for(controller='article', action='edit', event_id=c.node.id, id=article.number)}">Изменить</a>
-                                <a href="${h.url_for(controller='article', action='remove', event_id=c.node.id, id=article.number)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                                <a href="${h.url_for(controller='report', action='show', event_id=c.node.id, id=report.number)}" class="accent no-border">Читать</a>
+                                <a href="${h.url_for(controller='report', action='edit', event_id=c.node.id, id=report.number)}">Изменить</a>
+                                <a href="${h.url_for(controller='report', action='remove', event_id=c.node.id, id=report.number)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
                             </div>
                        </%self:actions>
                     </div>

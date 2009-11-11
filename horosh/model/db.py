@@ -89,6 +89,20 @@ event = schema.Table('event', meta.metadata,
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())
 )
 
+report = schema.Table('report', meta.metadata,
+    schema.Column('id', types.Integer,
+        schema.ForeignKey('node.id'), primary_key=True),
+    schema.Column('event_id', types.Integer, schema.ForeignKey('event.id')),
+        
+    schema.Column('title', types.Unicode()),
+    schema.Column('content', types.Unicode(), nullable=False),
+    schema.Column('filter', types.Unicode(20), nullable=False),
+    schema.Column('published', types.DateTime),
+    
+    schema.Column('created', types.DateTime(), default=datetime.now()),
+    schema.Column('updated', types.DateTime(), onupdate=datetime.now())
+)
+
 event_person = schema.Table('event_person', meta.metadata,
     schema.Column('event_id', types.Integer,
         schema.ForeignKey('event.id'), nullable=False),
@@ -99,20 +113,6 @@ event_person = schema.Table('event_person', meta.metadata,
 event_album = schema.Table('event_album', meta.metadata,
     schema.Column('event_id', types.Integer,
         schema.ForeignKey('event.id'), nullable=False),
-    schema.Column('album_id', types.Integer,
-        schema.ForeignKey('album.id'), nullable=False),
-)
-
-event_article = schema.Table('event_article', meta.metadata,
-    schema.Column('event_id', types.Integer,
-        schema.ForeignKey('event.id'), nullable=False),
-    schema.Column('article_id', types.Integer,
-        schema.ForeignKey('article.id'), nullable=False),
-)
-
-article_album = schema.Table('article_album', meta.metadata,
-    schema.Column('article_id', types.Integer,
-        schema.ForeignKey('article.id'), nullable=False),
     schema.Column('album_id', types.Integer,
         schema.ForeignKey('album.id'), nullable=False),
 )

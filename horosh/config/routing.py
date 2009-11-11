@@ -20,19 +20,19 @@ def make_map():
 
     # CUSTOM ROUTES HERE
     map.connect('/event/{event_id}/add/report', 
-        controller='article', action='new',
+        controller='report', action='new',
         requirements=dict(event_id='\d*')
     )
     map.connect('/event/{event_id}/edit/report/{id}', 
-        controller='article', action='edit',
+        controller='report', action='edit',
         requirements=dict(event_id='\d*', id='\d*')
     )
     map.connect('/event/{event_id}/show/report/{id}', 
-        controller='article', action='show',
+        controller='report', action='show',
         requirements=dict(event_id='\d*', id='\d*')
     )
     map.connect('/event/{event_id}/remove/report/{id}', 
-        controller='article', action='remove',
+        controller='report', action='remove',
         requirements=dict(event_id='\d*', id='\d*')
     )
     

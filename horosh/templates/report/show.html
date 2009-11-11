@@ -55,8 +55,8 @@
         </h1>
         <%self:actions>
             <div class="box-actions">
-                <a href="${h.url_for(controller='article', action='edit', event_id=c.node.event.id, id=c.node.number)}" class="no-border">Изменить</a>
-                <a href="${h.url_for(controller='article', action='remove', event_id=c.node.event.id, id=c.node.number)}" class="confirm" rel="Точно хотите удалить?">Удалить</a>
+                <a href="${h.url_for(controller='report', action='edit', event_id=c.node.event.id, id=c.node.number)}" class="no-border">Изменить</a>
+                <a href="${h.url_for(controller='report', action='remove', event_id=c.node.event.id, id=c.node.number)}" class="confirm" rel="Точно хотите удалить?">Удалить</a>
             </div>
         </%self:actions>
     </div>

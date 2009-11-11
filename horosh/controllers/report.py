@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 DEFAULT_FILTER = 'reStrucuredText'
 
-class ArticleForm(form.FieldSet):
+class ReportForm(form.FieldSet):
     def init(self):
         self.adds(
             form.Field('title', validator=form.v.String()),
@@ -21,25 +21,25 @@ class ArticleForm(form.FieldSet):
             form.Field('cancel')
         )
     
-class ArticleController(BaseController):
+class ReportController(BaseController):
     def new(self, event_id):
         event_node = self._get_row(model.Event, event_id)
         self._check_access(event_node)
         
-        fs = ArticleForm('article-new')
+        fs = ReportForm('report-new')
 
         if request.POST and fs.fields.cancel.id in request.POST:
             return self._redirect_to_default(event_node)
         
         if request.POST and fs.is_valid(request.POST):
-            node = model.Article()
+            node = model.Report()
             node.title = fs.fields.title.value
             node.content = fs.fields.content.value
             node.filter = DEFAULT_FILTER 
             node.node_user_id = session['current_user'].id
             
             meta.Session.add(node)
-            event_node.articles.append(node)
+            event_node.reports.append(node)
             meta.Session.commit()
             
             return self._redirect_to_default(event_node, node)
@@ -48,9 +48,9 @@ class ArticleController(BaseController):
         c.fs = fs.fields
         
         if is_ajax():
-            result = render('/article/new_partial.html')
+            result = render('/report/new_partial.html')
         else:
-            result = render('/article/new.html')
+            result = render('/report/new.html')
         if request.POST:
             result = fs.htmlfill(result)
         return result
@@ -65,7 +65,7 @@ class ArticleController(BaseController):
          
         c.node = node
         
-        return render('/article/show.html')
+        return render('/report/show.html')
 
     def edit(self, id, event_id):
         event_node = self._get_row(model.Event, event_id)
@@ -74,7 +74,7 @@ class ArticleController(BaseController):
         if node is None:
             abort(404)
 
-        fs = ArticleForm('article-edit')
+        fs = ReportForm('report-edit')
 
         if request.POST and fs.fields.cancel.id in request.POST:
             return self._redirect_to_default(event_node, node)
@@ -98,9 +98,9 @@ class ArticleController(BaseController):
         c.node = node
         
         if is_ajax():
-            result = render('/article/edit_partial.html')
+            result = render('/report/edit_partial.html')
         else:
-            result = render('/article/edit.html')
+            result = render('/report/edit.html')
         return fs.htmlfill(result)
 
 
@@ -115,9 +115,9 @@ class ArticleController(BaseController):
         meta.Session.commit()
         return self._redirect_to_default(event_node)
     
-    def _event_has_article(self, event, article):
-        for item in event.articles:
-            if item.id == article.id:
+    def _event_has_report(self, event, report):
+        for item in event.reports:
+            if item.id == report.id:
                 return
         abort(404)
     
@@ -130,7 +130,7 @@ class ArticleController(BaseController):
             )
             
         return self._redirect_to(
-            controller='article', 
+            controller='report', 
             action='show', 
             event_id=event_node.id,
             id = node.number,

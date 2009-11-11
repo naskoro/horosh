@@ -46,19 +46,27 @@ class Album(Node):
 
 class Article(Node):
     @property
-    def number(self):
-        return self.event.articles.index(self) + 1
-    @property
     def html_content(self):
         return rst2html(self.content)
     
     def __repr__(self):
         return "<Article('%s')>" % self.id
 
+class Report(Node):
+    @property
+    def number(self):
+        return self.event.reports.index(self) + 1
+    @property
+    def html_content(self):
+        return rst2html(self.content)
+    
+    def __repr__(self):
+        return "<Report('%s')>" % self.id
+
 class Event(Node):
     def report_by_number(self, number):
         try:
-            node = self.articles[int(number)-1]
+            node = self.reports[int(number)-1]
             return node
         except IndexError:
             return None
@@ -111,21 +119,30 @@ orm.mapper(Node, db.node,
 orm.mapper(Album, db.album,
     properties={
         'events': orm.relation(Event, secondary=db.event_album),
-        'articles': orm.relation(Article, secondary=db.article_album),
     },
     inherits=Node, polymorphic_identity='album'
 )
+orm.mapper(Report, db.report, 
+    properties={
+        'event': orm.relation(
+            Event,
+            primaryjoin=db.report.c.event_id==db.event.c.id,
+        ),
+    },
+    inherits=Node, polymorphic_identity='report'
+)
 orm.mapper(Article, db.article, 
     properties={
-        'albums': orm.relation(Album, secondary=db.article_album),
-        'event': orm.relation(Event, secondary=db.event_article, uselist=False),
     },
     inherits=Node, polymorphic_identity='article'
 )
 orm.mapper(Event, db.event, 
     properties={
         'albums': orm.relation(Album, secondary=db.event_album),
-        'articles': orm.relation(Article, secondary=db.event_article),
+        'reports': orm.relation(
+            Report,
+            primaryjoin=db.report.c.event_id==db.event.c.id,
+        ),
         'persons': orm.relation(Person, secondary=db.event_person),
     },
     inherits=Node, polymorphic_identity='event'
