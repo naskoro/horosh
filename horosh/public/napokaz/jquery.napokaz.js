@@ -44,6 +44,8 @@
 				}
 	        	obj.append(container);
 	        	
+	        	obj.find(opts.span_items).remove();
+	        	
 	        	if (1 < pages.length) {
 	        		if (opts.show_controls) {
 		        		var controls = getControls();
@@ -55,8 +57,6 @@
 	        	} else {
 	        		reshape(container);
 	        	}
-	        	
-	        	obj.find(opts.span_items).remove();
 	        	
 	        	obj.css({
 	        		width: container.width(),

@@ -1,5 +1,6 @@
 <%inherit file="/main.html" />
-<%def name="title()">Отчет №${c.id}. ${c.node.event.category} ${c.node.event.title}</%def>
+<%namespace file="/defs.html" name="defs" import="*"/>
+<%def name="title()">Отчет №${c.id}. ${c.node.event.title}</%def>
 <%def name="actions(**kwargs)">
     % if h.is_node_owner(c.node):
         ${caller.body()}
@@ -7,19 +8,17 @@
 </%def>
 <div class="report-show">
     <div class="title">
-        <h1>${c.node.event.category} ${c.node.event.title}</h1>
+        <h1>${c.node.event.title}</h1>
         <div class="box-actions">
-            <a href="${h.url_for(controller='event', action='show', id=c.node.event.id)}" class="no-border">Вернуться к событию</a>
+            <a href="${h.url_for(controller='event', action='show', id=c.node.event.id)}">Вернуться к событию</a>
         </div>         
     </div>
     <div class="title-info container">
-        <div>${c.node.node_user.nickname}</div>
-        <div>${h.ru_strftime(u'%d %B %Y', date=c.node.created, inflected=True)}</div>
+        ${defs.node_info(c.node.event)}
     </div>
 
     <div class="box">
-        <b>Даты:</b> ${c.node.event.date}
-        <div>${c.node.event.summary|n}</div>
+        ${defs.event_details(c.node.event)}
     </div>
     
     <div class="box">
@@ -37,7 +36,7 @@
             % for person in c.node.event.persons:
             <div class="span-20"><div class="node avatar">
                 <a title="${person.fullname}">
-                <div class="avatar-img" style="background: #333 url(${h.url_for(controller='person', action='avatar', id=person.id, time=h.time.time())}) no-repeat center;"></div>
+                <div class="avatar-img" style="background: #333 url(${person.url_avatar()}) no-repeat center;"></div>
                 <div class="avatar-info">${person.fullname}</div>
                 </a>
             </div></div>
@@ -55,13 +54,16 @@
         </h1>
         <%self:actions>
             <div class="box-actions">
-                <a href="${h.url_for(controller='report', action='edit', event_id=c.node.event.id, id=c.node.number)}" class="no-border">Изменить</a>
-                <a href="${h.url_for(controller='report', action='remove', event_id=c.node.event.id, id=c.node.number)}" class="confirm" rel="Точно хотите удалить?">Удалить</a>
+                <a href="${c.node.url_edit()}" class="no-border">Изменить</a>
+                <a href="${c.node.url_remove()}" class="confirm" rel="Точно хотите удалить?">Удалить</a>
             </div>
         </%self:actions>
     </div>
-
 	<div class="box report-box">
+	    <div class="title-info container">
+	        ${defs.node_info(c.node)}
+	    </div>
+	
 	    ${c.node.html_content|n}
 	</div>
 </div>

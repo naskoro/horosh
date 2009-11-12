@@ -15,8 +15,7 @@ MONTH_STYLE = 'dd/mm/yyyy' # 'dd/mm/yyyy' or 'mm/dd/yyyy'
 class EventForm(form.FieldSet):
     def init(self):
         self.adds(
-            form.Field('category', validator=form.v.String(not_empty=True)),
-            form.Field('title', validator=form.v.String(not_empty=True)),
+            form.Field('title', validator=form.v.String(not_empty=True, max=50)),
             form.Field('start', 
                 validator=form.v.DateConverter(
                     not_empty=True, 
@@ -29,7 +28,7 @@ class EventForm(form.FieldSet):
                     month_style=MONTH_STYLE
                 )
             ),
-            form.Field('summary', validator=form.v.String()),
+            form.Field('summary', validator=form.v.String(max=1000)),
             form.Field('save'),
             form.Field('cancel')
         )
@@ -39,7 +38,6 @@ class EventController(BaseController):
         fs = EventForm('event-new')
         if request.POST and fs.is_valid(request.POST):
             node = model.Event()
-            node.category = fs.fields.category.value
             node.title = fs.fields.title.value
             node.summary = fs.fields.summary.value
             node.start = fs.fields.start.value
@@ -71,7 +69,6 @@ class EventController(BaseController):
             return self._redirect_to_default(node.id)
 
         if request.POST and fs.is_valid(request.POST):
-            node.category = fs.fields.category.value
             node.title = fs.fields.title.value
             node.summary = fs.fields.summary.value
             node.start = fs.fields.start.value
@@ -83,7 +80,6 @@ class EventController(BaseController):
         
         if not request.POST:
             fs.set_values({
-                'category': node.category,
                 'title': node.title,
                 'start': node.start.strftime(DATE_FORMAT),
                 'finish': node.finish.strftime(DATE_FORMAT),
@@ -109,6 +105,10 @@ class EventController(BaseController):
         else:
             result = render('/event/show.html')
         return result
+
+    def list(self):
+        c.nodes = meta.Session.query(model.Event).all()
+        return render('event/list.html')
 
     def remove(self, id):
         node = self._get_row(model.Event, id)

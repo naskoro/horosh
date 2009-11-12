@@ -13,6 +13,5 @@ from routes import url_for
 from webhelpers.html.tags import *
 from webhelpers.text import *
 import logging
-import time
 
 log = logging.getLogger(__name__)

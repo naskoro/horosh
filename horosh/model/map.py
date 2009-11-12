@@ -3,8 +3,11 @@
 from hashlib import md5
 from horosh.lib.util import rst2html
 from horosh.model import db, meta
-from sqlalchemy import orm
+from pytils import translit
 from pytils.dt import ru_strftime
+from routes import url_for
+from sqlalchemy import orm
+import time
 import logging
 
 
@@ -48,6 +51,21 @@ class Path(Base):
 class Album(Node):
     def __init__(self):
         self.type = 'picasa'
+
+    def url_edit(self, **kwargs):
+        return url_for(
+            controller='album', action='edit', 
+            id=self.id, **kwargs
+        )
+
+    def url_remove(self, **kwargs):
+        return url_for(
+            controller='album', action='remove', 
+            id=self.id, **kwargs
+        )
+
+    def url_to_picasa(self):
+        return self.settings.GetHtmlLink().href
         
     def __unicode__(self):
         return "<Album('%s', '%s', '%s')>" % (self.id, self.settings, self.type)
@@ -61,9 +79,28 @@ class Article(Node):
         return "<Article('%s')>" % self.id
 
 class Report(Node):
+    def url(self):
+        return url_for(
+            controller='report', action='show', 
+            event_id=self.event_id, id=self.number
+        )
+
+    def url_edit(self):
+        return url_for(
+            controller='report', action='edit', 
+            event_id=self.event_id, id=self.number
+        )
+
+    def url_remove(self):
+        return url_for(
+            controller='report', action='remove', 
+            event_id=self.event_id, id=self.number
+        )
+    
     @property
     def number(self):
         return self.event.reports.index(self) + 1
+    
     @property
     def html_content(self):
         return rst2html(self.content)
@@ -72,12 +109,44 @@ class Report(Node):
         return "<Report('%s')>" % self.id
 
 class Event(Node):
+    @property
+    def slug(self):
+        return translit.slugify(self.title)
+    
+    def url(self):
+        return url_for(
+            controller='event', action='show', 
+            title=self.slug, id=self.id
+        )
+
+    def url_edit(self):
+        return url_for(controller='event', action='edit', id=self.id)
+
+    def url_remove(self):
+        return url_for(controller='event', action='remove', id=self.id)
+
+    def url_add_report(self):
+        return url_for(controller='report', action='new', event_id=self.id)
+
+    def url_add_person(self):
+        return url_for(controller='person', action='new', event_id=self.id)
+
+    def url_add_album(self):
+        return url_for(controller='album', action='new', event_id=self.id)
+        
     def report_by_number(self, number):
         try:
             node = self.reports[int(number)-1]
             return node
         except IndexError:
             return None
+        
+    def persons_fullnames(self):
+        persons = []
+        for person in self.persons:
+            persons.append(person.fullname)
+        return persons
+            
     @property
     def date(self):
         date, format = '', ''
@@ -108,9 +177,33 @@ class Event(Node):
         return date
      
     def __unicode__(self):
-        return "<Event('%s', '%s', '%s', '%s')>" % (self.id, self.title, self.start, self.finish)
+        return "<Event('%s', '%s', '%s')>" % (self.id, self.title, self.published)
 
 class Person(Node):
+    def url(self):
+        return url_for(
+            controller='person', action='show', 
+            event_id=self.event_id, id=self.id
+        )
+
+    def url_edit(self):
+        return url_for(
+            controller='person', action='edit', 
+            event_id=self.event_id, id=self.id
+        )
+
+    def url_remove(self):
+        return url_for(
+            controller='person', action='remove', 
+            event_id=self.event_id, id=self.id
+        )
+
+    def url_avatar(self, with_time=False):
+        params = dict(controller='person', action='avatar', id=self.id)
+        if with_time:
+            params['time'] = time.time()
+        return url_for(**params)
+    
     def __unicode__(self):
         return "<Person('%s', '%s')>" % (self.id, self.fullname)
 

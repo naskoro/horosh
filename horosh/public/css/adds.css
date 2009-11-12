@@ -86,11 +86,19 @@ body {
 	border-bottom: 2px solid #9b9;
 	position: relative;
 }
-.title h1{
+.title h1 {
 	font-size: 1.6em;
 	font-weight: bold;
 	color: #464;
 	margin-bottom: 0;
+}
+.title h1 a {
+    font-weight: bold;
+    color: #464;
+    text-decoration: none;
+}
+.title h1 a:hover {
+    color: #644;
 }
 .title-info {
 	margin: 0 8px;
@@ -128,12 +136,22 @@ body {
 	color: #efe;
 	font-weight: bold;
 }
+.box-title a {
+    color: #efe;
+    font-weight: bold;
+}
+.box-title a:hover {
+    color: #fee;
+}
+
 .box-actions {
 	position: absolute;
 	right: 0;
 	top: 0;
+	overflow: hidden;
 }
 .box-actions a{
+	margin-left: -2px;
 	padding: 0 5px;
 	border-left: 2px solid #ded;
 	color: #efe;
@@ -151,8 +169,8 @@ body {
 	letter-spacing: 3px;
 	background-color: #8a8;
 }
-.box-actions a.no-border {
-    border-left: none;
+.box-actions.border {
+    border-left: 2px solid #ded;
 }
 .box-img {
 	border: 2px solid #9b9;
@@ -262,6 +280,9 @@ body {
 	top: auto;
 	margin-bottom: -2px;
 }
+.event-list-node .span-18 .gallery {
+	margin-top: 0;
+}
 
 /* Reports */
 .report-show {}
@@ -271,6 +292,10 @@ body {
 }
 .report-box {
 	margin-top: 0;
+    margin-bottom: 1.5em;	
+}
+.report-box .title-info {
+    margin: -5px 5px 1em -2px;
 }
 /* Gallery styles*/
 .gallery {
@@ -280,15 +305,15 @@ body {
     position: relative;
 }
 .gallery-items {
+    width: 150px;
     white-space: nowrap;
-    width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     background-color: #9b9;
 }
 .gallery-items img {
     border: 1px solid #fff;
-    margin: 2px;
+    margin: 2px 2px;
 }
 .gallery.left {
     float: left;
@@ -300,7 +325,7 @@ body {
 }
 
 /* Gallery napokaz*/
-.gallery-page {
+.gallery-container {
 	background-color: #9b9;
 }
 .gallery-page a {

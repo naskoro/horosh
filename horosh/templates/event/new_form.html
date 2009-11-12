@@ -12,12 +12,6 @@
         </div>
 
 		<div class="field">
-		    ${h.title(u'Место', c.fs.category.not_empty(), label_for=c.fs.category.id)}
-		    ${h.text(name= c.fs.category.id, class_='text')}
-		    ${self.field_errors(c.fs.category.id)}
-		</div>
-		
-		<div class="field">
 		    ${h.title(u'Название', c.fs.title.not_empty(), label_for=c.fs.title.id)}
 		    ${h.text(name=c.fs.title.id, class_='text')}
 		    ${self.field_errors(c.fs.title.id)}

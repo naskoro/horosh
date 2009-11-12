@@ -1,0 +1,46 @@
+<%def name="node_info(node)">
+    <div>Автор: ${node.node_user.nickname}</div>
+    % if node.published:
+        <div>Опубликовано: ${h.ru_strftime(u'%d %B %Y', date=node.published, inflected=True)}</div>
+    % else:
+        <div>Создано: ${h.ru_strftime(u'%d %B %Y', date=node.created, inflected=True)}</div>
+    % endif
+</%def>
+<%def name="event_details(event)">
+    <b>Даты:</b> ${event.date}
+    <div>${event.summary|n}</div>    
+</%def>
+<%def name="event_reports(event, edit_mode=False)">
+     <div class="event-reports">
+         % if 0 == len(event.reports):
+            <div class="box-empty">
+                Отчетов нет.
+                % if edit_mode and h.is_node_owner(event):
+                    Но можно <a href="${event.url_add_report()}">добавить</a>.
+                % endif
+            </div>
+         % endif
+         % for report in event.reports:
+         <div class="node">
+             <div class="title">
+                 <h1>
+                     Отчет №${report.number}.
+                     % if report.title:
+                         ${report.title}
+                     % endif
+                 </h1>
+             </div>
+             ${h.rst2html(h.truncate(report.content, 500))|n}
+             <div class="box-actions">
+                 % if 500 < len(report.content):
+                    <a href="${report.url()}" class="accent no-border">Читать</a>
+                 % endif
+                 % if edit_mode and h.is_node_owner(event): 
+                     <a href="${report.url_edit()}">Изменить</a>
+                     <a href="${report.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                 % endif
+            </div>
+         </div>
+         % endfor
+     </div>          
+</%def>
