@@ -17,33 +17,39 @@ def init_model(engine):
 
     meta.engine = engine
     meta.Session = orm.scoped_session(sessionmaker)
+
+class Base(object):
+    def __unicode__(self):
+        raise NotImplemented
+    def __repr__(self):
+        return self.__unicode__().encode('utf-8')
     
-class User(object):
+class User(Base):
     def __init__(self, nickname, email, password=None):
         self.email = email
         self.nickname = nickname
         if (password):
             self.password = md5(password).hexdigest()
             
-    def __repr__(self):
+    def __unicode__(self):
         return "<User('%s', '%s')>" % (self.nickname, self.email)
 
-class Node(object):
+class Node(Base):
     def __init__(self, node_user_id=None):
         self.node_user_id = node_user_id
         
-    def __repr__(self):
+    def __unicode__(self):
         return "<Node('%s')>" % self.id
 
-class Path(object):
-    def __repr__(self):
+class Path(Base):
+    def __unicode__(self):
         return "<Path('%s', '%s')>" % (self.path, self.node_id)
 
 class Album(Node):
     def __init__(self):
         self.type = 'picasa'
         
-    def __repr__(self):
+    def __unicode__(self):
         return "<Album('%s', '%s', '%s')>" % (self.id, self.settings, self.type)
 
 class Article(Node):
@@ -51,7 +57,7 @@ class Article(Node):
     def html_content(self):
         return rst2html(self.content)
     
-    def __repr__(self):
+    def __unicode__(self):
         return "<Article('%s')>" % self.id
 
 class Report(Node):
@@ -62,7 +68,7 @@ class Report(Node):
     def html_content(self):
         return rst2html(self.content)
     
-    def __repr__(self):
+    def __unicode__(self):
         return "<Report('%s')>" % self.id
 
 class Event(Node):
@@ -101,12 +107,12 @@ class Event(Node):
             
         return date
      
-    def __repr__(self):
+    def __unicode__(self):
         return "<Event('%s', '%s', '%s', '%s')>" % (self.id, self.title, self.start, self.finish)
 
 class Person(Node):
-    def __repr__(self):
-        return "<Person('%s', '%s')>" % (self.id, self.fuulname)
+    def __unicode__(self):
+        return "<Person('%s', '%s')>" % (self.id, self.fullname)
 
 orm.mapper(Path, db.path, 
     properties={
