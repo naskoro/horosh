@@ -28,6 +28,9 @@ class Base(object):
         return self.__unicode__().encode('utf-8')
     
 class User(Base):
+    def url(self):
+        return url_for(controller='event', action='list', user=self.nickname)
+    
     def __init__(self, nickname, email, password=None):
         self.email = email
         self.nickname = nickname
@@ -81,7 +84,7 @@ class Article(Node):
 class Report(Node):
     def url(self):
         return url_for(
-            controller='report', action='show', 
+            controller='report', action='show', title=self.event.slug,
             event_id=self.event_id, id=self.number
         )
 
@@ -97,6 +100,11 @@ class Report(Node):
             event_id=self.event_id, id=self.number
         )
     
+    def full_title(self):
+        titles = [u'Отчет №%s' % self.number]
+        if self.title:
+            titles.append(self.title)
+        return '. '.join(titles)
     @property
     def number(self):
         return self.event.reports.index(self) + 1

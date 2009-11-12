@@ -3,6 +3,13 @@ body {
   background: #9b9;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
+a {
+    color: #a66;
+    text-decoration: none;
+}
+a:hover {
+    color: #66a;
+}
 
 /* Containers */
 #layout {
@@ -48,12 +55,6 @@ body {
 #footer .copyright {
 	margin-right: 20px;
 }
-#footer a {
-	color: #363;
-}
-#footer a:hover {
-    color: #336;
-}
 
 /* Misc classes */
 .logo {
@@ -91,14 +92,6 @@ body {
 	font-weight: bold;
 	color: #464;
 	margin-bottom: 0;
-}
-.title h1 a {
-    font-weight: bold;
-    color: #464;
-    text-decoration: none;
-}
-.title h1 a:hover {
-    color: #644;
 }
 .title-info {
 	margin: 0 8px;

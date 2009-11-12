@@ -1,48 +1,55 @@
 <%inherit file="/main.html" />
 <%namespace file="/defs.html" name="defs" import="*"/>
-<%def name="title()">События: походы, поездки и тд...</%def>
+<%def name="title()">Поездки, походы,  и другие события...</%def>
 <%def name="adds_head()"></%def>
-% for event in c.nodes:
-<div class="event-list-node">
-	<div class="title">
-	    <h1><a href="${event.url()}">${event.title}</a></h1>
-	    <div class="box-actions">
-            <a href="${event.url()}">Подробнее</a>
+<div class="event-list">
+    % if 0==len(c.nodes):
+        <div class="box-empty">
+            <b>Событий нет.</b>
         </div>
-	</div>
-	<div class="box report-box">
-	    <div class="title-info container">
-	        ${defs.node_info(event)}
-	    </div>  
+    % endif
+	% for event in c.nodes:
+	<div class="event-list-node">
+		<div class="title">
+		    <h1><a href="${event.url()}">${event.title}</a></h1>
+		    <div class="box-actions">
+	            <a href="${event.url()}">Подробнее</a>
+	        </div>
+		</div>
+		<div class="box report-box">
+		    <div class="title-info container">
+		        ${defs.node_info(event)}
+		    </div>  
+		
+	${h.log.debug('list: 1')}       
+	        <%def name="info(event)">
+		        ${defs.event_details(event)}
 	
-${h.log.debug('list: 1')}       
-        <%def name="info(event)">
-	        ${defs.event_details(event)}
-	                
-	        % if 0 == len(event.persons):
-	           <div class="box-empty">
-	               Участников нет.
-	           </div>
-	        % else:
-	            <div><b>Участники:</b> ${', '.join(event.persons_fullnames())}</div>
-	        % endif
-            
-            ${defs.event_reports(event)}
-        </%def>
-        
-	    % if 0!=len(event.albums) or False:
-			<div class="container">
-			    <div class="span-82">
-			        ${self.info(event)}     
-			    </div>
-			       <div class="span-18">
-			           ${h.picasa_by_data(event.albums[0].settings, count_per_page=3, align='right')}
-			       </div>
-			</div>
-	    % else:
-            ${self.info(event)}
-	    % endif
-${h.log.debug('list: 2')}	   
+	            <div>
+	            % if 0 == len(event.persons):
+	                <b>Участников нет.</b>
+	            % else:
+	                <b>Участники:</b> ${', '.join(event.persons_fullnames())}
+	            % endif
+	            </div>
+		        
+	            ${defs.event_reports(event)}
+	        </%def>
+	        
+		    % if 0!=len(event.albums) or False:
+				<div class="container">
+				    <div class="span-82">
+				        ${self.info(event)}     
+				    </div>
+				       <div class="span-18">
+				           ${h.picasa_by_data(event.albums[0].settings, count_per_page=3, align='right')}
+				       </div>
+				</div>
+		    % else:
+	            ${self.info(event)}
+		    % endif
+	${h.log.debug('list: 2')}	   
+		</div>
 	</div>
+	% endfor
 </div>
-% endfor

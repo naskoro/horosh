@@ -8,9 +8,9 @@
 </%def>
 <div class="report-show">
     <div class="title">
-        <h1>${c.node.event.title}</h1>
+        <h1><a href="${c.node.event.url()}">${c.node.event.title}</a></h1>
         <div class="box-actions">
-            <a href="${h.url_for(controller='event', action='show', id=c.node.event.id)}">Вернуться к событию</a>
+            <a href="${c.node.event.url()}">Посмотреть событие</a>
         </div>         
     </div>
     <div class="title-info container">
@@ -46,12 +46,7 @@
 
     
     <div class="title">
-        <h1>
-	        Отчет №${c.node.number}.
-	        % if c.node.title:
-	            ${c.node.title}
-	        % endif
-        </h1>
+        <h1>${c.node.full_title()}</h1>
         <%self:actions>
             <div class="box-actions">
                 <a href="${c.node.url_edit()}" class="no-border">Изменить</a>

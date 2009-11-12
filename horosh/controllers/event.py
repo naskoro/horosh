@@ -5,6 +5,7 @@ from horosh.lib.base import BaseController, render, is_ajax, current_user
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
+from sqlalchemy.orm.exc import NoResultFound
 import logging
 
 log = logging.getLogger(__name__)
@@ -106,8 +107,28 @@ class EventController(BaseController):
             result = render('/event/show.html')
         return result
 
-    def list(self):
-        c.nodes = meta.Session.query(model.Event).all()
+    def list(self, user=None):
+         
+        query = meta.Session.query(model.Event)
+        if user is None:
+            query = query.filter(model.Event.published != None)\
+                .order_by(model.Event.published.desc())
+        else:
+            user_query = meta.Session.query(model.User) 
+            try:
+                user_node = user_query.filter(model.User.nickname == user).one()
+            except NoResultFound:
+                abort(404)
+            
+            query = query.filter(model.Event.node_user_id == user_node.id)
+            
+            if user_node.nickname != current_user().nickname:
+                query = query.filter(model.Event.published != None)\
+                    .order_by(model.Event.published.desc())
+            else:
+                query = query.order_by(model.Event.created.desc())
+            
+        c.nodes = query.all()
         return render('event/list.html')
 
     def remove(self, id):
