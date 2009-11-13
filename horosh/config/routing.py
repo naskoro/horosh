@@ -27,14 +27,19 @@ def make_map():
     map.connect('/~{user}', controller='event', action='list')
     
     map.connect('/events', controller='event', action='list')
-    map.connect('/event-{id}/{title}', 
+    map.connect('/event-{id}-{title}', 
         controller='event', action='show',
         requirements=dict(event_id='\d*')
     )
 
-    map.connect('/event-{event_id}/{title}/report-{id}', 
+    map.connect('/event-{event_id}-{title}/report-{id}', 
         controller='report', action='show',
         requirements=dict(event_id='\d*', id='\d*')
+    )
+    
+    map.connect('/event-{id}/do/published={published}', 
+        controller='event', action='publish',
+        requirements=dict(id='\d*', published='0|1')
     )
     
     map.connect('/event-{event_id}/add/report', 

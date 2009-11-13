@@ -133,6 +133,17 @@ class Event(Node):
     def url_remove(self):
         return url_for(controller='event', action='remove', id=self.id)
 
+    def url_publish(self, published=True):
+        if published:
+            published = 1
+        else:
+            published = 0
+            
+        return url_for(
+            controller='event', action='publish', 
+            id=self.id, published=published
+        )
+
     def url_add_report(self):
         return url_for(controller='report', action='new', event_id=self.id)
 

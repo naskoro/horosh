@@ -1,5 +1,5 @@
 <taconite>
-% if h.on_page():
+% if h.on_page() and not c.is_full_redirect:
     <eval><![CDATA[
         $.ajax({url: '${h.url_for(*c.args, **c.kwargs)}'});
         ##$('#main').load('${h.url_for(*c.args, **c.kwargs)}')

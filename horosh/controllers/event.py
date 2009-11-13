@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from horosh import form, model
 from horosh.lib.base import BaseController, render, is_ajax, current_user
 from horosh.model import meta
@@ -137,7 +138,24 @@ class EventController(BaseController):
         
         meta.Session.delete(node)
         meta.Session.commit()
-        return self._redirect_to(controller='event', action='new')
+        c.is_full_redirect=True
+        return self._redirect_to(
+            controller='event', 
+            action='list', 
+            user=current_user().nickname
+        )
+
+    def publish(self, id, published):
+        node = self._get_row(model.Event, id)
+        self._check_access(node)
+
+        if published=='1':
+            node.published = datetime.now()
+        else:
+            node.published = None 
+            
+        meta.Session.commit()
+        return self._redirect_to_default(node.id)
 
     def _redirect_to_default(self, id):
         return self._redirect_to(controller='event', action='show', id=id)

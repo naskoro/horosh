@@ -10,6 +10,15 @@
 <script type="text/javascript">
 /* <![CDATA[ */
     $(document).ready(function(){
+        $('.event-show .title').hover(
+                function() {
+                    $(this).find('.node-actions').slideDown('fast');
+                },
+                function() {
+                    $(this).find('.node-actions').slideUp('fast');
+                }
+            );
+        
         $('.event-persons .avatar').hover(
         	function() {
 				$(this).find('.node-actions').slideDown('fast');
@@ -83,12 +92,20 @@
     <div id="loader" class="loading hide"></div>
     <div class="title">
         <h1>${self.title()}</h1>
-        <%self:actions>
+        % if h.is_node_owner(c.node):
             <div class="box-actions">
                 <a href="${c.node.url_edit()}" class="on_page modal" rev="#event-edit">Изменить</a>
-                <a href="${c.node.url_remove()}" class="on_page">Удалить</a>
-            </div>         
-        </%self:actions>
+            </div>
+                <div class="node-actions">
+                % if not c.node.published:
+                    <a href="${c.node.url_publish()}" class="on_page">Опубликовать</a>
+                %else:
+                    <a href="${c.node.url_publish(False)}" class="on_page">Снять с публикации</a>
+                % endif
+                
+                <a href="${c.node.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                </div>
+        % endif
     </div>
     <div class="title-info container">
         ${defs.node_info(c.node)}
@@ -103,11 +120,11 @@
         
 	        <div class="box">
 	            <div class="box-title">Отчеты</div>
-                <%self:actions>
+                % if h.is_node_owner(c.node):
                     <div class="box-actions border">
                         <a href="${c.node.url_add_report()}">Добавить</a>
                     </div>
-                </%self:actions>
+                % endif
                 ${defs.event_reports(c.node, True)}
             </div>
         </div>
@@ -117,11 +134,11 @@
 	            <div class="box-title">
 	                Участники
 	            </div>
-                <%self:actions>
+                % if h.is_node_owner(c.node):
                     <div class="box-actions border">
                         <a href="${c.node.url_add_person()}" class="on_page modal" rev="#person-new">Добавить</a>
                     </div>
-                </%self:actions>
+                % endif
 	            <div class="event-persons container">
 	                % if 0 == len(c.node.persons):
 	                   <div class="box-empty">
@@ -138,23 +155,23 @@
                         <div class="avatar-img" style="background: #333 url(${person.url_avatar(with_time=True)}) no-repeat center;"></div>
                         <div class="avatar-info">${person.fullname}</div>
                         </a>
-                        <%self:actions>
+                        % if h.is_node_owner(c.node):
                             <div class="node-actions">
 		                        <a href="${person.url_edit()}" class="on_page modal" rev="#person-edit">Изменить</a>
 		                        <a href="${person.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
 		                    </div>
-	                   </%self:actions>
+	                   % endif
                     </div></div>
 	                % endfor
                 </div>
 	        </div>
 		    <div class="box">
 		        <div class="box-title">Альбомы</div>
-                <%self:actions>
+                % if h.is_node_owner(c.node):
                     <div class="box-actions border">
                         <a href="${c.node.url_add_album()}" class="on_page modal" rev="#album-new">Добавить</a>
                     </div>
-                </%self:actions>
+                % endif
 		        <div class="event-albums">
                     % if 0 == len(c.node.albums):
                        <div class="box-empty">
@@ -168,13 +185,13 @@
                     % for album in c.node.albums:
                     <div class="node">
                         ${h.picasa_by_data(album.settings, count_per_page=2)}
-                        <%self:actions album="${album}">
+                        % if h.is_node_owner(c.node):
                             <div class="node-actions">
                                 <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank">В Picasa</a>
                                 ##<a href="${album.url_edit(event_id=c.node.id)}" class="on_page modal" rev="#person-edit">Изменить</a>
                                 <a href="${album.url_remove(event_id=c.node.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
                             </div>
-                       </%self:actions>
+                       % endif
                     </div>
                     % endfor
 
