@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax, current_user
+from horosh.lib.base import BaseController, render, is_ajax, current_user, redirect_to
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
-from pylons.controllers.util import abort, redirect_to
+from pylons.controllers.util import abort
 import logging
 import time
 
@@ -29,7 +29,7 @@ class ReportController(BaseController):
         fs = ReportForm('report-new')
 
         if request.POST and fs.fields.cancel.id in request.POST:
-            return self._redirect_to_default(event_node)
+            return redirect_to(event_node.url())
         
         if request.POST and fs.is_valid(request.POST):
             node = model.Report()
@@ -42,7 +42,7 @@ class ReportController(BaseController):
             meta.Session.add(node)
             meta.Session.commit()
             
-            return self._redirect_to_default(event_node, node)
+            return redirect_to(node.url())
         
         c.form = fs
         c.fs = fs.fields
@@ -76,16 +76,15 @@ class ReportController(BaseController):
         fs = ReportForm('report-edit')
 
         if request.POST and fs.fields.cancel.id in request.POST:
-            return self._redirect_to_default(event_node, node)
+            return redirect_to(node.url())
 
         if request.POST and fs.is_valid(request.POST):
-            time.sleep(5)
             
             node.title = fs.fields.title.value
             node.content = fs.fields.content.value
             
             meta.Session.commit()
-            return self._redirect_to_default(event_node, node)
+            return redirect_to(node.url())
 
         fs.set_values({
             'title': node.title,
@@ -112,7 +111,7 @@ class ReportController(BaseController):
         
         meta.Session.delete(node)
         meta.Session.commit()
-        return self._redirect_to_default(event_node)
+        return redirect_to(event_node.url())
     
     def _event_has_report(self, event, report):
         for item in event.reports:

@@ -13,7 +13,14 @@
 		<div class="title">
 		    <h1><a href="${event.url()}">${event.title}</a></h1>
 		    <div class="box-actions">
-	            <a href="${event.url()}">Подробнее</a>
+	            <a href="${event.url()}">
+	            % if h.is_node_owner(event):
+	               Редактировать
+	            % else:
+	               Подробнее
+	            % endif
+	            
+	            </a>
 	        </div>
 		</div>
 		<div class="box report-box">

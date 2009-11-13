@@ -31,7 +31,7 @@
                      % endif
                  </h1>
              </div>
-             ${h.rst2html(h.truncate(report.content, 500))|n}
+             ${h.truncate_html(report.html_content, 500)|n}
              <div class="box-actions">
                  % if 500 < len(report.content):
                     <a href="${report.url()}" class="accent">Читать</a>

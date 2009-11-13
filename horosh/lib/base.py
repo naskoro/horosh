@@ -9,7 +9,7 @@ from horosh.lib import taconite
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers import WSGIController
-from pylons.controllers.util import abort, redirect_to
+from pylons.controllers.util import abort, redirect_to as redirect_to_ 
 from pylons.templating import render_mako as render
 from sqlalchemy.orm.exc import NoResultFound
 import logging
@@ -39,6 +39,17 @@ def current_user():
         request.environ['current_user'] = user
     return request.environ.get('current_user')
 
+def redirect_to(*args, **kwargs):
+    if is_ajax():
+        c.args = args
+        c.kwargs = kwargs
+        result = render('/util/redirect.html')
+    else :
+        redirect_to_(*args, **kwargs)
+        result = "Moved temporarily"
+    return result
+
+
 class BaseController(WSGIController):
     def __after__(self):
         if is_ajax():
@@ -61,14 +72,7 @@ class BaseController(WSGIController):
             })
     
     def _redirect_to(self, *args, **kwargs):
-        if is_ajax():
-            c.args = args
-            c.kwargs = kwargs
-            result = render('/util/redirect.html')
-        else :
-            redirect_to(*args, **kwargs)
-            result = "Moved temporarily"
-        return result
+        return redirect_to(*args, **kwargs)
     
     def _get_row(self, model, id):
         try:
