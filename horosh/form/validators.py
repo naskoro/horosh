@@ -3,18 +3,34 @@
 from cStringIO import StringIO
 from formencode.validators import *
 from horosh.lib import picasa
+from horosh.lib.util import human_filesize
 import Image
 import logging
 
 log = logging.getLogger(__name__)
 
 class FileUploadValidator(FancyValidator):
-    pass
+    messages = {
+        'tooLong': u'Файл должен быть меньше %(max)s'
+    }
+    
+    def validate_other(self, value, state):
+        log.debug(value);
+        log.debug(len(value.filename));
+        log.debug(dir(value.file));
+        log.debug(dir(value.value));
+        max = self.max*1024
+        file = value.file.read(max)
+        if value.file.read(1):
+            max = human_filesize(max)
+            error_message = self.message('tooLong', state,  max=max) 
+            raise Invalid(error_message, value, state)
 
 class ImageUploadValidator(FileUploadValidator):
     messages = {
         'invalid_image': u'Ваш файл не картинка или испорченая картинка'
     }
+
     def validate_python(self, value, state):
         file = StringIO(value.value)
         try:
@@ -36,7 +52,6 @@ class ImageUploadValidator(FileUploadValidator):
             raise Invalid(self.message('invalid_image', state), value, state)
 
 class PicasaUserValidator(FancyValidator):
-        
     messages = {
         'invalid_user': u'Неправильное имя'
     }

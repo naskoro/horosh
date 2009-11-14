@@ -30,4 +30,10 @@ def truncate_html(*args):
     document = parser.parse(document)
     
     xml = document.getElementsByTagName('body')[0].childNodes[0].toxml()
-    return xml 
+    return xml
+
+def human_filesize(size):
+    for x in ['bytes','KB','MB','GB','TB']:
+        if size < 1024.0:
+            return "%3.1f %s" % (size, x)
+        size /= 1024.0
