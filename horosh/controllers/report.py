@@ -86,10 +86,11 @@ class ReportController(BaseController):
             meta.Session.commit()
             return redirect_to(node.url())
 
-        fs.set_values({
-            'title': node.title,
-            'content': node.content
-        })
+        if not request.POST:
+            fs.set_values({
+                'title': node.title,
+                'content': node.content
+            })
         
         c.form = fs
         c.fs = fs.fields

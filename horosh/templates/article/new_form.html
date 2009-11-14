@@ -1,0 +1,35 @@
+<%inherit file="/form.html" />
+<%def name="adds_head()"></%def>
+<%def name="title()">Новая статья</%def>
+<%def name="id()">${c.form.name}</%def>
+<%def name="actions()">
+    ${h.submit(value=u'создать', name=c.fs.save.id)}
+</%def>
+<form id="${self.id()}" method="post" action="${c.form.action}">
+    <div class="box">
+        <div class="box-title">
+            ${self.title()}
+        </div>
+
+        <div class="field">
+            ${h.title(u'Название', c.fs.title.not_empty(), label_for=c.fs.title.id)}
+            ${h.text(name=c.fs.title.id, class_='text')}
+            ${self.field_errors(c.fs.title.id)}
+        </div>
+        <div class="field">
+            ${h.title(u'Псевдоним для Url', c.fs.path.not_empty(), label_for=c.fs.path.id)}
+            ${h.text(name=c.fs.path.id, class_='text')}
+            ${self.field_errors(c.fs.path.id)}
+        </div>
+        
+        <div class="field">
+		    ${h.title(u'Содержание', c.fs.content.not_empty(), label_for=c.fs.content.id)}
+		    ${self.field_errors(c.fs.content.id)}
+		    ${h.textarea(name=c.fs.content.id, rows=30)}
+        </div>
+        
+        <div class="field">
+            ${self.actions()}
+        </div>      
+    </div>
+</form>

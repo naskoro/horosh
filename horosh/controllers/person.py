@@ -20,7 +20,7 @@ class PersonForm(form.FieldSet):
     def init(self):
         self.adds(
             form.Field('fullname', validator=form.v.String(not_empty=True, min=3, max=30)),
-            form.Field('avatar', validator=form.v.ImageUploadValidator(not_empty=True, max=3072)),
+            form.Field('avatar', validator=form.v.ImageUpload(not_empty=True, max=3072)),
             form.Field('save'),
             form.Field('cancel')
         )

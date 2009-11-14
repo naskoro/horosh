@@ -1,0 +1,21 @@
+<%inherit file="/main.html" />
+<%namespace file="/defs.html" name="defs" import="*"/>
+<%def name="title()">${c.node.title}</%def>
+<div id="article-show" class="article-show">
+    <div class="title">
+        <h1>${c.node.title}</h1>
+        % if h.is_node_owner(c.node):
+            <div class="box-actions">
+                <a href="${c.node.url_edit()}" class="no-border">Изменить</a>
+                <a href="${c.node.url_remove()}" class="confirm" rel="Точно хотите удалить?">Удалить</a>
+            </div>
+        % endif         
+    </div>
+    <div class="title-info container">
+        ${defs.node_info(c.node)}
+    </div>
+
+	<div class="box report-box">
+	    ${c.node.html_content|n}
+	</div>
+</div>

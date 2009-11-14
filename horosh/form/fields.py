@@ -27,7 +27,7 @@ class FieldSet(object):
         def items(self):
             return self._fields.items()
             
-    def __init__(self, name, *fields):
+    def __init__(self, name):
         self.action = request.path_qs
         schema = Schema()
         schema.allow_extra_fields = True
@@ -36,8 +36,6 @@ class FieldSet(object):
         self.name = name
         self.errors = None
         self.fields = self.Fields()
-        if fields:
-            self.adds(*fields)
         self.init()
         
     def init(self):

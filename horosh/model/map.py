@@ -11,8 +11,8 @@ import gdata
 import logging
 import time
 
-__all__ = ['init_model', 'Base', 'User', 'Node', 'Path', 'Album', 'Article', 
-    'Report', 'Event', 'Person']
+__all__ = ('init_model', 'Base', 'User', 'Node', 'Album', 'Article', 
+    'Report', 'Event', 'Person')
 
 log = logging.getLogger(__name__)
 
@@ -50,10 +50,6 @@ class Node(Base):
     def __unicode__(self):
         return "<Node('%s')>" % self.id
 
-class Path(Base):
-    def __unicode__(self):
-        return "<Path('%s', '%s')>" % (self.path, self.node_id)
-
 class Album(Node):
     def __init__(self):
         self.type = 'picasa'
@@ -81,6 +77,15 @@ class Article(Node):
     @property
     def html_content(self):
         return rst2html(self.content)
+
+    def url(self):
+        return url_for(controller='article', action='show', path=self.path)
+
+    def url_edit(self):
+        return url_for(controller='article', action='edit', id=self.id)
+
+    def url_remove(self):
+        return url_for(controller='article', action='remove', id=self.id)
     
     def __unicode__(self):
         return "<Article('%s')>" % self.id
@@ -230,17 +235,11 @@ class Person(Node):
     def __unicode__(self):
         return "<Person('%s', '%s')>" % (self.id, self.fullname)
 
-orm.mapper(Path, db.path, 
-    properties={
-        'node': orm.relation(Node),
-    }
-)
 orm.mapper(Node, db.node, 
     properties={
         'node_user_id': db.node.c.user_id,
         'node_type': db.node.c.type,
-        'node_user': orm.relation(User),
-        'node_paths': orm.relation(Path),
+        'node_user': orm.relation(User)
     },
     polymorphic_on=db.node.c.type, polymorphic_identity='node'
 )

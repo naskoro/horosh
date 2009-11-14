@@ -1,0 +1,138 @@
+# -*- coding: utf-8 -*-
+
+from horosh import form, model
+from horosh.lib.base import BaseController, render, is_ajax, current_user, redirect_to
+from horosh.model import meta
+from pylons import request, response, session, tmpl_context as c
+from pylons.controllers.util import abort
+from pytils import translit
+from sqlalchemy.orm.exc import NoResultFound
+import logging
+import time
+
+log = logging.getLogger(__name__)
+
+class ArticleForm(form.FieldSet):
+    def __init__(self, name, path=None):
+        self.path_ecxept = path
+        super(ArticleForm, self).__init__(name)
+        
+    def init(self):
+        self.adds(
+            form.Field('title', validator=form.v.String(not_empty=True)),
+            form.Field('path', validator=form.v.All(
+                form.v.Slug(), 
+                form.v.UniqueModelField(
+                    model=model.Article, 
+                    field=model.Article.path,
+                    except_=self.path_ecxept
+                )
+            )),
+            form.Field('content', validator=form.v.String(not_empty=True)),
+            form.Field('save'),
+            form.Field('cancel')
+        )
+    
+class ArticleController(BaseController):
+    def new(self):
+        
+        fs = ArticleForm('article-new')
+
+        if request.POST and fs.is_valid(request.POST):
+            node = model.Article()
+            node.title = fs.fields.title.value
+            node.content = fs.fields.content.value
+            node.node_user_id = current_user().id
+
+            is_valid = True
+            if not fs.fields.path.value:
+                fs.fields.path.value = translit.slugify(node.title)
+                is_valid = fs.is_valid(fs.get_values(use_ids=True))
+            
+            if is_valid:
+                node.path = fs.fields.path.value
+                
+                meta.Session.add(node)
+                meta.Session.commit()
+                return redirect_to(node.url())
+            
+            
+        
+        c.form = fs
+        c.fs = fs.fields
+        
+        if is_ajax():
+            result = render('/article/new_partial.html')
+        else:
+            result = render('/article/new.html')
+        if request.POST:
+            result = fs.htmlfill(result)
+        return result
+
+    def show(self, id=None, path=None):
+        node = None
+
+        if id is None or path is None:
+            if id is not None:
+                node = self._get_row(model.Article, id)
+            if path is not None:
+                try:
+                    node = meta.Session.query(model.Article)\
+                           .filter_by(path=path).one()
+                except NoResultFound:
+                    abort(404)
+                    
+        if node is None:
+            abort(404)
+        
+        c.node = node
+        return render('/article/show.html')
+
+    def edit(self, id):
+        node = self._get_row(model.Article, id)
+
+        fs = ArticleForm('article-edit', node.path)
+         
+        if request.POST and fs.fields.cancel.id in request.POST:
+            return redirect_to(node.url())
+
+        if request.POST and fs.is_valid(request.POST):
+            
+            node.title = fs.fields.title.value
+            node.content = fs.fields.content.value
+            
+            is_valid = True
+            if not fs.fields.path.value:
+                fs.fields.path.value = translit.slugify(node.title)
+                is_valid = fs.is_valid(fs.get_values(use_ids=True))
+            
+            if is_valid:
+                node.path = fs.fields.path.value
+                
+                meta.Session.commit()
+                return redirect_to(node.url())
+
+        if not request.POST:
+            fs.set_values({
+                'title': node.title,
+                'path': node.path,
+                'content': node.content
+            })
+        
+        c.form = fs
+        c.fs = fs.fields
+        c.node = node
+        
+        if is_ajax():
+            result = render('/article/edit_partial.html')
+        else:
+            result = render('/article/edit.html')
+        return fs.htmlfill(result)
+
+
+    def remove(self, id):
+        node = self._get_row(model.Article, id)
+        
+        meta.Session.delete(node)
+        meta.Session.commit()
+        return redirect_to('/')

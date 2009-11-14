@@ -24,24 +24,24 @@ def make_map():
     map.connect('/login', controller='util', action='login')
     map.connect('/logout', controller='util', action='logout')
     
-    map.connect('/~{user}', controller='event', action='list')
+    map.connect('/a/{path}', controller='article', action='show')
     
-    map.connect('/events', controller='event', action='list')
+    # Events
+    map.connect('/~{user}', controller='event', action='list')
     map.connect('/event-{id}-{title}', 
         controller='event', action='show',
         requirements=dict(event_id='\d*')
     )
-
     map.connect('/event-{event_id}-{title}/report-{id}', 
         controller='report', action='show',
         requirements=dict(event_id='\d*', id='\d*')
     )
-    
     map.connect('/event-{id}/do/published={published}', 
         controller='event', action='publish',
         requirements=dict(id='\d*', published='0|1')
     )
     
+    # Report for event
     map.connect('/event-{event_id}/add/report', 
         controller='report', action='new',
         requirements=dict(event_id='\d*')
@@ -55,6 +55,7 @@ def make_map():
         requirements=dict(event_id='\d*', id='\d*')
     )
     
+    # Person for event
     map.connect('/event-{event_id}/add/person', 
         controller='person', action='new',
         requirements=dict(event_id='\d*')
@@ -67,17 +68,16 @@ def make_map():
         controller='person', action='remove',
         requirements=dict(event_id='\d*', id='\d*')
     )
-
+    
+    # Album for event
     map.connect('/event-{event_id}/add/album', 
         controller='album', action='new',
         requirements=dict(event_id='\d*')
     )
-
     map.connect('/event-{event_id}/remove/album-{id}', 
         controller='album', action='remove',
         requirements=dict(event_id='\d*', id='\d*')
     )
-    
     map.connect('/person-{id}/avatar.jpg',
         controller='person', action='avatar',
         requirements=dict(event_id='\d*')

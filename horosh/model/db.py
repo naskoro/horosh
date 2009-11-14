@@ -42,25 +42,13 @@ person = schema.Table('person', meta.metadata,
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())
 )
 
-path = schema.Table('path', meta.metadata,
-    schema.Column('id', types.Integer,
-        schema.Sequence('path_id__seq', optional=True), primary_key=True),
-    schema.Column('node_id', types.Integer,
-        schema.ForeignKey('node.id'), nullable=False),
-
-    schema.Column('path', types.Unicode(250), unique=True),
-    schema.Column('used', types.Boolean),
-    
-    schema.Column('updated', types.DateTime(), onupdate=datetime.now())
-)
-
 article = schema.Table('article', meta.metadata,
     schema.Column('id', types.Integer,
         schema.ForeignKey('node.id'), primary_key=True),
     
-    schema.Column('title', types.Unicode()),
+    schema.Column('title', types.Unicode(50), nullable=False),
+    schema.Column('path', types.Unicode(), nullable=False, unique=True),
     schema.Column('content', types.Unicode(), nullable=False),
-    schema.Column('filter', types.Unicode(20), nullable=False),
     schema.Column('published', types.DateTime),
     
     schema.Column('created', types.DateTime(), default=datetime.now()),

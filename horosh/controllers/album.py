@@ -13,13 +13,13 @@ log = logging.getLogger(__name__)
 class AlbumForm(form.FieldSet):
     def init(self):
         self.adds(
-            form.Field('user', validator=form.v.PicasaUserValidator(not_empty=True, min=6, max=30)),
+            form.Field('user', validator=form.v.PicasaUser(not_empty=True, min=6, max=30)),
             form.Field('albumid', validator=form.v.String(not_empty=True)),
             form.Field('save'),
             form.Field('cancel')
             
         )
-        self.schema.chained_validators = [form.v.PicasaAlbumValidator('user', 'albumid')]
+        self.schema.chained_validators = [form.v.PicasaAlbum('user', 'albumid')]
 
 class AlbumController(BaseController):
     def new(self, event_id):
