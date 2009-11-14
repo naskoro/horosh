@@ -8,7 +8,9 @@
 </%def>
 <%def name="event_details(event)">
     <b>Даты:</b> ${event.date}
-    <div>${event.summary|n}</div>    
+    % if event.summary:
+        <div>${event.summary|n}</div>
+    % endif    
 </%def>
 <%def name="event_reports(event, edit_mode=False)">
      <div class="event-reports">

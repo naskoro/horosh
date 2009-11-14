@@ -71,7 +71,7 @@ album = schema.Table('album', meta.metadata,
     schema.Column('id', types.Integer,
         schema.ForeignKey('node.id'), primary_key=True),
     
-    schema.Column('settings', types.PickleType(), nullable=False),
+    schema.Column('settings', types.Binary(), nullable=False),
     schema.Column('type', types.String(20)),
     
     schema.Column('created', types.DateTime(), default=datetime.now()),

@@ -49,7 +49,7 @@
 				        ${self.info(event)}     
 				    </div>
 				       <div class="span-18">
-				           ${h.picasa_by_data(event.albums[0].settings, count_per_page=3, align='right')}
+				           ${h.picasa.render(event.albums[0].settings, count_per_page=3, align='right')}
 				       </div>
 				</div>
 		    % else:

@@ -2,7 +2,7 @@
 
 from horosh import form, model
 from horosh.lib.base import BaseController, render, is_ajax, current_user
-from horosh.lib.photos import Picasa
+from horosh.lib import picasa
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 class AlbumForm(form.FieldSet):
     def init(self):
         self.adds(
-            form.Field('user', validator=form.v.String(not_empty=True, min=6, max=30)),
+            form.Field('user', validator=form.v.PicasaUserValidator(not_empty=True, min=6, max=30)),
             form.Field('albumid', validator=form.v.String(not_empty=True)),
             form.Field('save'),
             form.Field('cancel')
@@ -32,10 +32,8 @@ class AlbumController(BaseController):
             return self._redirect_to_default(event_node.id)
         
         if request.POST and fs.is_valid(request.POST):
-            album = Picasa()
-            
             node = model.Album()
-            node.settings = album.photos(fs.fields.user.value, fs.fields.albumid.value, limit=30)
+            node.settings = picasa.photos(fs.fields.user.value, fs.fields.albumid.value, limit=30)
             node.node_user_id = current_user().id
             
             meta.Session.add(node)
@@ -67,10 +65,8 @@ class AlbumController(BaseController):
             return self._redirect_to_default(event_node.id)
 
         if request.POST and fs.is_valid(request.POST):
-            album = Picasa()
-            
             node = model.Album()
-            node.settings = album.photos(fs.fields.user.value, fs.fields.albumid.value, limit=30)
+            node.settings = picasa.photos(fs.fields.user.value, fs.fields.albumid.value, limit=30)
             
             meta.Session.commit()
 

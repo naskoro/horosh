@@ -7,9 +7,12 @@ from pytils import translit
 from pytils.dt import ru_strftime
 from routes import url_for
 from sqlalchemy import orm
-import time
+import gdata
 import logging
+import time
 
+__all__ = ['init_model', 'Base', 'User', 'Node', 'Path', 'Album', 'Article', 
+    'Report', 'Event', 'Person']
 
 log = logging.getLogger(__name__)
 
@@ -68,7 +71,8 @@ class Album(Node):
         )
 
     def url_to_picasa(self):
-        return self.settings.GetHtmlLink().href
+        photos = gdata.GDataFeedFromString(self.settings)
+        return photos.GetAlternateLink().href
         
     def __unicode__(self):
         return "<Album('%s', '%s', '%s')>" % (self.id, self.settings, self.type)

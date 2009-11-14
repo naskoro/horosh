@@ -2,8 +2,7 @@
 
 from cStringIO import StringIO
 from formencode.validators import *
-from gdata.photos.service import GooglePhotosException
-from horosh.lib.photos import Picasa
+from horosh.lib import picasa
 import Image
 import logging
 
@@ -36,6 +35,18 @@ class ImageUploadValidator(FileUploadValidator):
         except Exception: # Python Imaging Library doesn't recognize it as an image
             raise Invalid(self.message('invalid_image', state), value, state)
 
+class PicasaUserValidator(FancyValidator):
+        
+    messages = {
+        'invalid_user': u'Неправильное имя'
+    }
+    
+    def validate_python(self, value, state):
+        value = value.strip()
+        if not picasa.user_validate(value):
+            error_message = self.message('invalid_user', state)
+            raise Invalid(error_message, value, state)
+            
 class PicasaAlbumValidator(FormValidator):
     show_match = False
     field_names = None
@@ -43,7 +54,7 @@ class PicasaAlbumValidator(FormValidator):
     __unpackargs__ = ('*', 'field_names')
         
     messages = {
-        'invalid_album': u'Неправильно введено "Имя пользователя" или "ID альбома"'
+        'invalid_albumid': u'Неправильный ID'
     }
     
     def __init__(self, *args, **kw):
@@ -52,11 +63,11 @@ class PicasaAlbumValidator(FormValidator):
             raise TypeError("FieldsMatch() requires at least two field names") 
    
     def validate_python(self, field_dict, state):
-        try:
-            user = field_dict[self.field_names[0]]
-            albumid = field_dict[self.field_names[1]]
-            Picasa().photos(user, albumid, limit=1)
-        except GooglePhotosException:
-            error_message = self.message('invalid_album', state)
-            errors = {'form': Invalid(error_message, field_dict, state)}
+        user = field_dict[self.field_names[0]]
+        albumid = field_dict[self.field_names[1]]
+        if not picasa.album_validate(user, albumid):
+            error_message = self.message('invalid_albumid', state)
+            errors = {
+                self.field_names[1]: Invalid(error_message, field_dict, state)
+            }
             raise Invalid(error_message, field_dict, state, error_dict= errors)

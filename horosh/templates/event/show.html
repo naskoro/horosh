@@ -184,19 +184,18 @@
                    
                     % for album in c.node.albums:
                     <div class="node">
-                        ${h.picasa_by_data(album.settings, count_per_page=2)}
-                        % if h.is_node_owner(c.node):
-                            <div class="node-actions">
-                                <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank">В Picasa</a>
-                                ##<a href="${album.url_edit(event_id=c.node.id)}" class="on_page modal" rev="#person-edit">Изменить</a>
-                                <a href="${album.url_remove(event_id=c.node.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
-                            </div>
-                       % endif
+                        ${h.picasa.render(album.settings, count_per_page=2)}
+                        <div class="node-actions">
+                            <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank">В Picasa</a>
+	                        % if h.is_node_owner(c.node):
+	                            <a href="${album.url_remove(event_id=c.node.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+	                       % endif
+                       </div>
                     </div>
                     % endfor
 
                     ##<div class="node">
-                    ##${h.picasa_by_user('naspeh', '5313876340751828865', limit=2, count_per_page=2)}
+                    ##${h.picasa.render_by_user('naspeh', 'Naspeh', limit=2, count_per_page=2)}
                     ##</div>
                     
 		        </div>

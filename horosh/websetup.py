@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """Setup the horosh application"""
-import logging
-
+from datetime import datetime
 from horosh.config.environment import load_environment
-from horosh.model import meta
-from horosh.model import * 
+from horosh.model import *
+import logging
 
 log = logging.getLogger(__name__)
 
@@ -19,6 +18,14 @@ def setup_app(command, conf, vars):
     log.info('Adding root user')
     user = User('naspeh', 'naspeh@pusto.org', u'1')
     meta.Session.add(user)
+
+    log.info('Adding first event')
+    event = Event()
+    event.title = u'Крым. Тарханкут. Барракуда'
+    event.start = datetime.now()
+    event.finish = datetime.now()
+    event.node_user = user 
+    meta.Session.add(event)
 
     log.info('Adding nobody user')
     user = User('nobody', 'nobody@pusto.org')
