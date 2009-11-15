@@ -86,6 +86,17 @@ class Article(Node):
 
     def url_remove(self):
         return url_for(controller='article', action='remove', id=self.id)
+
+    def url_publish(self, published=True):
+        if published:
+            published = 1
+        else:
+            published = 0
+            
+        return url_for(
+            controller='article', action='publish', 
+            id=self.id, published=published
+        )
     
     def __unicode__(self):
         return "<Article('%s')>" % self.id

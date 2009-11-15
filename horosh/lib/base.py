@@ -4,12 +4,14 @@
 
 Provides the BaseController class for subclassing.
 """
+from authkit.authorize.pylons_adaptors import authorized
+from authkit.permissions import HasAuthKitRole
 from horosh import model
 from horosh.lib import taconite
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers import WSGIController
-from pylons.controllers.util import abort, redirect_to as redirect_to_ 
+from pylons.controllers.util import abort, redirect_to as redirect_to_
 from pylons.templating import render_mako as render
 from sqlalchemy.orm.exc import NoResultFound
 import logging
@@ -26,6 +28,9 @@ def is_node_owner(node):
         return True
     return False
 
+def is_admin():
+    return authorized(HasAuthKitRole('admin'))
+    
 def authkit_user():
     if not request.environ.get('REMOTE_USER'):
         user = 'nobody'

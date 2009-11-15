@@ -24,7 +24,13 @@ def make_map():
     map.connect('/login', controller='util', action='login')
     map.connect('/logout', controller='util', action='logout')
     
+    # Article
     map.connect('/a/{path}', controller='article', action='show')
+    
+    map.connect('/article-{id}/do/published={published}', 
+        controller='article', action='publish',
+        requirements=dict(id='\d*', published='0|1')
+    )
     
     # Events
     map.connect('/~{user}', controller='event', action='list')

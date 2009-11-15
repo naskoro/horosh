@@ -1,13 +1,44 @@
 <%inherit file="/main.html" />
 <%namespace file="/defs.html" name="defs" import="*"/>
 <%def name="title()">${c.node.title}</%def>
+<script type="text/javascript">
+/* <![CDATA[ */
+    $(document).ready(function(){
+        $('a.confirm').click(
+            function() {
+                if (!confirm(this.rel)) {
+                    return false
+                }
+            }
+        )
+        $('.article-show .title').hover(
+            function() {
+                $(this).find('.node-actions').slideDown('fast');
+            },
+            function() {
+                $(this).find('.node-actions').slideUp('fast');
+            }
+        );
+        
+    });
+/* ]]> */
+</script>
+
 <div id="article-show" class="article-show">
     <div class="title">
         <h1>${c.node.title}</h1>
-        % if h.is_node_owner(c.node):
+        % if h.is_admin():
             <div class="box-actions">
-                <a href="${c.node.url_edit()}" class="no-border">Изменить</a>
-                <a href="${c.node.url_remove()}" class="confirm" rel="Точно хотите удалить?">Удалить</a>
+                <a href="${c.node.url_edit()}" class="on_page modal" rev="#event-edit">Изменить</a>
+            </div>
+            <div class="node-actions">
+                % if not c.node.published:
+                    <a href="${c.node.url_publish()}" class="on_page">Опубликовать</a>
+                %else:
+                    <a href="${c.node.url_publish(False)}" class="on_page">В черновики</a>
+                % endif
+                
+                <a href="${c.node.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
             </div>
         % endif         
     </div>

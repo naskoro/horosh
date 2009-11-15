@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from authkit.authorize.pylons_adaptors import authorize
+from authkit.permissions import HasAuthKitRole
+from datetime import datetime
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax, current_user, redirect_to
+from horosh.lib.base import BaseController, render, redirect_to, is_ajax, \
+    current_user, is_admin
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
@@ -34,6 +38,7 @@ class ArticleForm(form.FieldSet):
         )
     
 class ArticleController(BaseController):
+    @authorize(HasAuthKitRole('admin'))
     def new(self):
         
         fs = ArticleForm('article-new')
@@ -84,10 +89,14 @@ class ArticleController(BaseController):
                     
         if node is None:
             abort(404)
+            
+        if not is_admin() and node.published is None:
+            abort(403) 
         
         c.node = node
         return render('/article/show.html')
-
+    
+    @authorize(HasAuthKitRole('admin'))
     def edit(self, id):
         node = self._get_row(model.Article, id)
 
@@ -128,8 +137,20 @@ class ArticleController(BaseController):
         else:
             result = render('/article/edit.html')
         return fs.htmlfill(result)
+    
+    @authorize(HasAuthKitRole('admin'))
+    def publish(self, id, published):
+        node = self._get_row(model.Article, id)
 
+        if published=='1':
+            node.published = datetime.now()
+        else:
+            node.published = None 
+            
+        meta.Session.commit()
+        return redirect_to(node.url())
 
+    @authorize(HasAuthKitRole('admin'))
     def remove(self, id):
         node = self._get_row(model.Article, id)
         

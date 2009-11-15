@@ -2,22 +2,17 @@
 <%namespace file="/defs.html" name="defs" import="*"/>
 <%def name="title()">${c.node.title}</%def>
 <%def name="adds_head()"></%def>
-<%def name="actions(**kwargs)">
-	% if h.is_node_owner(c.node):
-        ${caller.body()}
-	% endif
-</%def>
 <script type="text/javascript">
 /* <![CDATA[ */
     $(document).ready(function(){
         $('.event-show .title').hover(
-                function() {
-                    $(this).find('.node-actions').slideDown('fast');
-                },
-                function() {
-                    $(this).find('.node-actions').slideUp('fast');
-                }
-            );
+            function() {
+                $(this).find('.node-actions').slideDown('fast');
+            },
+            function() {
+                $(this).find('.node-actions').slideUp('fast');
+            }
+        );
         
         $('.event-persons .avatar').hover(
         	function() {
@@ -97,15 +92,15 @@
             <div class="box-actions">
                 <a href="${c.node.url_edit()}" class="on_page modal" rev="#event-edit">Изменить</a>
             </div>
-                <div class="node-actions">
+            <div class="node-actions">
                 % if not c.node.published:
                     <a href="${c.node.url_publish()}" class="on_page">Опубликовать</a>
                 %else:
-                    <a href="${c.node.url_publish(False)}" class="on_page">Снять с публикации</a>
+                    <a href="${c.node.url_publish(False)}" class="on_page">В черновики</a>
                 % endif
                 
                 <a href="${c.node.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
-                </div>
+            </div>
         % endif
     </div>
     <div class="title-info container">
@@ -144,9 +139,9 @@
 	                % if 0 == len(c.node.persons):
 	                   <div class="box-empty">
 	                       Участников нет.
-	                       <%self:actions>
+	                       % if h.is_node_owner(c.node):
 	                           Но можно <a href="${c.node.url_add_person()}" class="on_page modal" rev="#person-new">добавить</a>.
-	                       </%self:actions>
+	                       % endif
 	                   </div>
 	                % endif
 	            
@@ -177,9 +172,9 @@
                     % if 0 == len(c.node.albums):
                        <div class="box-empty">
                            Альбомов нет.
-                           <%self:actions>
+                           % if h.is_node_owner(c.node):
                                Но можно <a href="${c.node.url_add_album()}" class="on_page modal" rev="#album-new">добавить</a>.
-                           </%self:actions>
+                           % endif
                        </div>
                     % endif
                    
