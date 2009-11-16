@@ -18,6 +18,7 @@ class ReportForm(form.FieldSet):
             form.Field('title', validator=form.v.String()),
             form.Field('content', validator=form.v.String(not_empty=True)),
             form.Field('save'),
+            form.Field('save_view'),
             form.Field('cancel')
         )
     
@@ -42,7 +43,11 @@ class ReportController(BaseController):
             meta.Session.add(node)
             meta.Session.commit()
             
-            return redirect_to(node.url())
+            if fs.fields.save_view.id in request.POST:
+                return redirect_to(node.url())
+            else:
+                return redirect_to(event_node.url())
+
         
         c.form = fs
         c.fs = fs.fields
@@ -76,8 +81,8 @@ class ReportController(BaseController):
         fs = ReportForm('report-edit')
 
         if request.POST and fs.fields.cancel.id in request.POST:
-            if self.last_page():
-                return redirect_to(**self.last_page())
+            if self.back_page():
+                return redirect_to(**self.back_page())
             return redirect_to(node.url())
 
         if request.POST and fs.is_valid(request.POST):
@@ -86,7 +91,10 @@ class ReportController(BaseController):
             node.content = fs.fields.content.value
             
             meta.Session.commit()
-            return redirect_to(node.url())
+            if fs.fields.save_view.id in request.POST:
+                return redirect_to(node.url())
+            else:
+                return redirect_to(event_node.url())
 
         if not request.POST:
             fs.set_values({

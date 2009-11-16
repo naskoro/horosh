@@ -35,19 +35,26 @@ class ArticleForm(form.FieldSet):
             )),
             form.Field('content', validator=form.v.String(not_empty=True)),
             form.Field('save'),
+            form.Field('save_view'),
             form.Field('cancel')
         )
     
 class ArticleController(BaseController):
     @authorize(HasAuthKitRole('admin'))
-    def new(self):
+    def new(self, label=None):
         
         fs = ArticleForm('article-new')
+
+        if request.POST and fs.fields.cancel.id in request.POST:
+            if label is not None:
+                return redirect_to(label)
+            return redirect_to('article_list')
 
         if request.POST and fs.is_valid(request.POST):
             node = model.Article()
             node.title = fs.fields.title.value
             node.content = fs.fields.content.value
+            node.label = label
             node.node_user_id = current_user().id
 
             is_valid = True
@@ -60,10 +67,14 @@ class ArticleController(BaseController):
                 
                 meta.Session.add(node)
                 meta.Session.commit()
-                return redirect_to(node.url())
+                
+                if fs.fields.save_view.id in request.POST:
+                    return redirect_to(node.url())
+                else:
+                    if node.label is not None:
+                        return redirect_to(node.label)
+                    return redirect_to('article_list')
             
-            
-        
         c.form = fs
         c.fs = fs.fields
         
@@ -97,10 +108,21 @@ class ArticleController(BaseController):
         c.node = node
         return render('/article/show.html')
     
-    def list(self):
-        nodes = meta.Session().query(model.Article)
-        c.nodes = nodes
-        c.title = u'Спиосок статей'
+    def list(self, label=None):
+        query = meta.Session().query(model.Article)
+        
+        if label is not None:
+            query = query.filter(model.Article.label==label)
+        else:
+            query = query.filter(model.Article.label==label)
+        
+        if not is_admin():
+            query = query.filter(model.Article.published != None)
+                
+        query = query.order_by(model.Article.created.desc())
+        
+        c.nodes = query.all()
+        c.label = label
         return render('/article/list.html')
     
     @authorize(HasAuthKitRole('admin'))
@@ -110,8 +132,8 @@ class ArticleController(BaseController):
         fs = ArticleForm('article-edit', node.path)
          
         if request.POST and fs.fields.cancel.id in request.POST:
-            if self.last_page():
-                return redirect_to(**self.last_page())
+            if self.back_page():
+                return redirect_to(**self.back_page())
             return redirect_to(node.url())
 
         if request.POST and fs.is_valid(request.POST):
@@ -128,7 +150,12 @@ class ArticleController(BaseController):
                 node.path = fs.fields.path.value
                 
                 meta.Session.commit()
-                return redirect_to(node.url())
+                if fs.fields.save_view.id in request.POST:
+                    return redirect_to(node.url())
+                else:
+                    if node.label is not None:
+                        return redirect_to(node.label)
+                    return redirect_to('article_list')
 
         if not request.POST:
             fs.set_values({
@@ -157,8 +184,8 @@ class ArticleController(BaseController):
             node.published = None 
             
         meta.Session.commit()
-        if self.last_page():
-            return redirect_to(**self.last_page())
+        if self.back_page():
+            return redirect_to(**self.back_page())
         return redirect_to(node.url())
 
     @authorize(HasAuthKitRole('admin'))
@@ -167,6 +194,6 @@ class ArticleController(BaseController):
         
         meta.Session.delete(node)
         meta.Session.commit()
-        if self.last_page() is not None:
-            return redirect_to(self.last_page())
+        if self.back_page() is not None:
+            return redirect_to(self.back_page())
         return redirect_to('article_list')

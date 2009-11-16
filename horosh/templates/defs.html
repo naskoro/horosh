@@ -23,13 +23,7 @@
          % endif
          % for report in event.reports:
          <div class="title">
-             <h1>
-                 % if 500 < len(report.html_content):
-                     <a href="${report.url()}">${report.full_title()}</a>
-                 % else:
-                     ${report.full_title()}
-                 % endif
-             </h1>
+             <h1><a href="${report.url()}">${report.full_title()}</a></h1>
          </div>
          
          <div class="box-text">
@@ -52,13 +46,7 @@
 </%def>
 <%def name="article(article, full_text=True)">
     <div class="title">
-        <h1>
-	        % if full_text or 500 > len(article.html_content):
-	           ${article.title}
-	        % else:
-	           <a href="${article.url()}">${article.title}</a>
-	        % endif
-        </h1>
+        <h1><a href="${article.url()}">${article.title}</a></h1>
         % if h.is_admin():
             <div class="box-actions">
                 <a href="${article.url_edit()}">Изменить</a>

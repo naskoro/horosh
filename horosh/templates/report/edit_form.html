@@ -2,6 +2,7 @@
 <%def name="title()">Редактирование отчета</%def>
 <%def name="actions()">
     ${h.submit(value=u'сохранить', name=c.fs.save.id)}
+    ${h.submit(value=u'сохранить и посмотреть', name=c.fs.save_view.id)}
     ${h.submit(value=u'отмена', name=c.fs.cancel.id)}
 </%def>
 <%def name="body()">

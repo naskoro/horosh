@@ -1,6 +1,12 @@
 <%inherit file="/main.html" />
 <%namespace file="/defs.html" name="defs" import="*"/>
-<%def name="title()">${c.title}</%def>
+<%def name="title()">
+    % if 'pulse' == c.label:
+        Пульс проекта
+    % else:
+        Спиосок статей
+    % endif
+</%def>
 <script type="text/javascript">
 /* <![CDATA[ */
     $(document).ready(function(){
@@ -24,6 +30,12 @@
 /* ]]> */
 </script>
 <div class="article-list">
+    % if 0==len(c.nodes):
+        <div class="box-empty">
+            <b>Статей нет.</b>
+        </div>
+    % endif
+
 	% for article in c.nodes:
 	    <div class="article-list-node">
 	        ${defs.article(article, full_text=False)}

@@ -171,12 +171,10 @@ a:hover {
 	letter-spacing: 3px;
 	background-color: #8a8;
 }
-.box-actions.border {
-    border-left: 2px solid #ded;
-}
 .box-text {
     margin-top: 0;
-    margin-bottom: 1.5em;   
+    margin-bottom: 1.5em;
+    border-bottom: 1px solid #9b9;
 }
 .box-text .title-info {
     margin: -5px 5px 1em -2px;
@@ -184,7 +182,7 @@ a:hover {
 .box-text .box-actions {
     bottom: 0;
     top: auto;
-    margin-bottom: -2px;
+    margin-bottom: -1px;
 }
 
 .box-img {
@@ -299,10 +297,13 @@ a:hover {
 	margin-top: 0;
 }
 /* Articles */
-.article-list-node .box {
-	border-bottom: 2px solid #9b9;
+.article-show .box-text {
+	border-bottom: 0;
 }
 /* Reports */
+.report-show .box-text {
+    border-bottom: 0;
+}
 .report-persons {
 	overflow-y: auto;
     max-height: 135px;	

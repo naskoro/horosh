@@ -112,8 +112,7 @@ class EventController(BaseController):
          
         query = meta.Session.query(model.Event)
         if user is None:
-            query = query.filter(model.Event.published != None)\
-                .order_by(model.Event.published.desc())
+            query = query.filter(model.Event.published != None)
         else:
             user_query = meta.Session.query(model.User) 
             try:
@@ -124,11 +123,9 @@ class EventController(BaseController):
             query = query.filter(model.Event.node_user_id == user_node.id)
             
             if user_node.nickname != current_user().nickname:
-                query = query.filter(model.Event.published != None)\
-                    .order_by(model.Event.published.desc())
-            else:
-                query = query.order_by(model.Event.created.desc())
-            
+                query = query.filter(model.Event.published != None)
+                
+        query = query.order_by(model.Event.created.desc())
         c.nodes = query.all()
         return render('event/list.html')
 

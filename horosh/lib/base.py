@@ -59,10 +59,10 @@ def redirect_to(*args, **kwargs):
 class BaseController(WSGIController):
     def __before__(self):
         current = request.environ['pylons.routes_dict']
-        if 'page_current' in session and session['page_current'] != current:
-            session['last_page'] = session['page_current']
+        if 'current_page' in session and session['current_page'] != current:
+            session['back_page'] = session['current_page']
             
-        session['page_current'] =  current
+        session['current_page'] =  current
         session.save()
          
     def __after__(self):
@@ -85,9 +85,9 @@ class BaseController(WSGIController):
                 'scripts': taconite.scripts(xhtml),
             })
     
-    def last_page(self):
-        if 'last_page' in session:
-            return session['last_page']
+    def back_page(self):
+        if 'back_page' in session:
+            return session['back_page']
         return None
 
     def _redirect_to(self, *args, **kwargs):

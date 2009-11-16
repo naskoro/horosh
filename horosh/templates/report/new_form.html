@@ -4,6 +4,7 @@
 <%def name="id()">${c.form.name}</%def>
 <%def name="actions()">
     ${h.submit(value=u'создать', name=c.fs.save.id)}
+    ${h.submit(value=u'создать и посмотреть', name=c.fs.save_view.id)}
     ${h.submit(value=u'отмена', name=c.fs.cancel.id)}
 </%def>
 <form id="${self.id()}" method="post" action="${c.form.action}">

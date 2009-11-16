@@ -21,9 +21,13 @@ def make_map():
     # CUSTOM ROUTES HERE
     map.connect('/', controller='event', action='list')
     
-    map.connect('/login', controller='util', action='login')
-    map.connect('/logout', controller='util', action='logout')
+    map.connect('login', '/login', controller='util', action='login')
+    map.connect('logout', '/logout', controller='util', action='logout')
     
+    map.connect('pulse', '/pulse/{action}', 
+        controller='article', action='list', label='pulse'
+    )
+        
     # Article
     map.connect('/a/{path}', controller='article', action='show')
     

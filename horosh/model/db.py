@@ -48,6 +48,7 @@ article = schema.Table('article', meta.metadata,
     
     schema.Column('title', types.Unicode(50), nullable=False),
     schema.Column('path', types.Unicode(), nullable=False, unique=True),
+    schema.Column('label', types.Unicode(50)),
     schema.Column('content', types.Unicode(), nullable=False),
     schema.Column('published', types.DateTime),
     
