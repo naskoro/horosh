@@ -10,6 +10,7 @@ from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
 from pytils import translit
+from routes import url_for
 from sqlalchemy.orm.exc import NoResultFound
 import logging
 import time
@@ -96,6 +97,12 @@ class ArticleController(BaseController):
         c.node = node
         return render('/article/show.html')
     
+    def list(self):
+        nodes = meta.Session().query(model.Article)
+        c.nodes = nodes
+        c.title = u'Спиосок статей'
+        return render('/article/list.html')
+    
     @authorize(HasAuthKitRole('admin'))
     def edit(self, id):
         node = self._get_row(model.Article, id)
@@ -103,6 +110,8 @@ class ArticleController(BaseController):
         fs = ArticleForm('article-edit', node.path)
          
         if request.POST and fs.fields.cancel.id in request.POST:
+            if self.last_page():
+                return redirect_to(**self.last_page())
             return redirect_to(node.url())
 
         if request.POST and fs.is_valid(request.POST):
@@ -148,6 +157,8 @@ class ArticleController(BaseController):
             node.published = None 
             
         meta.Session.commit()
+        if self.last_page():
+            return redirect_to(**self.last_page())
         return redirect_to(node.url())
 
     @authorize(HasAuthKitRole('admin'))
@@ -156,4 +167,6 @@ class ArticleController(BaseController):
         
         meta.Session.delete(node)
         meta.Session.commit()
-        return redirect_to('/')
+        if self.last_page() is not None:
+            return redirect_to(self.last_page())
+        return redirect_to('article_list')

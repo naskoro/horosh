@@ -31,6 +31,7 @@ def make_map():
         controller='article', action='publish',
         requirements=dict(id='\d*', published='0|1')
     )
+    map.connect('article_list', '/article/list', controller='article', action='list')
     
     # Events
     map.connect('/~{user}', controller='event', action='list')

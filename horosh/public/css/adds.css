@@ -98,11 +98,15 @@ a:hover {
 	font-size: 0.9em;
     font-weight: bold;
     color: #464;
+    overflow: hidden;
 }
-.title-info div{
-	float: left;
-	padding-right: 15px; 
-}
+.title-info .accent{
+	margin-left: 1em;
+    background-color: #b99;
+    padding: 0 2px;
+    color: #fee;    
+    letter-spacing: 3px;
+} 
 .title .box-actions {
 	bottom: 0;
 	top: auto;
@@ -170,6 +174,19 @@ a:hover {
 .box-actions.border {
     border-left: 2px solid #ded;
 }
+.box-text {
+    margin-top: 0;
+    margin-bottom: 1.5em;   
+}
+.box-text .title-info {
+    margin: -5px 5px 1em -2px;
+}
+.box-text .box-actions {
+    bottom: 0;
+    top: auto;
+    margin-bottom: -2px;
+}
+
 .box-img {
 	border: 2px solid #9b9;
 	padding: 1px;
@@ -258,42 +275,37 @@ a:hover {
 	top: 2px;
 	right: 2px;
 }
-.event-reports {
-}
 .event-reports .title {
 	height: 1.3em;
-	margin: 0 0 1em 0;
+	margin: 0;
+	margin-top: 1em;
 	border: none;
 }
 .event-reports .title h1{
     font-size: 1.3em;
 }
-.event-reports .node {
-	border: 2px solid #9b9;
+.event-reports .box-text {
+	border: 1px solid #9b9;
 	padding: 5px;
-	margin-top: 10px;
+	position: relative;
+	margin-bottom: 0;
 }
 .event-reports .box-actions {
 	bottom: 0;
 	top: auto;
-	margin-bottom: -2px;
+	margin-bottom: -1px;
 }
 .event-list-node .span-18 .gallery {
 	margin-top: 0;
 }
-
+/* Articles */
+.article-list-node .box {
+	border-bottom: 2px solid #9b9;
+}
 /* Reports */
-.report-show {}
 .report-persons {
 	overflow-y: auto;
     max-height: 135px;	
-}
-.report-box {
-	margin-top: 0;
-    margin-bottom: 1.5em;	
-}
-.report-box .title-info {
-    margin: -5px 5px 1em -2px;
 }
 /* Gallery styles*/
 .gallery {

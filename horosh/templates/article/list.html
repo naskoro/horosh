@@ -1,6 +1,6 @@
 <%inherit file="/main.html" />
 <%namespace file="/defs.html" name="defs" import="*"/>
-<%def name="title()">${c.node.title}</%def>
+<%def name="title()">${c.title}</%def>
 <script type="text/javascript">
 /* <![CDATA[ */
     $(document).ready(function(){
@@ -11,7 +11,7 @@
                 }
             }
         )
-        $('.article-show .title').hover(
+        $('.article-list-node .title').hover(
             function() {
                 $(this).find('.node-actions').slideDown('fast');
             },
@@ -23,6 +23,10 @@
     });
 /* ]]> */
 </script>
-<div class="article-show">
-    ${defs.article(c.node)}
+<div class="article-list">
+	% for article in c.nodes:
+	    <div class="article-list-node">
+	        ${defs.article(article, full_text=False)}
+	    </div>
+	% endfor
 </div>

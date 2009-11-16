@@ -76,6 +76,8 @@ class ReportController(BaseController):
         fs = ReportForm('report-edit')
 
         if request.POST and fs.fields.cancel.id in request.POST:
+            if self.last_page():
+                return redirect_to(**self.last_page())
             return redirect_to(node.url())
 
         if request.POST and fs.is_valid(request.POST):

@@ -1,9 +1,8 @@
-<%def name="node_info(node)">
-    <div>Автор: <a href="${node.node_user.url()}">${node.node_user.nickname}</a></div>
-    % if node.published:
-        <div>Опубликовано: ${h.ru_strftime(u'%d %B %Y', date=node.published, inflected=True)}</div>
-    % else:
-        <div>Создано: ${h.ru_strftime(u'%d %B %Y', date=node.created, inflected=True)}</div>
+<%def name="node_info(node, show_draft=False)">
+    ${h.ru_strftime(u'%a, %d %B %Y г.', date=node.created, inflected=True)} | 
+    <a href="${node.node_user.url()}">${node.node_user.nickname}</a>
+    % if show_draft and not node.published and h.is_node_owner(node):
+        <span class="accent">Черновик</span>
     % endif
 </%def>
 <%def name="event_details(event)">
@@ -23,19 +22,23 @@
             </div>
          % endif
          % for report in event.reports:
-         <div class="node">
-             <div class="title">
-                 <h1>
-                     % if 500 < len(report.content):
-                         <a href="${report.url()}">${report.full_title()}</a>
-                     % else:
-                         ${report.full_title()}
-                     % endif
-                 </h1>
-             </div>
+         <div class="title">
+             <h1>
+                 % if 500 < len(report.html_content):
+                     <a href="${report.url()}">${report.full_title()}</a>
+                 % else:
+                     ${report.full_title()}
+                 % endif
+             </h1>
+         </div>
+         
+         <div class="box-text">
+	         <div class="title-info">
+	             ${node_info(report)}
+	         </div>
              ${h.truncate_html(report.html_content, 500)|n}
              <div class="box-actions">
-                 % if 500 < len(report.content):
+                 % if 500 < len(report.html_content):
                     <a href="${report.url()}" class="accent">Читать</a>
                  % endif
                  % if edit_mode and h.is_node_owner(event): 
@@ -46,4 +49,50 @@
          </div>
          % endfor
      </div>          
+</%def>
+<%def name="article(article, full_text=True)">
+    <div class="title">
+        <h1>
+	        % if full_text or 500 > len(article.html_content):
+	           ${article.title}
+	        % else:
+	           <a href="${article.url()}">${article.title}</a>
+	        % endif
+        </h1>
+        % if h.is_admin():
+            <div class="box-actions">
+                <a href="${article.url_edit()}">Изменить</a>
+            </div>
+            <div class="node-actions">
+                % if not article.published:
+                    <a href="${article.url_publish()}" class="on_page">Опубликовать</a>
+                %else:
+                    <a href="${article.url_publish(False)}" class="on_page">В черновики</a>
+                % endif
+                
+                <a href="${article.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+            </div>
+        % endif         
+    </div>
+
+    <div class="box box-text">
+	    <div class="title-info">
+	        ${node_info(article, True)}
+	    </div>
+    
+        % if full_text or 500 > len(article.html_content):
+           ${article.html_content|n}
+        % else:
+	            ${h.truncate_html(article.html_content, 500)|n}
+			<div class="box-actions">
+			     % if 500 < len(article.html_content):
+			        <a href="${article.url()}" class="accent">Читать</a>
+			     % endif
+			     % if edit_mode and h.is_node_owner(event): 
+			         <a href="${article.url_edit()}">Изменить</a>
+			         <a href="${article.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+			     % endif
+			</div>
+		% endif
+    </div>
 </%def>

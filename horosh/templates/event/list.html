@@ -23,12 +23,11 @@
 	            </a>
 	        </div>
 		</div>
-		<div class="box report-box">
-		    <div class="title-info container">
-		        ${defs.node_info(event)}
+		<div class="box box-text">
+		    <div class="title-info">
+		        ${defs.node_info(event, True)}
 		    </div>  
 		
-	${h.log.debug('list: 1')}       
 	        <%def name="info(event)">
 		        ${defs.event_details(event)}
 	
@@ -55,7 +54,6 @@
 		    % else:
 	            ${self.info(event)}
 		    % endif
-	${h.log.debug('list: 2')}	   
 		</div>
 	</div>
 	% endfor
