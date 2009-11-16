@@ -4,11 +4,11 @@ body {
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 a {
-    color: #a66;
+    color: #66a;
     text-decoration: none;
 }
 a:hover {
-    color: #66a;
+    color: #a66;
 }
 
 /* Containers */
@@ -45,8 +45,8 @@ a:hover {
 }
 
 #sidebar {
+	overflow: hidden;
 }
-
 #footer {
 	color: #ded;
 	padding: 5px 0;
@@ -102,7 +102,7 @@ a:hover {
 }
 .title-info .accent{
 	margin-left: 1em;
-    background-color: #b99;
+    background-color: #99b;
     padding: 0 2px;
     color: #fee;    
     letter-spacing: 3px;
@@ -118,6 +118,37 @@ a:hover {
     border-top: 1px solid #ded;
     font-size: 1em;
 }
+/* Sidebar */
+.sidebar-box {
+	margin-top: 8px;
+	padding: 3px;
+    color: #efe;
+    font-weight: bold;
+}
+.sidebar-box h1 {
+	height: 1.3em;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #464;
+    text-align: center;
+	margin: 0 -5px -10px -5px;
+}
+.sidebar-box ul.actions {
+    list-style: none;
+    margin: 8px 0 0 0;
+    padding: 2px;
+    background-color: #aca;    
+}
+.sidebar-box ul.actions li a {
+	display: block;
+    padding: 0 5px;
+    color: #efe;
+}
+.sidebar-box ul.actions li a:hover {
+    background-color: #99b;
+    color: #eef;
+}
+
 /* reStructuredText */
 .section h1 a{
 	text-decoration: none;
@@ -152,7 +183,7 @@ a:hover {
 	top: 0;
 	overflow: hidden;
 }
-.box-actions a{
+.box-actions a {
 	margin-left: -2px;
 	padding: 0 5px;
 	border-left: 2px solid #ded;
@@ -164,8 +195,8 @@ a:hover {
     background-color: #9b9;
 }
 .box-actions a:hover{
-    background-color: #b99;
-    color: #fee;
+    background-color: #99b;
+    color: #eef;
 }
 .box-actions .accent {
 	letter-spacing: 3px;
@@ -252,8 +283,8 @@ a:hover {
     border-bottom: 1px solid #fff;
 }
 .node-actions a:hover{
-    background-color: #b99;
-    color: #fee;
+    background-color: #99b;
+    color: #eef;
 }
 
 /* Event */

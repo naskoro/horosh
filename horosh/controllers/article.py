@@ -48,7 +48,7 @@ class ArticleController(BaseController):
         if request.POST and fs.fields.cancel.id in request.POST:
             if label is not None:
                 return redirect_to(label)
-            return redirect_to('article_list')
+            return redirect_to('articles')
 
         if request.POST and fs.is_valid(request.POST):
             node = model.Article()
@@ -73,7 +73,7 @@ class ArticleController(BaseController):
                 else:
                     if node.label is not None:
                         return redirect_to(node.label)
-                    return redirect_to('article_list')
+                    return redirect_to('articles')
             
         c.form = fs
         c.fs = fs.fields
@@ -155,7 +155,7 @@ class ArticleController(BaseController):
                 else:
                     if node.label is not None:
                         return redirect_to(node.label)
-                    return redirect_to('article_list')
+                    return redirect_to('articles')
 
         if not request.POST:
             fs.set_values({
@@ -196,4 +196,4 @@ class ArticleController(BaseController):
         meta.Session.commit()
         if self.back_page() is not None:
             return redirect_to(self.back_page())
-        return redirect_to('article_list')
+        return redirect_to('articles')

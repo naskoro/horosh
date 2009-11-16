@@ -19,15 +19,9 @@ def make_map():
     map.connect('/error/{action}/{id}', controller='error')
 
     # CUSTOM ROUTES HERE
-    map.connect('/', controller='event', action='list')
-    
     map.connect('login', '/login', controller='util', action='login')
     map.connect('logout', '/logout', controller='util', action='logout')
     
-    map.connect('pulse', '/pulse/{action}', 
-        controller='article', action='list', label='pulse'
-    )
-        
     # Article
     map.connect('/a/{path}', controller='article', action='show')
     
@@ -35,10 +29,14 @@ def make_map():
         controller='article', action='publish',
         requirements=dict(id='\d*', published='0|1')
     )
-    map.connect('article_list', '/article/list', controller='article', action='list')
+    map.connect('articles', '/articles', controller='article', action='list')
+    map.connect('pulse', '/pulse/{action}', 
+        controller='article', action='list', label='pulse'
+    )
     
     # Events
-    map.connect('/~{user}', controller='event', action='list')
+    map.connect('/', controller='event', action='list')
+    map.connect('user', '/~{user}', controller='event', action='list')    
     map.connect('/event-{id}-{title}', 
         controller='event', action='show',
         requirements=dict(event_id='\d*')
