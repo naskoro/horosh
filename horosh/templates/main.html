@@ -18,11 +18,19 @@
 </%def>
 <%def name="adds_head()"></%def>
 <div id="layout">
-    <div id="header" class="container">
-        <div class="span-20">
-            <a href="${h.url_for('/')}" class="logo"></a>
+    <div id="header">
+        
+        <a href="${h.url_for('/')}" class="logo"></a>
+        
+        <div class="slogan">
+            Берегите природу
         </div>
-        <div class="span-20"></div>
+
+        <div class="nav"><ul>
+	        <li><a href="${h.url_for('/a/about')}">О проекте</a></li>
+	        <li><a href="${h.url_for('/pulse')}">Пульс проекта</a></li>
+	        <li><a href="${h.url_for('/a/contacts')}">Контакты</a></li>
+	    </ul></div>
     </div>
     <div id="center" class="container">
         <div class="span-80">
