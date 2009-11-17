@@ -109,6 +109,7 @@ class ArticleController(BaseController):
         return render('/article/show.html')
     
     def list(self, label=None):
+        self.is_page_back = True
         query = meta.Session().query(model.Article)
         
         if label is not None:

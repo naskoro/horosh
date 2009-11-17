@@ -58,14 +58,15 @@ def redirect_to(*args, **kwargs):
 
 class BaseController(WSGIController):
     def __before__(self):
-        current = request.environ['pylons.routes_dict']
-        if 'current_page' in session and session['current_page'] != current:
-            session['back_page'] = session['current_page']
-            
-        session['current_page'] =  current
-        session.save()
+        self.is_page_back = False
+        c.current_user=current_user()
          
     def __after__(self):
+
+        if self.is_page_back: 
+            session['back_page'] = request.environ['pylons.routes_dict']
+            session.save()
+        
         if is_ajax():
             response.content_type = 'text/xml'
 

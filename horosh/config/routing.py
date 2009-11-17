@@ -22,6 +22,13 @@ def make_map():
     map.connect('login', '/login', controller='util', action='login')
     map.connect('logout', '/logout', controller='util', action='logout')
     
+    map.connect('demo', '/demo', 
+        controller='event', action='list', user='nobody'
+    )
+    map.connect('demo_up', '/demo/up', 
+        controller='util', action='demo_up'
+    )
+    
     # Article
     map.connect('/a/{path}', controller='article', action='show')
     

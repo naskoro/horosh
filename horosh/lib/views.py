@@ -13,7 +13,6 @@ def sidebar():
     ).order_by(model.Article.created.desc()).all()
 
     params = dict(
-        user=current_user(),
         articles=articles
     )
     return render('/sidebar.html', params)

@@ -102,6 +102,9 @@ class Article(Node):
         return "<Article('%s')>" % self.id
 
 class Report(Node):
+    def __init__(self):
+        self.filter = 'reStrucuredText'
+        
     def url(self):
         return url_for(
             controller='report', action='show', title=self.event.slug,

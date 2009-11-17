@@ -6,6 +6,8 @@ from horosh.lib.base import BaseController, render, is_ajax, current_user
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
+from sqlalchemy import and_
+from sqlalchemy.orm import join
 from sqlalchemy.orm.exc import NoResultFound
 import logging
 
@@ -99,20 +101,31 @@ class EventController(BaseController):
         return fs.htmlfill(result)
     
     def show(self, id):
+        self.is_page_back = True
+        
         c.node = self._get_row(model.Event, id)
         
         if is_ajax():
             result = self.taconite(render('/event/show_partial.html'))
-            #result = render('/event/show_partial.html')
         else:
             result = render('/event/show.html')
         return result
 
     def list(self, user=None):
+        self.is_page_back = True
          
         query = meta.Session.query(model.Event)
         if user is None:
-            query = query.filter(model.Event.published != None)
+            query = query.select_from(
+                    join(model.Event, model.User, 
+                         model.Event.node_user_id == model.User.id
+                    )
+                ).filter(
+                    and_(
+                        model.Event.published != None,
+                        model.User.nickname != 'nobody'
+                    )
+                )
         else:
             user_query = meta.Session.query(model.User) 
             try:

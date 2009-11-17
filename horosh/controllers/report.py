@@ -10,8 +10,6 @@ import time
 
 log = logging.getLogger(__name__)
 
-DEFAULT_FILTER = 'reStrucuredText'
-
 class ReportForm(form.FieldSet):
     def init(self):
         self.adds(
@@ -36,7 +34,6 @@ class ReportController(BaseController):
             node = model.Report()
             node.title = fs.fields.title.value
             node.content = fs.fields.content.value
-            node.filter = DEFAULT_FILTER
             node.event = event_node 
             node.node_user_id = current_user().id
             
@@ -61,6 +58,8 @@ class ReportController(BaseController):
         return result
 
     def show(self, event_id, id):
+        self.is_page_back = True
+        
         event_node = self._get_row(model.Event, event_id)
         
         node = event_node.report_by_number(id)

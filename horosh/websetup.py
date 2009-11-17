@@ -19,17 +19,17 @@ def setup_app(command, conf, vars):
     user = User('naspeh', 'naspeh@pusto.org', u'1')
     meta.Session.add(user)
 
-    log.info('Adding first event')
-    event = Event()
-    event.title = u'Крым. Тарханкут. Барракуда'
-    event.start = datetime.now()
-    event.finish = datetime.now()
-    event.node_user = user 
-    meta.Session.add(event)
-
     log.info('Adding nobody user')
     user = User('nobody', 'nobody@pusto.org')
     meta.Session.add(user)
+
+    log.info('Adding first event')
+    event = Event()
+    event.title = u'Первое событие'
+    event.start = datetime.date(2007, 7, 7)
+    event.finish = datetime.date(2007, 7, 13)
+    event.node_user = user 
+    meta.Session.add(event)
     
     meta.Session.commit()
     

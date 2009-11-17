@@ -98,8 +98,9 @@
                 %else:
                     <a href="${c.node.url_publish(False)}" class="on_page">В черновики</a>
                 % endif
-                
+                % if c.node.id != 1 :
                 <a href="${c.node.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                % endif
             </div>
         % endif
     </div>

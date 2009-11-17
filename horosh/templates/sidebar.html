@@ -2,7 +2,7 @@
     <h1>Мои действия</h1>
 	<div class="nav"><ul>
 	    <li><a href="${h.url_for('/event/new')}">Добавить событие</a></li>
-	    <li><a href="${h.url_for('user', user=user.nickname)}">Мои события</a></li>
+	    <li><a href="${h.url_for(c.current_user.url())}">Мои события</a></li>
 	    <li><a href="${h.url_for('/')}">Все события</a></li>
 	</ul></div>
 	
@@ -10,11 +10,13 @@
 	<div class="nav"><ul>
 	    <li><a href="${h.url_for('/article/new')}">Добавить статью</a></li>
 	    <li><a href="${h.url_for('/articles')}">Все статьи</a></li>
-	</ul></div>
-	
-	<div class="nav"><ul>
+	    <li class="empty"></li>
 	    <li><a href="${h.url_for('/pulse/new')}">Добавить пульс</a></li>
 	    <li><a href="${h.url_for('/pulse')}">Весь пульс</a></li>
+	    <li class="empty"></li>
+	    <li><a href="${h.url_for('/demo/up')}">Обновить демо</a></li>
+	    <li class="empty"></li>
+        <li><a href="${h.url_for('/logout')}">Выход</a></li>
 	</ul></div>
 	% endif
 </div>

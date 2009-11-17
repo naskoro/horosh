@@ -21,7 +21,7 @@ def photos(user, albumid, limit=None):
 class _render:
     def __init__(self):
         self.count=0
-    def __call__(self, photos, photos_list=[], limit=None, 
+    def __call__(self, photos, photos_list=[], limit=15, 
            align=None, count_per_page=5, template='/util/gallery.html'):
         
         def photo_url(photo):
@@ -36,9 +36,8 @@ class _render:
             )
             return result
 
-        #tree = ElementTree.fromstring(photos)
         photos = gdata.GDataFeedFromString(photos)
-        photos = photos.entry
+        photos = photos.entry[0:limit]
         result = []
         if photos_list:
             for photo in photos:

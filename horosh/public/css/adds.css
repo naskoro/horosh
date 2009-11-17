@@ -19,9 +19,10 @@ a:hover {
 }
 
 #header {
+	height: 50px;
 	position: relative;
 	overflow: hidden;
-    background: #dde url(../images/pano-.jpg) no-repeat center;
+    background: #fff url(../images/pano.jpg) no-repeat left;
     border: 1px solid #99b;
     border-top: none;
     
@@ -60,29 +61,30 @@ a:hover {
 /* Header */
 #header .logo {
     background: url(../images/logo.png) no-repeat center;
-    height: 50px;
+    height: 45px;
     width: 150px;
     display: block;
-    margin-left: 10px;
+    margin-left: 2px;
+    margin-top: 5px;
 }
 #header .slogan {
     position: absolute;
-    top: 5px;
-    left: 180px;
+    top: 2px;
+    left: 280px;
 	font-weight: bold;
 	color: #669;
 	border: 1px solid #99b;
-	padding: 8px;
+	padding: 5px;
     
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
 #header .nav {
-	font-size: 1.3em;
+	font-size: 1.1em;
 	font-weight: bold;
 	text-transform: lowercase;
 	position: absolute;
-	top: 5px;
+	top: 2px;
 	right: 10px;
 }
 #header .nav ul {
@@ -122,7 +124,7 @@ a:hover {
     text-align: center;
     margin: 0 -5px -10px -5px;
 }
-.sidebar-box .nav ul{
+.sidebar-box .nav ul {
     list-style: none;
     margin: 8px 0 0 0;
     padding: 2px;
@@ -130,6 +132,11 @@ a:hover {
 
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+}
+.sidebar-box .nav ul li.empty{
+	height: 2px;
+	background-color: #eee;
+	margin: 3px 0;
 }
 .sidebar-box .nav ul li a {
     display: block;
@@ -426,6 +433,7 @@ a:hover {
 .gallery-page a {
     border: 1px solid #fff;
     margin: 2px;
+    background-color: #333;
 }
 .gallery-controls {
 	position: absolute;
