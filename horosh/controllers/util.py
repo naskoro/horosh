@@ -6,7 +6,7 @@ from cStringIO import StringIO
 from datetime import datetime
 from horosh import model
 from horosh.lib import picasa
-from horosh.lib.base import BaseController, render, current_user
+from horosh.lib.base import BaseController, render
 from horosh.lib.util import rst2html
 from horosh.model import meta
 from mimetypes import guess_type
@@ -16,7 +16,6 @@ from pylons.decorators.rest import restrict
 from webhelpers.markdown import markdown
 import Image
 import codecs
-import json
 import logging
 import os
 import yaml
