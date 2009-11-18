@@ -104,6 +104,20 @@ class Article(Node):
 class Report(Node):
     def __init__(self):
         self.filter = 'reStrucuredText'
+
+    @property
+    def full_title(self):
+        titles = [u'Отчет №%s' % self.number]
+        if self.title:
+            titles.append(self.title)
+        return '. '.join(titles)
+    @property
+    def number(self):
+        return self.event.reports.index(self) + 1
+    
+    @property
+    def html_content(self):
+        return rst2html(self.content)
         
     def url(self):
         return url_for(
@@ -123,19 +137,6 @@ class Report(Node):
             event_id=self.event_id, id=self.number
         )
     
-    def full_title(self):
-        titles = [u'Отчет №%s' % self.number]
-        if self.title:
-            titles.append(self.title)
-        return '. '.join(titles)
-    @property
-    def number(self):
-        return self.event.reports.index(self) + 1
-    
-    @property
-    def html_content(self):
-        return rst2html(self.content)
-    
     def __unicode__(self):
         return "<Report('%s')>" % self.id
 
@@ -143,6 +144,10 @@ class Event(Node):
     @property
     def slug(self):
         return translit.slugify(self.title)
+
+    @property
+    def html_summary(self):
+        return rst2html(self.summary)
     
     def url(self):
         return url_for(

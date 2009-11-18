@@ -170,13 +170,13 @@ a:hover {
 	margin-right: 3px;
 }
 .title {
-	height: 1.6em;
+	height: 20px;
 	margin: 0 8px;
 	border-bottom: 2px solid #9b9;
 	position: relative;
 }
 .title h1 {
-	font-size: 1.6em;
+	font-size: 20px;
 	font-weight: bold;
 	color: #464;
 	margin-bottom: 0;
@@ -199,12 +199,6 @@ a:hover {
 	bottom: 0;
 	top: auto;
 	margin-bottom: -2px;
-}
-.title .node-actions {
-    top: 1.6em;
-    margin-top: 2px;
-    border-top: 1px solid #ded;
-    font-size: 1em;
 }
 
 /* reStructuredText */
@@ -241,17 +235,16 @@ a:hover {
 	position: absolute;
 	right: 0;
 	top: 0;
-	overflow: hidden;
+	line-height: 1;
 }
 .box-actions a {
-	margin-left: -2px;
-	padding: 0 5px;
-	border-left: 2px solid #ded;
+    margin-left: -2px;	
+	height: 12px;
+    padding: 3px 5px;
 	color: #efe;
     font-weight: bold;
     text-decoration: none;
     display: block;
-    float: left;
     background-color: #9b9;
 }
 .box-actions a:hover{
@@ -261,6 +254,11 @@ a:hover {
 .box-actions .accent {
 	letter-spacing: 3px;
 	background-color: #8a8;
+}
+.box-actions .node-actions {
+	top: 18px;
+	border-top: 1px solid #fff;
+	font-size: 1em;
 }
 .box-text {
     margin-top: 0;
@@ -325,22 +323,23 @@ a:hover {
 	position: absolute;
 	top: 0;
 	right: 0;
-	background-color: #9b9;
     font-weight: bold;
     font-size: 0.9em;
-    text-align: left;
+    text-align: center;
     line-height: 1;    
     display:none;
     z-index: 25;
 }
-.node-actions a{
+.node-actions a {
+	min-width: 70px;
 	color: #efe;
 	text-decoration: none;
-    padding: 2px 2px 4px 4px;
+    padding: 2px 5px 4px 5px;
     display: block;
     white-space: nowrap;
     border-left: 1px solid #fff;    
     border-bottom: 1px solid #fff;
+    background-color: #9b9;    
 }
 .node-actions a:hover{
     background-color: #99b;
@@ -365,24 +364,22 @@ a:hover {
 	right: 2px;
 }
 .event-reports .title {
-	height: 1.3em;
+	height: 16px;
 	margin: 0;
 	margin-top: 1em;
-	border: none;
 }
-.event-reports .title h1{
-    font-size: 1.3em;
+.event-reports .title h1 {
+    font-size: 16px;
 }
 .event-reports .box-text {
 	border: 1px solid #9b9;
+	border-top: none;
 	padding: 5px;
 	position: relative;
 	margin-bottom: 0;
 }
-.event-reports .box-actions {
-	bottom: 0;
-	top: auto;
-	margin-bottom: -1px;
+.event-reports .node-actions {
+	right: 1px;
 }
 .event-list-node .span-18 .gallery {
 	margin-top: 0;

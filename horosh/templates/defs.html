@@ -6,9 +6,9 @@
     % endif
 </%def>
 <%def name="event_details(event)">
-    <b>Даты:</b> ${event.date}
+    <p><b>Даты:</b> ${event.date}</p>
     % if event.summary:
-        <div>${event.summary|n}</div>
+        <div>${event.html_summary|n}</div>
     % endif    
 </%def>
 <%def name="event_reports(event, edit_mode=False)">
@@ -23,7 +23,15 @@
          % endif
          % for report in event.reports:
          <div class="title">
-             <h1><a href="${report.url()}">${report.full_title()}</a></h1>
+             <h1><a href="${report.url()}">${report.full_title}</a></h1>
+             % if edit_mode and h.is_node_owner(event):
+	             <div class="box-actions">
+	                 <a href="${report.url_edit()}">Изменить</a>
+	                 <div class="node-actions">
+	                     <a href="${report.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+	                 </div>
+                 </div>
+	         % endif
          </div>
          
          <div class="box-text">
@@ -34,10 +42,6 @@
              <div class="box-actions">
                  % if 500 < len(report.html_content):
                     <a href="${report.url()}" class="accent">Читать</a>
-                 % endif
-                 % if edit_mode and h.is_node_owner(event): 
-                     <a href="${report.url_edit()}">Изменить</a>
-                     <a href="${report.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
                  % endif
             </div>
          </div>
@@ -50,15 +54,15 @@
         % if h.is_admin():
             <div class="box-actions">
                 <a href="${article.url_edit()}">Изменить</a>
-            </div>
-            <div class="node-actions">
-                % if not article.published:
-                    <a href="${article.url_publish()}" class="on_page">Опубликовать</a>
-                %else:
-                    <a href="${article.url_publish(False)}" class="on_page">В черновики</a>
-                % endif
-                
-                <a href="${article.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+	            <div class="node-actions">
+	                % if not article.published:
+	                    <a href="${article.url_publish()}" class="on_page">Опубликовать</a>
+	                %else:
+	                    <a href="${article.url_publish(False)}" class="on_page">В черновики</a>
+	                % endif
+	                
+	                <a href="${article.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+	            </div>
             </div>
         % endif         
     </div>
@@ -67,18 +71,14 @@
 	    <div class="title-info">
 	        ${node_info(article, True)}
 	    </div>
-    
+        
         % if full_text or 500 > len(article.html_content):
-           ${article.html_content|n}
+            ${article.html_content|n}
         % else:
-	            ${h.truncate_html(article.html_content, 500)|n}
+	        ${h.truncate_html(article.html_content, 500)|n}
 			<div class="box-actions">
 			     % if 500 < len(article.html_content):
 			        <a href="${article.url()}" class="accent">Читать</a>
-			     % endif
-			     % if edit_mode and h.is_node_owner(event): 
-			         <a href="${article.url_edit()}">Изменить</a>
-			         <a href="${article.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
 			     % endif
 			</div>
 		% endif
@@ -95,4 +95,7 @@
 	pageTracker._trackPageview();
 	} catch(err) {}
 	</script>
+</%def>
+<%def name="rst_desc()">
+    <span class="desc">Формат текста - <a href="${h.url_for('/a/reStructuredText')}">reStructuredText</a></span>
 </%def>

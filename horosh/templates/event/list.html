@@ -13,14 +13,14 @@
 		<div class="title">
 		    <h1><a href="${event.url()}">${event.title}</a></h1>
 		    <div class="box-actions">
-	            <a href="${event.url()}">
+		        <%def name="event_link(event, title='Детальный просмотр')">
+		            <a href="${event.url()}" title="${title}">К событию</a>
+		        </%def>
 	            % if h.is_node_owner(event):
-	               Редактировать
+	                ${event_link(event, u'Детальный просмотр и редактирование')}
 	            % else:
-	               Подробнее
+	                ${event_link(event)}
 	            % endif
-	            
-	            </a>
 	        </div>
 		</div>
 		<div class="box box-text">

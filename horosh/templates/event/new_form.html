@@ -31,7 +31,8 @@
 		</div>
 		
 		<div class="field">
-		    ${h.title(u'Summary', c.fs.summary.not_empty(), label_for=c.fs.summary.id)}
+		    ${h.title(u'Сводка', c.fs.summary.not_empty(), label_for=c.fs.summary.id)}
+		    ${self.defs.rst_desc()}
 		    ${self.field_errors(c.fs.summary.id)}
 		    ${h.textarea(name=c.fs.summary.id, rows=7)}
 		</div>
