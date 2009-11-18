@@ -23,7 +23,7 @@ def make_map():
     map.connect('logout', '/logout', controller='util', action='logout')
     
     map.connect('demo', '/demo', 
-        controller='event', action='list', user='nobody'
+        controller='event', action='show', id=1
     )
     map.connect('demo_up', '/demo/up', 
         controller='util', action='demo_up'

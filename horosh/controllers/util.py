@@ -6,7 +6,7 @@ from cStringIO import StringIO
 from datetime import datetime
 from horosh import model
 from horosh.lib import picasa
-from horosh.lib.base import BaseController, render
+from horosh.lib.base import BaseController, render, current_user
 from horosh.lib.util import rst2html
 from horosh.model import meta
 from mimetypes import guess_type
@@ -16,8 +16,10 @@ from pylons.decorators.rest import restrict
 from webhelpers.markdown import markdown
 import Image
 import codecs
+import json
 import logging
 import os
+import yaml
 
 log = logging.getLogger(__name__)
 
@@ -27,14 +29,12 @@ class UtilController(BaseController):
     @authorize(ValidAuthKitUser())
     def login(self):
         c.message = u'Login success'
-        c.type = 'success'
-        return render('/util/message.html')
+        return redirect_to('/')
     
     @authorize(ValidAuthKitUser())
     def logout(self):
         c.message = u'Logout success'
-        c.type = 'success'
-        return render('/util/message.html')
+        return redirect_to('/')
     
     @authorize(HasAuthKitRole('admin'))
     def demo_up(self):
@@ -53,11 +53,23 @@ class UtilController(BaseController):
         meta.Session.commit()
         
         dir = config['demo_dir']
-        info_file = os.path.join(dir, 'info.txt')
-        title = codecs.open(info_file, 'r', 'utf-8').read().strip()
-        event.title = title
+
+        info_file = os.path.join(dir, 'info.yml')
+        info = codecs.open(info_file, 'r', 'utf-8')
+        info = yaml.load(info)
+
+        event.title = info['title']
         event.node_user = user
         event.created = datetime.now()
+        
+        if 'albums' in info:
+            for album in info['albums']:
+                node = model.Album()
+                node.settings = picasa.photos(album['user'], album['albumid'], 15)
+                node.node_user = user
+                node.events = [event]
+                meta.Session.add(node)
+        
         
         persons_dir = os.path.join(dir, 'persons')
         for file in os.listdir(persons_dir):
@@ -81,20 +93,6 @@ class UtilController(BaseController):
                 node.event = event
                 meta.Session.add(node)
         
-        albums_file = os.path.join(dir, 'albums.txt')
-        if os.path.isfile(albums_file):
-            albums = open(albums_file, 'r')
-            for line in albums.readlines():
-                album = line.strip().split(',')
-                album_user = album[0].strip()
-                albumid = album[1].strip()
-                
-                node = model.Album()
-                node.settings = picasa.photos(album_user, albumid, 15)
-                node.node_user = user
-                node.events = [event]
-                meta.Session.add(node)
-                
         meta.Session.commit()
         
         c.message = u'Демонстрация обновлена'
