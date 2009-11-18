@@ -144,6 +144,8 @@ class EventController(BaseController):
 
     def remove(self, id):
         node = self._get_row(model.Event, id)
+        if 1 == node.id:
+            abort(403)
         self._check_access(node)
         
         meta.Session.delete(node)

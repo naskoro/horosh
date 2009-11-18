@@ -22,7 +22,7 @@ a:hover {
 	height: 50px;
 	position: relative;
 	overflow: hidden;
-    background: #fff url(../images/pano.jpg) no-repeat left;
+    background: #ccc url(../images/pano.jpg-) no-repeat left;
     border: 1px solid #99b;
     border-top: none;
     
