@@ -1,16 +1,18 @@
 <%def name="node_info(node, show_draft=False)">
-    ${h.ru_strftime(u'%a, %d %B %Y г.', date=node.created, inflected=True)} | 
+    ${h.ru_strftime(u'%a, %d %B %Y г.', date=node.created, inflected=True)} |
     <a href="${node.node_user.url()}">${node.node_user.nickname}</a>
     % if show_draft and not node.published and h.is_node_owner(node):
         <span class="accent">Черновик</span>
     % endif
 </%def>
+
 <%def name="event_details(event)">
     <p><b>Даты:</b> ${event.date}</p>
     % if event.summary:
         <div>${event.html_summary|n}</div>
-    % endif    
+    % endif
 </%def>
+
 <%def name="event_reports(event, edit_mode=False)">
      <div class="event-reports">
          % if 0 == len(event.reports):
@@ -25,77 +27,88 @@
          <div class="title">
              <h1><a href="${report.url()}">${report.full_title}</a></h1>
              % if edit_mode and h.is_node_owner(event):
-	             <div class="box-actions">
-	                 <a href="${report.url_edit()}">Изменить</a>
-	                 <div class="node-actions">
-	                     <a href="${report.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
-	                 </div>
+                 <div class="box-actions">
+                     <a href="${report.url_edit()}">Изменить</a>
+                     <div class="node-actions">
+                         <a href="${report.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                     </div>
                  </div>
-	         % endif
+             % endif
          </div>
-         
+
          <div class="box-text">
-	         <div class="title-info">
-	             ${node_info(report)}
-	         </div>
+             <div class="title-info">
+                 ${node_info(report)}
+             </div>
              ${h.truncate_html(report.html_content, 500)|n}
-             <div class="box-actions">
-                 % if 500 < len(report.html_content):
+
+            % if 500 < len(report.html_content):
+                <div class="box-actions">
                     <a href="${report.url()}" class="accent">Читать</a>
-                 % endif
-            </div>
+                </div>
+            % endif
+
          </div>
          % endfor
-     </div>          
+     </div>
 </%def>
+
 <%def name="article(article, full_text=True)">
     <div class="title">
-        <h1><a href="${article.url()}">${article.title}</a></h1>
+        <h1>
+            % if full_text:
+                ${article.title}
+            % else:
+                <a href="${article.url()}">${article.title}</a>
+            % endif
+        </h1>
         % if h.is_admin():
             <div class="box-actions">
                 <a href="${article.url_edit()}">Изменить</a>
-	            <div class="node-actions">
-	                % if not article.published:
-	                    <a href="${article.url_publish()}" class="on_page">Опубликовать</a>
-	                %else:
-	                    <a href="${article.url_publish(False)}" class="on_page">В черновики</a>
-	                % endif
-	                
-	                <a href="${article.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
-	            </div>
+                <div class="node-actions">
+                    % if not article.published:
+                        <a href="${article.url_publish()}" class="on_page">Опубликовать</a>
+                    %else:
+                        <a href="${article.url_publish(False)}" class="on_page">В черновики</a>
+                    % endif
+
+                    <a href="${article.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                </div>
             </div>
-        % endif         
+        % endif
     </div>
 
     <div class="box box-text">
-	    <div class="title-info">
-	        ${node_info(article, True)}
-	    </div>
-        
+        <div class="title-info">
+            ${node_info(article, True)}
+        </div>
+
         % if full_text or 500 > len(article.html_content):
             ${article.html_content|n}
         % else:
-	        ${h.truncate_html(article.html_content, 500)|n}
-			<div class="box-actions">
-			     % if 500 < len(article.html_content):
-			        <a href="${article.url()}" class="accent">Читать</a>
-			     % endif
-			</div>
-		% endif
+            ${h.truncate_html(article.html_content, 500)|n}
+            <div class="box-actions">
+                 % if 500 < len(article.html_content):
+                    <a href="${article.url()}" class="accent">Читать</a>
+                 % endif
+            </div>
+        % endif
     </div>
 </%def>
+
 <%def name="google_analytics(id)">
-	<script type="text/javascript">
-	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script type="text/javascript">
-	try{
-	var pageTracker = _gat._getTracker("${id}");
-	pageTracker._trackPageview();
-	} catch(err) {}
-	</script>
+    <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    try{
+    var pageTracker = _gat._getTracker("${id}");
+    pageTracker._trackPageview();
+    } catch(err) {}
+    </script>
 </%def>
+
 <%def name="rst_desc()">
     <span class="desc">Формат текста - <a href="${h.url_for('/a/reStructuredText')}">reStructuredText</a></span>
 </%def>
