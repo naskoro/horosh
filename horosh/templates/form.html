@@ -2,7 +2,7 @@
 <%namespace file="/defs.html" name="defs" import="*" inheritable="True"/>
 <%def name="head()">
     ${include.jquery_form()}
-        
+
     ${self.adds_head()}
 </%def>
 <%def name="adds_head()"></%def>
@@ -28,10 +28,10 @@
                 if (0 == xhr.status && xhr.responseXML) {
                     $.taconite(xhr.responseXML)
                 }
-            } 
+            }
         };
         $('#${self.id()} form').ajaxForm(options);
-        
+
         % if h.on_page() and c.fs.cancel:
         $('#${c.fs.cancel.id}').click(function(){
             $.fn.colorbox.close();
@@ -53,20 +53,20 @@
     % endif
 </%def>
 <%def name="container()">
-	<div id="${self.id()}" class="form-container">
-	    <div id="${self.id()}-informer"></div>
-	    <div id="${self.id()}-loader"></div>
-	    <div id="${self.id()}-form">
-	        ${next.body()}
-	    </div>
-	</div>
+    <div id="${self.id()}" class="form-container">
+        <div id="${self.id()}-informer"></div>
+        <div id="${self.id()}-loader"></div>
+        <div id="${self.id()}-form">
+            ${next.body()}
+        </div>
+    </div>
 </%def>
 <%def name="all_body()">
-	<script type="text/javascript">
-	/* <![CDATA[ */
-	        ${self.script()}
-	/* ]]> */
-	</script>
+    <script type="text/javascript">
+    /* <![CDATA[ */
+            ${self.script()}
+    /* ]]> */
+    </script>
     ${self.container()}
 </%def>
 ${self.all_body()}

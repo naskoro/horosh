@@ -11,34 +11,34 @@
             ${self.title()}
         </div>
 
-		<div class="field">
-		    ${h.title(u'Название', c.fs.title.not_empty(), label_for=c.fs.title.id)}
-		    ${h.text(name=c.fs.title.id, class_='text')}
-		    ${self.field_errors(c.fs.title.id)}
-		</div>
-		
-		<div class="field container">
-		    <div class="span-50-left">
-		        ${h.title(u'Дата начала', c.fs.start.not_empty(), label_for=c.fs.start.id)}
-		        ${h.text(name= c.fs.start.id, class_='text')}
-		        ${self.field_errors(c.fs.start.id)}
-		    </div>
-		    <div class="span-50-right">
-		        ${h.title(u'Дата окончания', c.fs.finish.not_empty(), label_for=c.fs.finish.id)}
-		        ${h.text(name=c.fs.finish.id, class_='text')}
-		        ${self.field_errors(c.fs.finish.id)}
-		    </div>
-		</div>
-		
-		<div class="field">
-		    ${h.title(u'Сводка', c.fs.summary.not_empty(), label_for=c.fs.summary.id)}
-		    ${self.defs.rst_desc()}
-		    ${self.field_errors(c.fs.summary.id)}
-		    ${h.textarea(name=c.fs.summary.id, rows=7)}
-		</div>
-        
+        <div class="field">
+            ${h.title(u'Название', c.fs.title.not_empty(), label_for=c.fs.title.id)}
+            ${h.text(name=c.fs.title.id, class_='text')}
+            ${self.field_errors(c.fs.title.id)}
+        </div>
+
+        <div class="field container">
+            <div class="span-50-left">
+                ${h.title(u'Дата начала', c.fs.start.not_empty(), label_for=c.fs.start.id)}
+                ${h.text(name= c.fs.start.id, class_='text')}
+                ${self.field_errors(c.fs.start.id)}
+            </div>
+            <div class="span-50-right">
+                ${h.title(u'Дата окончания', c.fs.finish.not_empty(), label_for=c.fs.finish.id)}
+                ${h.text(name=c.fs.finish.id, class_='text')}
+                ${self.field_errors(c.fs.finish.id)}
+            </div>
+        </div>
+
+        <div class="field">
+            ${h.title(u'Сводка', c.fs.summary.not_empty(), label_for=c.fs.summary.id)}
+            ${self.defs.rst_desc()}
+            ${self.field_errors(c.fs.summary.id)}
+            ${h.textarea(name=c.fs.summary.id, rows=7)}
+        </div>
+
         <div class="field">
             ${self.actions()}
-        </div>	    
+        </div>
     </div>
 </form>

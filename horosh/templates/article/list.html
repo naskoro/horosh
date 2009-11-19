@@ -25,7 +25,7 @@
                 $(this).find('.node-actions').slideUp('fast');
             }
         );
-        
+
     });
 /* ]]> */
 </script>
@@ -36,9 +36,9 @@
         </div>
     % endif
 
-	% for article in c.nodes:
-	    <div class="article-list-node">
-	        ${defs.article(article, full_text=False)}
-	    </div>
-	% endfor
+    % for article in c.nodes:
+        <div class="article-list-node">
+            ${defs.article(article, full_text=False)}
+        </div>
+    % endfor
 </div>

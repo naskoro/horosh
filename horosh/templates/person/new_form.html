@@ -3,8 +3,8 @@
 <%def name="title()">Новоя персона</%def>
 <%def name="id()">${c.form.name}</%def>
 <%def name="actions()">
-	${h.submit(value=u'создать', name=c.fs.save.id)}
-	${h.submit(value=u'отмена', name=c.fs.cancel.id)}
+    ${h.submit(value=u'создать', name=c.fs.save.id)}
+    ${h.submit(value=u'отмена', name=c.fs.cancel.id)}
 </%def>
 ##${h.form("", id = form_id(), method='post',  multipart=True)}
 <form method="post" action="${c.form.action}" enctype="multipart/form-data">
@@ -12,23 +12,23 @@
         <div class="box-title">
             ${self.title()}
         </div>
-	    
-	    <div class="field">
-		    ${h.title(u'Имя', c.fs.fullname.not_empty(), label_for=c.fs.fullname.id)}
-		    ${h.text(name=c.fs.fullname.id, class_='text')}
-		    ${self.field_errors(c.fs.fullname.id)}
-		</div>
-		
-		<div class="field">
-		    ${h.title(u'Аватара', c.fs.avatar.not_empty(), label_for=c.fs.avatar.id)}
-		    ${h.file(name=c.fs.avatar.id, class_='text')}
-		    ${self.field_errors(c.fs.avatar.id)}
-		    
-		    % if c.node:
-		        <img class="box-img" alt="${c.node.fullname}" src="${h.url_for(controller='person', action='avatar', id=c.node.id)}"/>
-		    % endif
-		</div>
-        
+
+        <div class="field">
+            ${h.title(u'Имя', c.fs.fullname.not_empty(), label_for=c.fs.fullname.id)}
+            ${h.text(name=c.fs.fullname.id, class_='text')}
+            ${self.field_errors(c.fs.fullname.id)}
+        </div>
+
+        <div class="field">
+            ${h.title(u'Аватара', c.fs.avatar.not_empty(), label_for=c.fs.avatar.id)}
+            ${h.file(name=c.fs.avatar.id, class_='text')}
+            ${self.field_errors(c.fs.avatar.id)}
+
+            % if c.node:
+                <img class="box-img" alt="${c.node.fullname}" src="${h.url_for(controller='person', action='avatar', id=c.node.id)}"/>
+            % endif
+        </div>
+
         <div class="field">
             ${self.actions()}
         </div>

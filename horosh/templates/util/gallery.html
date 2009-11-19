@@ -2,20 +2,20 @@
 /* <![CDATA[ */
 $(document).ready(function(){
     $("#${id} a[rel='${id}']").colorbox();
-    
-	$('#${id}').napokaz({ count_per_page: ${count_per_page} });
+
+    $('#${id}').napokaz({ count_per_page: ${count_per_page} });
 })
 /* ]]> */
 </script>
 <div id="${id}" class="gallery ${align}">
     <div class="gallery-items">
-	% for photo in photos:
-	    ${h.link_to(
-	        h.image(photo['url_pattern'] % 144, photo['title'], height='108px'),
-	        photo['url_pattern'] % 640,
-	        rel=id,
-	        title=photo['title'],
-	    )}
-	% endfor
-	</div>
+    % for photo in photos:
+        ${h.link_to(
+            h.image(photo['url_pattern'] % 144, photo['title'], height='108px'),
+            photo['url_pattern'] % 640,
+            rel=id,
+            title=photo['title'],
+        )}
+    % endfor
+    </div>
 </div>

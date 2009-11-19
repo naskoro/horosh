@@ -9,9 +9,9 @@
     ${self.include.jquery_colorbox()}
     ${self.include.jquery_cicle()}
     ${self.include.jquery_napokaz()}
-    
+
     ${self.adds_head()}
-    
+
     ${h.stylesheet_link(h.url_for('/css/style.css'))}
     <!--[if lt IE 8]>
         <link rel="stylesheet" href="${h.url_for('/css/ie.css')}" type="text/css" />
@@ -20,19 +20,19 @@
 <%def name="adds_head()"></%def>
 <div id="layout">
     <div id="header">
-        
+
         <a href="${h.url_for('/')}" class="logo"></a>
-        
+
         <div class="slogan">
             Берегите природу
         </div>
 
         <div class="nav"><ul>
             <li><a href="${h.url_for('/demo')}">Демонстрация</a></li>
-	        <li><a href="${h.url_for('/a/about')}">О проекте</a></li>
-	        <li><a href="${h.url_for('/pulse')}">Пульс проекта</a></li>
-	        <li><a href="${h.url_for('/a/contacts')}">Контакты</a></li>
-	    </ul></div>
+            <li><a href="${h.url_for('/a/about')}">О проекте</a></li>
+            <li><a href="${h.url_for('/pulse')}">Пульс проекта</a></li>
+            <li><a href="${h.url_for('/a/contacts')}">Контакты</a></li>
+        </ul></div>
     </div>
     <div id="center" class="container">
         <div class="span-80">
@@ -46,9 +46,9 @@
         </div></div>
     </div>
     <div id="footer">
-        <span class="copyright">&copy; 2009 horosh.org</span> 
+        <span class="copyright">&copy; 2009 horosh.org</span>
         При использовании материалов сайта гиперссылка на <a href="http://horosh.org">horosh.org</a> обязательна.</div>
-        
+
         % if 'google_analytics' in config:
             ${defs.google_analytics(config['google_analytics'])}
         % endif

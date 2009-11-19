@@ -27,7 +27,7 @@
         <h1><a href="${c.node.event.url()}">${c.node.event.title}</a></h1>
         <div class="box-actions">
             <a href="${c.node.event.url()}">К событию</a>
-        </div>         
+        </div>
     </div>
     <div class="title-info">
         ${defs.node_info(c.node.event)}
@@ -36,19 +36,19 @@
     <div class="box">
         ${defs.event_details(c.node.event)}
     </div>
-    
+
     <div class="box">
         <div class="box-title">
             Участники
         </div>
         <div class="report-persons container">
-            
+
             % if 0 == len(c.node.event.persons):
                <div class="box-empty">
                    Участников нет.
                </div>
             % endif
-        
+
             % for person in c.node.event.persons:
             <div class="span-20"><div class="node avatar">
                 <a title="${person.fullname}">
@@ -60,23 +60,23 @@
         </div>
     </div>
 
-    
+
     <div class="title">
         <h1>${c.node.full_title}</h1>
         % if h.is_node_owner(c.node):
             <div class="box-actions">
                 <a href="${c.node.url_edit()}">Изменить</a>
-	            <div class="node-actions">
-	                <a href="${c.node.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
-	            </div>
+                <div class="node-actions">
+                    <a href="${c.node.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                </div>
             </div>
         % endif
     </div>
-	<div class="box box-text">
-	    <div class="title-info">
-	        ${defs.node_info(c.node)}
-	    </div>
-	
-	    ${c.node.html_content|n}
-	</div>
+    <div class="box box-text">
+        <div class="title-info">
+            ${defs.node_info(c.node)}
+        </div>
+
+        ${c.node.html_content|n}
+    </div>
 </div>

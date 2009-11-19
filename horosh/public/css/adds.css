@@ -291,6 +291,7 @@ a:hover {
     margin: 10px;
 }
 .box-empty {
+    background-color: #fff;
     padding: 25px;
 }
 
