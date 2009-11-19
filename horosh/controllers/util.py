@@ -29,28 +29,28 @@ class UtilController(BaseController):
     def login(self):
         c.message = u'Login success'
         return redirect_to('/')
-    
+
     @authorize(ValidAuthKitUser())
     def logout(self):
         c.message = u'Logout success'
         return redirect_to('/')
-    
+
     @authorize(HasAuthKitRole('admin'))
     def demo_up(self):
         event = meta.Session.query(model.Event).filter(
             model.Event.id == 1
         ).one()
-        
+
         user = meta.Session.query(model.User).filter(
             model.User.nickname == 'nobody'
         ).one()
-        
+
         for node in event.persons: meta.Session.delete(node)
         for node in event.reports: meta.Session.delete(node)
         for node in event.albums: meta.Session.delete(node)
-        
+
         meta.Session.commit()
-        
+
         dir = config['demo_dir']
 
         info_file = os.path.join(dir, 'info.yml')
@@ -60,7 +60,7 @@ class UtilController(BaseController):
         event.title = info['title']
         event.node_user = user
         event.created = datetime.now()
-        
+
         if 'albums' in info:
             for album in info['albums']:
                 node = model.Album()
@@ -68,9 +68,9 @@ class UtilController(BaseController):
                 node.node_user = user
                 node.events = [event]
                 meta.Session.add(node)
-        
-        
-        persons_dir = os.path.join(dir, 'persons')
+
+
+        persons_dir = os.path.join(dir, u'persons')
         for file in os.listdir(persons_dir):
             path =  os.path.join(persons_dir, file)
             if os.path.isfile(path):
@@ -80,41 +80,42 @@ class UtilController(BaseController):
                 node.node_user = user
                 node.event = event
                 meta.Session.add(node)
-                
-        reports_dir = os.path.join(dir, 'reports')            
+
+        reports_dir = os.path.join(dir, u'reports')
         for file in os.listdir(reports_dir):
             path =  os.path.join(reports_dir, file)
             if os.path.isfile(path):
                 text = codecs.open(path, 'r', 'utf-8').read()
+                node.title = u'' + file.split('.')[0]
                 node = model.Report()
-                node.content = text                    
+                node.content = text
                 node.node_user = user
                 node.event = event
                 meta.Session.add(node)
-        
+
         meta.Session.commit()
-        
+
         c.message = u'Демонстрация обновлена'
         c.type = 'success'
         return render('/util/message.html')
-    
+
     @restrict('POST')
     def markdown(self):
-        text = request.POST['data'] 
+        text = request.POST['data']
         if text is None:
             abort(400)
-        c.content = markdown(text)     
+        c.content = markdown(text)
         return render('/util/response.html')
 
     @restrict('POST')
     def rst(self):
-        text = request.POST['data'] 
+        text = request.POST['data']
         if c.content is None:
             abort(400)
         text = rst2html(text)
-        c.content = text     
+        c.content = text
         return render('/util/response.html')
-    
+
     def flash_file(self, id):
         if id in session['flash_file']:
             file =  session['flash_file'][id];
