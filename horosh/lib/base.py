@@ -63,7 +63,6 @@ class BaseController(WSGIController):
     def __before__(self):
         self.is_page_back = False
         c.flash_messages = flash.pop_messages()
-        log.debug(c.flash_messages)
         c.current_user=current_user()
 
     def __after__(self):

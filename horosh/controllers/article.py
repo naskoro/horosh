@@ -201,5 +201,5 @@ class ArticleController(BaseController):
         meta.Session.commit()
         flash(u'Статья успешно удалена')
         if self.back_page() is not None:
-            return redirect_to(self.back_page())
+            return redirect_to(**self.back_page())
         return redirect_to('articles')
