@@ -17,6 +17,7 @@ a:hover {
     width: 960px;
     margin: 0 auto;
     padding: 0 5px;
+    position: relative;
 }
 
 #center {
@@ -29,10 +30,23 @@ a:hover {
 }
 
 #informer {
-    padding: 5px 8px 0 0;
-    display: none;
-}
+    position: absolute;
+    top: 20px;
+    z-index: 1000;
+    padding: 5px 50px 5px 10px;
+    margin: 0 200px;
+    background-color: #fea;
+    border: 2px solid #fd2;
+    font-weight: bold;
+    text-align: center;
 
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+#informer .control-close {
+    margin-top: -5px;
+    float: right;
+}
 #main {
     padding: 10px 8px 0 0;
 }
@@ -159,7 +173,7 @@ a:hover {
 /* Misc classes */
 .loading {
     opacity: 0.7;
-    z-index:9999;
+    z-index:999;
     overflow:hidden;
     position:absolute;
     width:100%;
@@ -177,6 +191,7 @@ a:hover {
 
 /* reStructuredText */
 .document {
+    overflow: hidden;
 }
 .section h1 a{
     text-decoration: none;
@@ -474,7 +489,7 @@ a:hover {
 }
 
 /* Controls */
-.control-prev, .control-next{
+.control-prev, .control-next {
     margin-right:3px;
     background: url(../images/controls.png) 0px 0px no-repeat;
     width:16px;
@@ -487,3 +502,13 @@ a:hover {
 .control-prev:hover{background-position:0px -16px;}
 .control-next{bottom:0;left:16px;background-position:-16px 0px;}
 .control-next:hover{background-position:-16px -16px;}
+.control-close {
+    background:url(../colorbox/images/controls.png) 0px 0px no-repeat;
+    width:23px;
+    height:23px;
+    text-indent:-9999px;
+    position:absolute;
+    cursor: pointer;
+}
+.control-close{right:0; background-position:-100px -25px;}
+.control-close:hover{background-position:-100px 0px;}

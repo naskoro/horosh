@@ -1,21 +1,24 @@
+<%namespace file="/defs.html" name="defs" import="*"/>
 <taconite>
 % if h.on_page() and not c.is_full_redirect:
     <eval><![CDATA[
-        $.ajax({url: '${h.url_for(*c.args, **c.kwargs)}'});
-        ##$('#main').load('${h.url_for(*c.args, **c.kwargs)}')
+        $.ajax({url: '${c.url}'});
+        ##$('#main').load('${c.url}')
         $.fn.colorbox.close()
-        $('#loader').show();        
-    ]]></eval>    
+        $('#loader').show();
+    ]]></eval>
 % else:
     <eval><![CDATA[
         $('#informer').show();
-        window.location='${h.url_for(*c.args, **c.kwargs)}';
+        window.location='${c.url}';
     ]]></eval>
-    <replaceContent select="#informer">    
-        <div class="box-success">
-        Подождите, страница перенаправляется. Если перенапровления долго не происходит, 
-        нажмите <a href="${h.url_for(*c.args, **c.kwargs)}">тут</a>.
-        </div>
-    </replaceContent>
+    <replace select="#informer">
+        ${defs.informer(
+            [u'''
+            Подождите, страница перенаправляется. Если перенапровления
+            долго не происходит, нажмите <a href="%s">тут</a>.
+            ''' % c.url]
+        )}
+    </replace>
 % endif
 </taconite>

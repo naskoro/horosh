@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax, current_user, redirect_to
+from horosh.lib.base import BaseController, render, is_ajax, \
+    current_user, redirect_to, flash
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
@@ -19,36 +20,36 @@ class ReportForm(form.FieldSet):
             form.Field('save_view'),
             form.Field('cancel')
         )
-    
+
 class ReportController(BaseController):
     def new(self, event_id):
         event_node = self._get_row(model.Event, event_id)
         self._check_access(event_node)
-        
+
         fs = ReportForm('report-new')
 
         if request.POST and fs.fields.cancel.id in request.POST:
             return redirect_to(event_node.url())
-        
+
         if request.POST and fs.is_valid(request.POST):
             node = model.Report()
             node.title = fs.fields.title.value
             node.content = fs.fields.content.value
-            node.event = event_node 
+            node.event = event_node
             node.node_user_id = current_user().id
-            
+
             meta.Session.add(node)
             meta.Session.commit()
-            
+            flash(u'Отчет успешно добавлен')
             if fs.fields.save_view.id in request.POST:
                 return redirect_to(node.url())
             else:
                 return redirect_to(event_node.url())
 
-        
+
         c.form = fs
         c.fs = fs.fields
-        
+
         if is_ajax():
             result = render('/report/new_partial.html')
         else:
@@ -59,15 +60,15 @@ class ReportController(BaseController):
 
     def show(self, event_id, id):
         self.is_page_back = True
-        
+
         event_node = self._get_row(model.Event, event_id)
-        
+
         node = event_node.report_by_number(id)
         if node is None:
             abort(404)
-         
+
         c.node = node
-        
+
         return render('/report/show.html')
 
     def edit(self, id, event_id):
@@ -85,11 +86,12 @@ class ReportController(BaseController):
             return redirect_to(node.url())
 
         if request.POST and fs.is_valid(request.POST):
-            
+
             node.title = fs.fields.title.value
             node.content = fs.fields.content.value
-            
+
             meta.Session.commit()
+            flash(u'Отчет успешно сохранен')
             if fs.fields.save_view.id in request.POST:
                 return redirect_to(node.url())
             else:
@@ -100,11 +102,11 @@ class ReportController(BaseController):
                 'title': node.title,
                 'content': node.content
             })
-        
+
         c.form = fs
         c.fs = fs.fields
         c.node = node
-        
+
         if is_ajax():
             result = render('/report/edit_partial.html')
         else:
@@ -118,28 +120,29 @@ class ReportController(BaseController):
         node = event_node.report_by_number(id)
         if node is None:
             abort(404)
-        
+
         meta.Session.delete(node)
         meta.Session.commit()
+        flash(u'Отчет успешно удален')
         return redirect_to(event_node.url())
-    
+
     def _event_has_report(self, event, report):
         for item in event.reports:
             if item.id == report.id:
                 return
         abort(404)
-    
+
     def _redirect_to_default(self, event_node, node = None):
         if node is None:
             return self._redirect_to(
-                controller='event', 
-                action='show', 
+                controller='event',
+                action='show',
                 id=event_node.id,
             )
-            
+
         return self._redirect_to(
-            controller='report', 
-            action='show', 
+            controller='report',
+            action='show',
             event_id=event_node.id,
             id = node.number,
         )

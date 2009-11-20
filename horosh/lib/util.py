@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from authkit.authorize.pylons_adaptors import authorized
+from authkit.permissions import HasAuthKitRole
 from docutils.core import publish_parts
 from mako.template import Template
+from pylons import request
 from pylons.templating import pylons_globals
 from webhelpers.text import truncate
 from html5lib import treebuilders
@@ -12,7 +15,7 @@ log = logging.getLogger(__name__)
 
 def rst2html(text, use_ext=True):
     text = publish_parts(
-        text, 
+        text,
         writer_name='html',
         settings_overrides=dict(file_insertion_enabled=False, raw_enabled=False)
     )
@@ -21,14 +24,14 @@ def rst2html(text, use_ext=True):
         globs = pylons_globals()
         template = Template(result)
         result = template.render_unicode(**globs)
-        
+
     return result
 
 def truncate_html(*args):
-    document = truncate(*args) 
+    document = truncate(*args)
     parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("dom"))
     document = parser.parse(document)
-    
+
     xml = document.getElementsByTagName('body')[0].childNodes[0].toxml()
     return xml
 

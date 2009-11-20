@@ -59,7 +59,7 @@
                     url: this.href,
                     data: {on_page:1},
                     beforeSend: function(){
-                        $('#informer').html('');
+                        $('#informer').hide().html('');
                         $('#loader').show();
                     },
                     complete: function (xhr, type)  {

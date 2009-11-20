@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from horosh.lib.base import current_user, render
+from horosh.lib.base import render, current_user
 from horosh.model import meta
 from horosh import model
 from sqlalchemy import and_

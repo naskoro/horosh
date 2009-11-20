@@ -1,7 +1,11 @@
+<%namespace file="/defs.html" name="defs" import="*"/>
 <taconite>
     <replaceContent select="#main">
         ${xhtml|n}
     </replaceContent>
+    <replace select="#informer">
+        ${defs.informer(c.flash_messages)}
+    </replace>
     <eval><![CDATA[
         ${scripts|n}
     ]]></eval>

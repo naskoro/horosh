@@ -21,76 +21,76 @@ def make_map():
     # CUSTOM ROUTES HERE
     map.connect('/login', controller='util', action='login')
     map.connect('/logout', controller='util', action='logout')
-    
-    map.connect('/demo', 
+
+    map.connect('demo', '/demo',
         controller='event', action='show', id=1
     )
-    map.connect('/demo/up', 
+    map.connect('/demo/up',
         controller='util', action='demo_up'
     )
-    
+
     # Article
     map.connect('/a/{path}', controller='article', action='show')
-    
-    map.connect('/article-{id}/do/published={published}', 
+
+    map.connect('/article-{id}/do/published={published}',
         controller='article', action='publish',
         requirements=dict(id='\d*', published='0|1')
     )
     map.connect('articles', '/articles', controller='article', action='list')
-    map.connect('pulse', '/pulse/{action}', 
+    map.connect('pulse', '/pulse/{action}',
         controller='article', action='list', label='pulse'
     )
-    
+
     # Events
     map.connect('/', controller='event', action='list')
-    map.connect('user', '/~{user}', controller='event', action='list')    
-    map.connect('/event-{id}-{title}', 
+    map.connect('user', '/~{user}', controller='event', action='list')
+    map.connect('/event-{id}-{title}',
         controller='event', action='show',
         requirements=dict(event_id='\d*')
     )
-    map.connect('/event-{event_id}-{title}/report-{id}', 
+    map.connect('/event-{event_id}-{title}/report-{id}',
         controller='report', action='show',
         requirements=dict(event_id='\d*', id='\d*')
     )
-    map.connect('/event-{id}/do/published={published}', 
+    map.connect('/event-{id}/do/published={published}',
         controller='event', action='publish',
         requirements=dict(id='\d*', published='0|1')
     )
-    
+
     # Report for event
-    map.connect('/event-{event_id}/add/report', 
+    map.connect('/event-{event_id}/add/report',
         controller='report', action='new',
         requirements=dict(event_id='\d*')
     )
-    map.connect('/event-{event_id}/edit/report-{id}', 
+    map.connect('/event-{event_id}/edit/report-{id}',
         controller='report', action='edit',
         requirements=dict(event_id='\d*', id='\d*')
     )
-    map.connect('/event-{event_id}/remove/report-{id}', 
+    map.connect('/event-{event_id}/remove/report-{id}',
         controller='report', action='remove',
         requirements=dict(event_id='\d*', id='\d*')
     )
-    
+
     # Person for event
-    map.connect('/event-{event_id}/add/person', 
+    map.connect('/event-{event_id}/add/person',
         controller='person', action='new',
         requirements=dict(event_id='\d*')
     )
-    map.connect('/event-{event_id}/edit/person-{id}', 
+    map.connect('/event-{event_id}/edit/person-{id}',
         controller='person', action='edit',
         requirements=dict(event_id='\d*', id='\d*')
     )
-    map.connect('/event-{event_id}/remove/person-{id}', 
+    map.connect('/event-{event_id}/remove/person-{id}',
         controller='person', action='remove',
         requirements=dict(event_id='\d*', id='\d*')
     )
-    
+
     # Album for event
-    map.connect('/event-{event_id}/add/album', 
+    map.connect('/event-{event_id}/add/album',
         controller='album', action='new',
         requirements=dict(event_id='\d*')
     )
-    map.connect('/event-{event_id}/remove/album-{id}', 
+    map.connect('/event-{event_id}/remove/album-{id}',
         controller='album', action='remove',
         requirements=dict(event_id='\d*', id='\d*')
     )
@@ -98,9 +98,9 @@ def make_map():
         controller='person', action='avatar',
         requirements=dict(event_id='\d*')
     )
-    
+
     map.connect('/{controller}-{id}/{action}', action='show', requirements=dict(id='\d*'))
     map.connect('/{controller}/{action}')
-    
+
 
     return map

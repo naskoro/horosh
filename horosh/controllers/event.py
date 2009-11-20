@@ -2,7 +2,8 @@
 
 from datetime import datetime
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax, current_user
+from horosh.lib.base import BaseController, render, is_ajax, \
+        current_user, flash
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
@@ -14,21 +15,21 @@ import logging
 log = logging.getLogger(__name__)
 
 DATE_FORMAT = '%d/%m/%Y'
-MONTH_STYLE = 'dd/mm/yyyy' # 'dd/mm/yyyy' or 'mm/dd/yyyy' 
+MONTH_STYLE = 'dd/mm/yyyy' # 'dd/mm/yyyy' or 'mm/dd/yyyy'
 
 class EventForm(form.FieldSet):
     def init(self):
         self.adds(
             form.Field('title', validator=form.v.String(not_empty=True, max=50)),
-            form.Field('start', 
+            form.Field('start',
                 validator=form.v.DateConverter(
-                    not_empty=True, 
+                    not_empty=True,
                     month_style=MONTH_STYLE
                 )
             ),
-            form.Field('finish',         
+            form.Field('finish',
                 validator=form.v.DateConverter(
-                    not_empty=True, 
+                    not_empty=True,
                     month_style=MONTH_STYLE
                 )
             ),
@@ -36,7 +37,7 @@ class EventForm(form.FieldSet):
             form.Field('save'),
             form.Field('cancel')
         )
-        
+
 class EventController(BaseController):
     def new(self):
         fs = EventForm('event-new')
@@ -47,14 +48,15 @@ class EventController(BaseController):
             node.start = fs.fields.start.value
             node.finish = fs.fields.finish.value
             node.node_user_id = current_user().id
-            
+
             meta.Session.add(node)
             meta.Session.commit()
+            flash(u'Событие успешно добавлено')
             return self._redirect_to_default(node.id)
-        
+
         c.form = fs
         c.fs = fs.fields
-        
+
         if is_ajax():
             result = render('/event/new_partial.html')
         else:
@@ -62,13 +64,13 @@ class EventController(BaseController):
         if request.POST:
             result = fs.htmlfill(result)
         return result
-    
+
     def edit(self, id):
         node = self._get_row(model.Event, id)
         self._check_access(node)
-        
+
         fs = EventForm('event-edit')
-        
+
         if request.POST and fs.fields.cancel.id in request.POST:
             return self._redirect_to_default(node.id)
 
@@ -77,11 +79,11 @@ class EventController(BaseController):
             node.summary = fs.fields.summary.value
             node.start = fs.fields.start.value
             node.finish = fs.fields.finish.value
-            
-            meta.Session.commit()
 
+            meta.Session.commit()
+            flash(u'Информация о событии успешно сохранена')
             return self._redirect_to_default(node.id)
-        
+
         if not request.POST:
             fs.set_values({
                 'title': node.title,
@@ -93,18 +95,18 @@ class EventController(BaseController):
         c.node = node
         c.form = fs
         c.fs = fs.fields
-        
+
         if is_ajax():
             result = render('/event/edit_partial.html')
         else:
             result = render('/event/edit.html')
         return fs.htmlfill(result)
-    
+
     def show(self, id):
         self.is_page_back = True
-        
+
         c.node = self._get_row(model.Event, id)
-        
+
         if is_ajax():
             result = self.taconite(render('/event/show_partial.html'))
         else:
@@ -113,11 +115,11 @@ class EventController(BaseController):
 
     def list(self, user=None):
         self.is_page_back = True
-         
+
         query = meta.Session.query(model.Event)
         if user is None:
             query = query.select_from(
-                    join(model.Event, model.User, 
+                    join(model.Event, model.User,
                          model.Event.node_user_id == model.User.id
                     )
                 ).filter(
@@ -127,17 +129,17 @@ class EventController(BaseController):
                     )
                 )
         else:
-            user_query = meta.Session.query(model.User) 
+            user_query = meta.Session.query(model.User)
             try:
                 user_node = user_query.filter(model.User.nickname == user).one()
             except NoResultFound:
                 abort(404)
-            
+
             query = query.filter(model.Event.node_user_id == user_node.id)
-            
+
             if user_node.nickname != current_user().nickname:
                 query = query.filter(model.Event.published != None)
-                
+
         query = query.order_by(model.Event.created.desc())
         c.nodes = query.all()
         return render('event/list.html')
@@ -147,13 +149,14 @@ class EventController(BaseController):
         if 1 == node.id:
             abort(403)
         self._check_access(node)
-        
+
         meta.Session.delete(node)
         meta.Session.commit()
+        flash(u'Событие успешно удалено')
         c.is_full_redirect=True
         return self._redirect_to(
-            controller='event', 
-            action='list', 
+            controller='event',
+            action='list',
             user=current_user().nickname
         )
 
@@ -163,10 +166,13 @@ class EventController(BaseController):
 
         if published=='1':
             node.published = datetime.now()
+            message = u'Событие успешно опубликовано'
         else:
-            node.published = None 
-            
+            node.published = None
+            message = u'Событие успешно сохранено как черновик'
+
         meta.Session.commit()
+        flash(message)
         return self._redirect_to_default(node.id)
 
     def _redirect_to_default(self, id):

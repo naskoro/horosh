@@ -16,11 +16,20 @@
     <!--[if lt IE 8]>
         <link rel="stylesheet" href="${h.url_for('/css/ie.css')}" type="text/css" />
     <![endif]-->
+<script type="text/javascript">
+/* <![CDATA[ */
+    $(document).ready(function(){
+        $('#informer .control-close').live("click", function(){
+            $(this).parent().hide().html('');
+        });
+    });
+/* ]]> */
+</script>
+
 </%def>
 <%def name="adds_head()"></%def>
 <div id="layout">
     <div id="header">
-
         <a href="${h.url_for('/')}" class="logo"></a>
 
         <div class="slogan">
@@ -34,9 +43,9 @@
             <li><a href="${h.url_for('/a/contacts')}">Контакты</a></li>
         </ul></div>
     </div>
+    ${defs.informer(c.flash_messages)}
     <div id="center" class="container">
         <div class="span-80">
-            <div id="informer"></div>
             <div id="main">
                 ${next.body()}
             </div>

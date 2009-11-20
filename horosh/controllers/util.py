@@ -6,7 +6,7 @@ from cStringIO import StringIO
 from datetime import datetime
 from horosh import model
 from horosh.lib import picasa
-from horosh.lib.base import BaseController, render
+from horosh.lib.base import BaseController, render, flash
 from horosh.lib.util import rst2html
 from horosh.model import meta
 from mimetypes import guess_type
@@ -58,6 +58,8 @@ class UtilController(BaseController):
         info = yaml.load(info)
 
         event.title = info['title']
+        if 'summary' in info:
+            event.summary = info['summary']
         event.node_user = user
         event.created = datetime.now()
 
@@ -95,9 +97,9 @@ class UtilController(BaseController):
 
         meta.Session.commit()
 
-        c.message = u'Демонстрация обновлена'
-        c.type = 'success'
-        return render('/util/message.html')
+        flash(u'Демонстрация обновлена')
+        log.debug(session['flash'])
+        return redirect_to('demo')
 
     @restrict('POST')
     def markdown(self):

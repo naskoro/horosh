@@ -112,3 +112,16 @@
 <%def name="rst_desc()">
     <span class="desc">Формат текста - <a href="${h.url_for('/a/reStructuredText')}">reStructuredText</a></span>
 </%def>
+
+<%def name="informer(messages)">
+    % if messages:
+        <div id="informer">
+            <a class="control-close">Закрыть</a>
+            % for message in messages:
+            <div>${message|n}</div>
+            % endfor
+        </div>
+    % else:
+        <div id="informer" class="hide"></div>
+    % endif
+</%def>
