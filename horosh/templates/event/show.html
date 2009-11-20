@@ -59,14 +59,11 @@
                     url: this.href,
                     data: {on_page:1},
                     beforeSend: function(){
-                        $('#informer').hide().html('');
+                        $('#informer').html('');
                         $('#loader').show();
                     },
                     complete: function (xhr, type)  {
                         if(type !== "success"){
-                            $('#informer').html(
-                                '<div class="box-error">При выполнении запроса произшла ошибка.</div>'
-                            ).show();
                             $('#loader').hide();
                         }
                     },

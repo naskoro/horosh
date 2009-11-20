@@ -28,41 +28,39 @@ a:hover {
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
 }
-
-#informer {
-    position: absolute;
-    top: 20px;
-    z-index: 1000;
-    padding: 5px 50px 5px 10px;
-    margin: 0 200px;
-    background-color: #fea;
-    border: 2px solid #fd2;
-    font-weight: bold;
-    text-align: center;
-
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-}
-#informer .control-close {
-    margin-top: -5px;
-    float: right;
-}
 #main {
     padding: 10px 8px 0 0;
 }
 
-#sidebar {
-    overflow: hidden;
+/* Informer */
+#informer {
+    position: absolute;
+    top: 20px;
+    z-index: 1000;
+    margin: 0 200px;
 }
+#informer .messages {
+    position: relative;
+    padding: 5px 50px 5px 10px;
+    font-weight: bold;
+    background-color: #fea;
+    border: 2px solid #fd2;
 
-/* Footer */
-#footer {
-    color: #fff;
-    padding: 5px 0;
-    text-align: center;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
 }
-#footer .copyright {
-    margin-right: 20px;
+#informer .messages.success {
+    background-color: #efc;
+    border-color: #cd8;
+}
+#informer .messages.error {
+    background-color: #fba;
+    border-color: #f96;
+}
+#informer .control-close {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 /* Header */
@@ -130,6 +128,9 @@ a:hover {
 }
 
 /* Sidebar */
+#sidebar {
+    overflow: hidden;
+}
 .sidebar-box {
     margin-top: 8px;
     padding: 3px;
@@ -168,6 +169,16 @@ a:hover {
 
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+}
+
+/* Footer */
+#footer {
+    color: #fff;
+    padding: 5px 0;
+    text-align: center;
+}
+#footer .copyright {
+    margin-right: 20px;
 }
 
 /* Misc classes */

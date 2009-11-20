@@ -3,9 +3,9 @@
     <replaceContent select="#main">
         ${xhtml|n}
     </replaceContent>
-    <replace select="#informer">
+    <replaceContent select="#informer">
         ${defs.informer(c.flash_messages)}
-    </replace>
+    </replaceContent>
     <eval><![CDATA[
         ${scripts|n}
     ]]></eval>

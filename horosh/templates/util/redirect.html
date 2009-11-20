@@ -12,13 +12,13 @@
         $('#informer').show();
         window.location='${c.url}';
     ]]></eval>
-    <replace select="#informer">
+    <replaceContent select="#informer">
         ${defs.informer(
             [u'''
             Подождите, страница перенаправляется. Если перенапровления
             долго не происходит, нажмите <a href="%s">тут</a>.
             ''' % c.url]
         )}
-    </replace>
+    </replaceContent>
 % endif
 </taconite>

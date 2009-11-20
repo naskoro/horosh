@@ -20,9 +20,6 @@
             },
             complete: function (xhr, type)  {
                 if(type !== "success"){
-                    $('#${self.id()}-informer').html(
-                        '<div class="box-error">При выполнении запроса произшла ошибка.</div>'
-                    );
                     $('#${self.id()}-loader').removeClass('loading');
                 }
                 if (0 == xhr.status && xhr.responseXML) {

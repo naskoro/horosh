@@ -19,8 +19,12 @@
 <script type="text/javascript">
 /* <![CDATA[ */
     $(document).ready(function(){
+        $("#informer").ajaxError(function(event, request, settings){
+            $(this).html('<div class="messages error">При выполнении запроса произшла ошибка<a class="control-close">Закрыть</a></div>')
+        });
+
         $('#informer .control-close').live("click", function(){
-            $(this).parent().hide().html('');
+            $('#informer').html('');
         });
     });
 /* ]]> */
@@ -43,7 +47,9 @@
             <li><a href="${h.url_for('/a/contacts')}">Контакты</a></li>
         </ul></div>
     </div>
-    ${defs.informer(c.flash_messages)}
+    <div id="informer">
+        ${defs.informer(c.flash_messages)}
+    </div>
     <div id="center" class="container">
         <div class="span-80">
             <div id="main">

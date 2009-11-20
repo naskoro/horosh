@@ -113,15 +113,13 @@
     <span class="desc">Формат текста - <a href="${h.url_for('/a/reStructuredText')}">reStructuredText</a></span>
 </%def>
 
-<%def name="informer(messages)">
+<%def name="informer(messages, type='notice')">
     % if messages:
-        <div id="informer">
+        <div class="messages ${type}">
             <a class="control-close">Закрыть</a>
             % for message in messages:
             <div>${message|n}</div>
             % endfor
         </div>
-    % else:
-        <div id="informer" class="hide"></div>
     % endif
 </%def>
