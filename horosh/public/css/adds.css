@@ -41,7 +41,7 @@ a:hover {
 }
 #informer .messages {
     position: relative;
-    padding: 5px 50px 5px 10px;
+    padding: 5px 25px 5px 10px;
     font-weight: bold;
     background-color: #fea;
     border: 2px solid #fd2;
@@ -59,8 +59,8 @@ a:hover {
 }
 #informer .control-close {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 6px;
+    right: 2px;
 }
 
 /* Header */
@@ -490,6 +490,10 @@ a:hover {
     position: relative;
     float: left;
 }
+.gallery-controls-buttons .control-prev,
+.gallery-controls-buttons .control-next {
+    margin-right:3px;
+}
 .gallery-controls-pager {
     padding: 3px 5px 0 0;
     margin-left: 35px;
@@ -500,8 +504,7 @@ a:hover {
 }
 
 /* Controls */
-.control-prev, .control-next {
-    margin-right:3px;
+.control-prev, .control-next, .control-close {
     background: url(../images/controls.png) 0px 0px no-repeat;
     width:16px;
     height:16px;
@@ -510,16 +513,8 @@ a:hover {
     cursor: pointer;
 }
 .control-prev{bottom:0;left:0;background-position: 0px 0px;}
-.control-prev:hover{background-position:0px -16px;}
-.control-next{bottom:0;left:16px;background-position:-16px 0px;}
-.control-next:hover{background-position:-16px -16px;}
-.control-close {
-    background:url(../colorbox/images/controls.png) 0px 0px no-repeat;
-    width:23px;
-    height:23px;
-    text-indent:-9999px;
-    position:absolute;
-    cursor: pointer;
-}
-.control-close{right:0; background-position:-100px -25px;}
-.control-close:hover{background-position:-100px 0px;}
+.control-prev:hover{background-position: 0px -16px;}
+.control-next{bottom:0;left:16px;background-position: -16px 0px;}
+.control-next:hover{background-position: -16px -16px;}
+.control-close{right:0; background-position: -32px 0px;}
+.control-close:hover{background-position: -32px -16px;}
