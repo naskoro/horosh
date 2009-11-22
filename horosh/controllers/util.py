@@ -60,6 +60,10 @@ class UtilController(BaseController):
         event.title = info['title']
         if 'summary' in info:
             event.summary = info['summary']
+        if 'start' in info:
+            event.satrt = info['start']
+        if 'finish' in info:
+            event.satrt = info['finish']
         event.node_user = user
         event.created = datetime.now()
 
@@ -98,7 +102,6 @@ class UtilController(BaseController):
         meta.Session.commit()
 
         flash(u'Демонстрация обновлена')
-        log.debug(session['flash'])
         return redirect_to('demo')
 
     @restrict('POST')
