@@ -69,8 +69,5 @@ form .desc { font-size: 0.9em;}
 .box-error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
 .box-notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }
 .box-success    { background: #E6EFC2; color: #264409; border-color: #C6D880; }
-.box-error a    { color: #8a1f11; }
-.box-notice a   { color: #514721; }
-.box-success a  { color: #264409; }
 
 .error-message  { color: #b00; }

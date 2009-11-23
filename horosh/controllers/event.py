@@ -3,10 +3,10 @@
 from datetime import datetime
 from horosh import form, model
 from horosh.lib.base import BaseController, render, is_ajax, \
-        current_user, flash
+        current_user, flash, redirect_to
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
-from pylons.controllers.util import abort, redirect_to
+from pylons.controllers.util import abort
 from sqlalchemy import and_
 from sqlalchemy.orm import join
 from sqlalchemy.orm.exc import NoResultFound
@@ -41,6 +41,10 @@ class EventForm(form.FieldSet):
 class EventController(BaseController):
     def new(self):
         fs = EventForm('event-new')
+
+        if request.POST and fs.fields.cancel.id in request.POST:
+            return redirect_to(current_user().url())
+
         if request.POST and fs.is_valid(request.POST):
             node = model.Event()
             node.title = fs.fields.title.value
@@ -52,7 +56,7 @@ class EventController(BaseController):
             meta.Session.add(node)
             meta.Session.commit()
             flash(u'Событие успешно добавлено')
-            return self._redirect_to_default(node.id)
+            return redirect_to(node.url())
 
         c.form = fs
         c.fs = fs.fields
@@ -72,7 +76,7 @@ class EventController(BaseController):
         fs = EventForm('event-edit')
 
         if request.POST and fs.fields.cancel.id in request.POST:
-            return self._redirect_to_default(node.id)
+            return redirect_to(node.url())
 
         if request.POST and fs.is_valid(request.POST):
             node.title = fs.fields.title.value
@@ -82,7 +86,7 @@ class EventController(BaseController):
 
             meta.Session.commit()
             flash(u'Информация о событии успешно сохранена')
-            return self._redirect_to_default(node.id)
+            return redirect_to(node.url())
 
         if not request.POST:
             fs.set_values({
@@ -173,7 +177,4 @@ class EventController(BaseController):
 
         meta.Session.commit()
         flash(message)
-        return self._redirect_to_default(node.id)
-
-    def _redirect_to_default(self, id):
-        return self._redirect_to(controller='event', action='show', id=id)
+        return redirect_to(node.url())

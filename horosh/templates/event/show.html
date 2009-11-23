@@ -94,7 +94,7 @@
         <h1>${self.title()}</h1>
         % if h.is_node_owner(c.node):
             <div class="box-actions">
-                <a href="${c.node.url_edit()}" class="on_page modal" rev="#event-edit">Изменить</a>
+                <a href="${c.node.url_edit()}" class="on_page modal" rev="#event-edit" title="Изменить иформацию о событии">Изменить</a>
                 <div class="node-actions">
                     % if not c.node.published:
                         <a href="${c.node.url_publish()}" class="on_page">Опубликовать</a>
@@ -187,7 +187,7 @@
                     <div class="node">
                         ${h.picasa.render(album.settings, count_per_page=2)}
                         <div class="node-actions">
-                            <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank">В Picasa</a>
+                            <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank"><span class="picasa">Picasa</span></a>
                             % if h.is_node_owner(c.node):
                                 <a href="${album.url_remove(event_id=c.node.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
                            % endif

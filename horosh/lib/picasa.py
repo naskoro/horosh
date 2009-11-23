@@ -21,18 +21,18 @@ def photos(user, albumid, limit=None):
 class _render:
     def __init__(self):
         self.count=0
-    def __call__(self, photos, photos_list=[], limit=15, 
+    def __call__(self, photos, photos_list=[], limit=None,
            align=None, count_per_page=5, template='/util/gallery.html'):
-        
+
         def photo_url(photo):
             return photo.content.src
-        
+
         def photo_prepare(photo):
             result = dict(
                 url = photo_url(photo),
-                url_pattern = photo_url(photo) + '?imgmax=%s', 
+                url_pattern = photo_url(photo) + '?imgmax=%s',
                 name = photo.title.text,
-                title = photo.summary.text or photo.title.text 
+                title = photo.summary.text or photo.title.text
             )
             return result
 
@@ -53,9 +53,9 @@ class _render:
             'photos': result,
             'count_per_page': count_per_page
         })
-        
+
 render = _render()
- 
+
 def album_validate(user, albumid):
     url = URL_ALBUM % (user, albumid)
     try:

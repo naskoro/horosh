@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from cStringIO import StringIO
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax, \
-        current_user, flash
+from horosh.lib.base import BaseController, render, is_ajax, current_user, flash, \
+    redirect_to
+from horosh.lib.util import avatar_prepare
 from horosh.model import meta
 from pylons import config, request, response, session, tmpl_context as c
-from pylons.controllers.util import abort, redirect_to
-import Image
+from pylons.controllers.util import abort
 import logging
 import os.path
 import time
@@ -43,14 +42,14 @@ class PersonController(BaseController):
             node.event = event_node
 
             if fs.fields.avatar.value is not None:
-                node.avatar = self._avatar_prepare(fs.fields.avatar.value.file)
+                node.avatar = avatar_prepare(fs.fields.avatar.value.file)
 
             node.node_user_id = current_user().id
 
             meta.Session.add(node)
             meta.Session.commit()
             flash(u'Участник успешно добавлен')
-            return self._redirect_to_default(event_node.id)
+            return redirect_to(event_node.url())
 
         c.form = fs
         c.fs = fs.fields
@@ -78,13 +77,13 @@ class PersonController(BaseController):
             node.fullname = fs.fields.fullname.value
 
             if fs.fields.avatar.value is not None:
-                node.avatar = self._avatar_prepare(fs.fields.avatar.value.file)
+                node.avatar = avatar_prepare(fs.fields.avatar.value.file)
 
             meta.Session.add(node)
             event_node.persons.append(node)
             meta.Session.commit()
             flash(u'Учасник успешно сохранен')
-            return self._redirect_to_default(event_node.id)
+            return redirect_to(event_node.url())
 
         if not request.POST:
             fs.set_values({
@@ -111,11 +110,11 @@ class PersonController(BaseController):
         meta.Session.delete(node)
         meta.Session.commit()
         flash(u'Учасник успешно удален')
-        return self._redirect_to_default(event_node.id)
+        return redirect_to(event_node.url())
 
     def avatar(self, id):
         node = self._get_row(model.Person, id)
-        response.content_type = 'image/png'
+        response.content_type = 'image/jpeg'
 
         if node.avatar is None:
             filename = os.path.join(
@@ -135,23 +134,8 @@ class PersonController(BaseController):
         response.pragma = 'no-cache'
         return node.avatar
 
-    def _avatar_prepare(self, avatar):
-        pic = Image.open(avatar)
-        pic.thumbnail(THUMBNAIL_SIZE)
-        buffer = StringIO()
-        pic.save(buffer, pic.format)
-        buffer.seek(0)
-        return buffer.read()
-
     def _event_has_person(self, event, person):
         for item in event.persons:
             if item.id == person.id:
                 return
         abort(404)
-
-    def _redirect_to_default(self, id):
-        return self._redirect_to(
-            controller='event',
-            action='show',
-            id=id
-        )

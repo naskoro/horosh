@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from Image import ANTIALIAS
+from cStringIO import StringIO
 from docutils import nodes
 from docutils.core import publish_parts
 from docutils.parsers.rst import directives, Directive
@@ -11,6 +13,7 @@ from pygments.lexers import get_lexer_by_name
 from pygments.lexers.special import TextLexer
 from pylons.templating import pylons_globals
 from webhelpers.text import truncate
+import Image
 import html5lib
 import logging
 
@@ -77,3 +80,11 @@ def human_filesize(size):
         if size < 1024.0:
             return "%3.1f %s" % (size, x)
         size /= 1024.0
+
+def avatar_prepare(avatar, size=(100,100)):
+    pic = Image.open(avatar)
+    pic.thumbnail(size, ANTIALIAS)
+    buffer = StringIO()
+    pic.save(buffer, pic.format, quality=100)
+    buffer.seek(0)
+    return buffer.read()

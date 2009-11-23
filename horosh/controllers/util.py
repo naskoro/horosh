@@ -2,27 +2,23 @@
 
 from authkit.authorize.pylons_adaptors import authorize
 from authkit.permissions import ValidAuthKitUser, HasAuthKitRole
-from cStringIO import StringIO
 from datetime import datetime
 from horosh import model
 from horosh.lib import picasa
 from horosh.lib.base import BaseController, render, flash
-from horosh.lib.util import rst2html
+from horosh.lib.util import rst2html, avatar_prepare
 from horosh.model import meta
 from mimetypes import guess_type
 from pylons import config, request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
 from pylons.decorators.rest import restrict
 from webhelpers.markdown import markdown
-import Image
 import codecs
 import logging
 import os
 import yaml
 
 log = logging.getLogger(__name__)
-
-THUMBNAIL_SIZE = 100, 100
 
 class UtilController(BaseController):
     @authorize(ValidAuthKitUser())
@@ -82,7 +78,7 @@ class UtilController(BaseController):
             if os.path.isfile(path):
                 node = model.Person()
                 node.fullname = file.split('.')[0]
-                node.avatar = self._avatar_prepare(open(path, 'r'))
+                node.avatar = avatar_prepare(open(path, 'r'))
                 node.node_user = user
                 node.event = event
                 meta.Session.add(node)
@@ -129,11 +125,3 @@ class UtilController(BaseController):
         data = file['content']
         response.content_type = guess_type(file['filename'])[0] or 'text/plain'
         return data
-
-    def _avatar_prepare(self, avatar):
-        pic = Image.open(avatar)
-        pic.thumbnail(THUMBNAIL_SIZE)
-        buffer = StringIO()
-        pic.save(buffer, pic.format)
-        buffer.seek(0)
-        return buffer.read()
