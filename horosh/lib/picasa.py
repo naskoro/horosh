@@ -45,7 +45,17 @@ class _render:
                     result.append(photo_prepare(photo))
         else:
             for photo in photos:
-                result.append(photo_prepare(photo))
+                group = photo.FindExtensions('group')
+                keywords = group[0].FindChildren('keywords')[0].text
+                
+                if keywords:
+                    keywords = keywords.split(', ')
+                else:
+                    keywords = ()
+                    
+                if u'hide' not in keywords:
+                    result.append(photo_prepare(photo))
+                
         self.count = self.count+1
         return render_(template, {
             'id': 'gallery-' + str(self.count),

@@ -18,7 +18,7 @@ body { text-align: center; }
 * html div.span-60, * html div.span-65, * html div.span-70,
 * html div.span-75, * html div.span-80, * html div.span-85,
 * html div.span-90, * html div.span-95, * html div.span-100,
-* html div.span-18, * html div.span-82,
+* html div.span-18, * html div.span-82, * html div.span-16_6,
 * html div.span-50-left, * html div.span-50-right
 { display:inline; overflow-x: hidden; }
 

@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from horosh import form, model
-from horosh.lib.base import BaseController, render, current_user, \
-        is_ajax, flash, redirect_to
 from horosh.lib import picasa
+from horosh.lib.base import BaseController, render, redirect_to, is_ajax, \
+    current_user, is_admin, flash
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
+from urllib import urlopen
+import gdata
 import logging
 
 log = logging.getLogger(__name__)
@@ -53,6 +55,19 @@ class AlbumController(BaseController):
         if request.POST:
             result = fs.htmlfill(result)
         return result
+
+    def reload(self, id, event_id):
+        event_node = self._get_row(model.Event, event_id)
+        self._check_access(event_node)
+        node = self._get_row(model.Album, id)
+        self._event_has_album(event_node, node)
+        
+        album = gdata.GDataFeedFromString(node.settings)
+        node.settings = urlopen(album.GetSelfLink().href).read()
+        
+        meta.Session.commit()
+        flash(u'Альбом успешно обновлен')
+        return redirect_to(event_node.url())
 
     def remove(self, id, event_id):
         event_node = self._get_row(model.Event, event_id)

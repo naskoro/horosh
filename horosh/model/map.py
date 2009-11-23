@@ -54,16 +54,16 @@ class Album(Node):
     def __init__(self):
         self.type = 'picasa'
 
-    def url_edit(self, **kwargs):
-        return url_for(
-            controller='album', action='edit', 
-            id=self.id, **kwargs
-        )
-
-    def url_remove(self, **kwargs):
+    def url_remove(self, event_id):
         return url_for(
             controller='album', action='remove', 
-            id=self.id, **kwargs
+            id=self.id, event_id=event_id
+        )
+
+    def url_reload(self, event_id):
+        return url_for(
+            controller='album', action='reload', 
+            id=self.id, event_id=event_id
         )
 
     def url_to_picasa(self):

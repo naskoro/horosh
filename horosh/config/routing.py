@@ -90,6 +90,10 @@ def make_map():
         controller='album', action='new',
         requirements=dict(event_id='\d*')
     )
+    map.connect('/event-{event_id}/reload/album-{id}',
+        controller='album', action='reload',
+        requirements=dict(event_id='\d*', id='\d*')
+    )
     map.connect('/event-{event_id}/remove/album-{id}',
         controller='album', action='remove',
         requirements=dict(event_id='\d*', id='\d*')

@@ -189,6 +189,7 @@
                         <div class="node-actions">
                             <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank"><span class="picasa">Picasa</span></a>
                             % if h.is_node_owner(c.node):
+                                <a href="${album.url_reload(event_id=c.node.id)}" class="on_page">Обновить</a>
                                 <a href="${album.url_remove(event_id=c.node.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
                            % endif
                        </div>

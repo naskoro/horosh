@@ -293,6 +293,7 @@ a:hover {
     border-top: 1px solid #789;
     font-size: 1em;
     min-width: 80px;
+    text-align: right;
 }
 .box-text {
     margin-top: 0;
@@ -362,7 +363,7 @@ a:hover {
     right: 0;
     font-weight: bold;
     font-size: 0.9em;
-    text-align: center;
+    text-align: left;
     line-height: 1;
     display:none;
     z-index: 25;
@@ -424,10 +425,12 @@ a:hover {
 .event-list-node .span-18 .gallery {
     margin-top: 0;
 }
+
 /* Articles */
 .article-show .box-text {
     border-bottom: 0;
 }
+
 /* Reports */
 .report-show .box-text {
     border-bottom: 0;
@@ -436,6 +439,7 @@ a:hover {
     overflow-y: auto;
     max-height: 135px;
 }
+
 /* Gallery styles*/
 .gallery {
     text-align: center;
