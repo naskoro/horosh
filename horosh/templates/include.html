@@ -33,3 +33,6 @@
     ${h.javascript_link(h.url_for('/napokaz/jquery.napokaz.js'))}
     ##${h.stylesheet_link(h.url_for('/napokaz/napokaz.css'))}
 </%def>
+<%def name="pygments_css()">
+    ${h.stylesheet_link(h.url_for('/css/pygments.css'))}
+</%def>

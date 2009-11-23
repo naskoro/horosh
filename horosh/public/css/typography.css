@@ -18,7 +18,7 @@ body {
 
 h1,h2,h3,h4,h5,h6 { font-weight: normal; color: #111; }
 
-h1 { font-size: 1.2em; font-weight: bold; line-height: 1; margin-bottom: 0.5em; }
+h1 { font-size: 1.3em; font-weight: bold; line-height: 1; margin-bottom: 1em; }
 h2 { font-size: 1.2em; font-weight: bold; }
 h3 { font-size: 1em; font-weight: bold; }
 h4 { font-size: 1em; font-weight: bold; }
@@ -90,12 +90,6 @@ caption     { background: #eee; }
 .small      { font-size: .8em; margin-bottom: 1.875em; line-height: 1.875em; }
 .large      { font-size: 1.2em; line-height: 2.5em; margin-bottom: 1.25em; }
 .hide       { display: none; }
-
-.quiet      { color: #666; }
-.loud       { color: #000; }
-.highlight  { background:#ff0; }
-.added      { background:#060; color: #fff; }
-.removed    { background:#900; color: #fff; }
 
 .first      { margin-left:0; padding-left:0; }
 .last       { margin-right:0; padding-right:0; }

@@ -7,7 +7,6 @@ from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
 import logging
-import time
 
 log = logging.getLogger(__name__)
 

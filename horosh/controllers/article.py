@@ -10,10 +10,8 @@ from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
 from pytils import translit
-from routes import url_for
 from sqlalchemy.orm.exc import NoResultFound
 import logging
-import time
 
 log = logging.getLogger(__name__)
 
