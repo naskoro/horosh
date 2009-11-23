@@ -16,7 +16,11 @@ def setup_app(command, conf, vars):
     meta.metadata.create_all(bind=meta.engine)
 
     log.info('Adding root user')
-    user = User('naspeh', 'naspeh@pusto.org', u'1')
+    user = User('naspeh', 'naspeh@pusto.org')
+    meta.Session.add(user)
+
+    log.info('Adding root user')
+    user = User('nayavu', 'nayavu@pusto.org')
     meta.Session.add(user)
 
     log.info('Adding nobody user')
