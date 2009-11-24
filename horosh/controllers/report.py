@@ -57,25 +57,21 @@ class ReportController(BaseController):
             result = fs.htmlfill(result)
         return result
 
-    def show(self, event_id, id):
+    def show(self, id):
         self.is_page_back = True
 
-        event_node = self._get_row(model.Event, event_id)
-
-        node = event_node.report_by_number(id)
-        if node is None:
-            abort(404)
+        node = self._get_row(model.Report, id)
+        event_node = node.event
+        self._check_access(event_node)
 
         c.node = node
 
         return render('/report/show.html')
 
-    def edit(self, id, event_id):
-        event_node = self._get_row(model.Event, event_id)
+    def edit(self, id):
+        node = self._get_row(model.Report, id)
+        event_node = node.event
         self._check_access(event_node)
-        node = event_node.report_by_number(id)
-        if node is None:
-            abort(404)
 
         fs = ReportForm('report-edit')
 
@@ -113,35 +109,12 @@ class ReportController(BaseController):
         return fs.htmlfill(result)
 
 
-    def remove(self, id, event_id):
-        event_node = self._get_row(model.Event, event_id)
+    def remove(self, id):
+        node = self._get_row(model.Report, id)
+        event_node = node.event
         self._check_access(event_node)
-        node = event_node.report_by_number(id)
-        if node is None:
-            abort(404)
 
         meta.Session.delete(node)
         meta.Session.commit()
         flash(u'Отчет успешно удален')
         return redirect_to(event_node.url())
-
-    def _event_has_report(self, event, report):
-        for item in event.reports:
-            if item.id == report.id:
-                return
-        abort(404)
-
-    def _redirect_to_default(self, event_node, node = None):
-        if node is None:
-            return self._redirect_to(
-                controller='event',
-                action='show',
-                id=event_node.id,
-            )
-
-        return self._redirect_to(
-            controller='report',
-            action='show',
-            event_id=event_node.id,
-            id = node.number,
-        )

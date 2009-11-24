@@ -29,17 +29,17 @@
                 $(this).find('.node-actions').slideUp('fast');
             }
         );
-        $('.event-albums .gallery').each(function() {
+        $('.event-albums .gallery').bind('napokaz-success', function() {
             var gallery = $(this)
             var actions = gallery.parent('.node').find('.node-actions')
             gallery.append(actions.clone(true))
             actions.remove()
-            gallery.hover(
+            gallery.find('.gallery-container').hover(
                 function() {
-                    $(this).find('.node-actions').slideDown('fast');
+                    $(this).parent().find('.node-actions').slideDown('fast');
                 },
                 function() {
-                    $(this).find('.node-actions').slideUp('fast');
+                    $(this).parent().find('.node-actions').slideUp('fast');
                 }
             );
         })
@@ -189,8 +189,8 @@
                         <div class="node-actions">
                             <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank"><span class="picasa">Picasa</span></a>
                             % if h.is_node_owner(c.node):
-                                <a href="${album.url_reload(event_id=c.node.id)}" class="on_page">Обновить</a>
-                                <a href="${album.url_remove(event_id=c.node.id)}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                                <a href="${album.url_reload()}" class="on_page">Обновить</a>
+                                <a href="${album.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
                            % endif
                        </div>
                     </div>

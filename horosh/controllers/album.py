@@ -56,32 +56,24 @@ class AlbumController(BaseController):
             result = fs.htmlfill(result)
         return result
 
-    def reload(self, id, event_id):
-        event_node = self._get_row(model.Event, event_id)
-        self._check_access(event_node)
+    def reload(self, id):
         node = self._get_row(model.Album, id)
-        self._event_has_album(event_node, node)
-        
+        event_node = node.event
+        self._check_access(event_node)
+
         album = gdata.GDataFeedFromString(node.settings)
         node.settings = urlopen(album.GetSelfLink().href).read()
-        
+
         meta.Session.commit()
         flash(u'Альбом успешно обновлен')
         return redirect_to(event_node.url())
 
-    def remove(self, id, event_id):
-        event_node = self._get_row(model.Event, event_id)
-        self._check_access(event_node)
+    def remove(self, id):
         node = self._get_row(model.Album, id)
-        self._event_has_album(event_node, node)
+        event_node = node.event
+        self._check_access(event_node)
 
         meta.Session.delete(node)
         meta.Session.commit()
         flash(u'Альбом успешно удален')
         return redirect_to(event_node.url())
-
-    def _event_has_album(self, event, album):
-        for item in event.albums:
-            if item.id == album.id:
-                return
-        abort(404)

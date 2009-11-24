@@ -64,6 +64,8 @@
 	        		position: 'relative'
 	        	});
         		
+	        	obj.trigger('napokaz-success');
+	        	
         		return container;
         	}
         	

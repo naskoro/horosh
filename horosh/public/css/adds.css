@@ -196,7 +196,7 @@ a:hover {
 .picasa {
     background: url(../images/picasa.png) no-repeat left;
     padding-left: 16px;
-    
+
 }
 
 /* reStructuredText */
@@ -448,7 +448,7 @@ a:hover {
     position: relative;
 }
 .gallery-items {
-    width: 150px;
+    width: 114px;
     white-space: nowrap;
     overflow-x: auto;
     overflow-y: hidden;

@@ -48,10 +48,6 @@ def make_map():
         controller='event', action='show',
         requirements=dict(event_id='\d*')
     )
-    map.connect('/event-{event_id}-{title}/report-{id}',
-        controller='report', action='show',
-        requirements=dict(event_id='\d*', id='\d*')
-    )
     map.connect('/event-{id}/do/published={published}',
         controller='event', action='publish',
         requirements=dict(id='\d*', published='0|1')
@@ -62,12 +58,8 @@ def make_map():
         controller='report', action='new',
         requirements=dict(event_id='\d*')
     )
-    map.connect('/event-{event_id}/edit/report-{id}',
-        controller='report', action='edit',
-        requirements=dict(event_id='\d*', id='\d*')
-    )
-    map.connect('/event-{event_id}/remove/report-{id}',
-        controller='report', action='remove',
+    map.connect('/report-{id}/for/event-{event_id}-{title}',
+        controller='report', action='show',
         requirements=dict(event_id='\d*', id='\d*')
     )
 
@@ -76,27 +68,11 @@ def make_map():
         controller='person', action='new',
         requirements=dict(event_id='\d*')
     )
-    map.connect('/event-{event_id}/edit/person-{id}',
-        controller='person', action='edit',
-        requirements=dict(event_id='\d*', id='\d*')
-    )
-    map.connect('/event-{event_id}/remove/person-{id}',
-        controller='person', action='remove',
-        requirements=dict(event_id='\d*', id='\d*')
-    )
 
     # Album for event
     map.connect('/event-{event_id}/add/album',
         controller='album', action='new',
         requirements=dict(event_id='\d*')
-    )
-    map.connect('/event-{event_id}/reload/album-{id}',
-        controller='album', action='reload',
-        requirements=dict(event_id='\d*', id='\d*')
-    )
-    map.connect('/event-{event_id}/remove/album-{id}',
-        controller='album', action='remove',
-        requirements=dict(event_id='\d*', id='\d*')
     )
     map.connect('/person-{id}/avatar.jpg',
         controller='person', action='avatar',
@@ -105,6 +81,5 @@ def make_map():
 
     map.connect('/{controller}-{id}/{action}', action='show', requirements=dict(id='\d*'))
     map.connect('/{controller}/{action}')
-
 
     return map

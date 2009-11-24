@@ -62,11 +62,10 @@ class PersonController(BaseController):
             result = fs.htmlfill(result)
         return result
 
-    def edit(self, id, event_id):
-        event_node = self._get_row(model.Event, event_id)
-        self._check_access(event_node)
+    def edit(self, id):
         node = self._get_row(model.Person, id)
-        self._event_has_person(event_node, node)
+        event_node = node.event
+        self._check_access(event_node)
 
         fs = PersonForm('person-edit')
 
@@ -101,11 +100,10 @@ class PersonController(BaseController):
             result = render('/person/edit.html')
         return fs.htmlfill(result)
 
-    def remove(self, id, event_id):
-        event_node = self._get_row(model.Event, event_id)
-        self._check_access(event_node)
+    def remove(self, id):
         node = self._get_row(model.Person, id)
-        self._event_has_person(event_node, node)
+        event_node = node.event
+        self._check_access(event_node)
 
         meta.Session.delete(node)
         meta.Session.commit()
@@ -133,9 +131,3 @@ class PersonController(BaseController):
         response.cache_control = 'no-cache, must-revalidate'
         response.pragma = 'no-cache'
         return node.avatar
-
-    def _event_has_person(self, event, person):
-        for item in event.persons:
-            if item.id == person.id:
-                return
-        abort(404)
