@@ -40,12 +40,14 @@
              <div class="title-info">
                  ${node_info(report)}
              </div>
-             ${h.truncate_html(report.html_content, 500)|n}
 
-            % if 500 < len(report.html_content):
+            % if h.shortable_html(report.html_content):
+                ${h.short_html(report.html_content)|n}
                 <div class="box-actions">
                     <a href="${report.url()}" class="accent">Читать</a>
                 </div>
+            % else:
+                ${report.html_content|n}
             % endif
 
          </div>
@@ -83,15 +85,13 @@
             ${node_info(article, True)}
         </div>
 
-        % if full_text or 500 > len(article.html_content):
-            ${article.html_content|n}
-        % else:
-            ${h.truncate_html(article.html_content, 500)|n}
+        % if not full_text and h.shortable_html(article.html_content):
+            ${h.short_html(article.html_content)|n}
             <div class="box-actions">
-                 % if 500 < len(article.html_content):
-                    <a href="${article.url()}" class="accent">Читать</a>
-                 % endif
+                <a href="${article.url()}" class="accent">Читать</a>
             </div>
+        % else:
+            ${h.clean_html(article.html_content)|n}
         % endif
     </div>
 </%def>

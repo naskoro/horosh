@@ -1,4 +1,5 @@
-.highlight {overflow: auto;}
+.highlight {margin: 1em 0; overflow: auto;}
+.highlight pre {margin: 0; padding: 0; border: 1px solid #ccc;}
 .highlight .hll { background-color: #ffffcc }
 .highlight  { background: #f8f8f8; }
 .highlight .c { color: #408080; font-style: italic } /* Comment */

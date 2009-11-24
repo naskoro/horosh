@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from authkit.authorize.pylons_adaptors import authorize
+from authkit.permissions import ValidAuthKitUser
 from datetime import datetime
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax, \
-        current_user, flash, redirect_to
+from horosh.lib.base import BaseController, render, redirect_to, flash, \
+    is_ajax, current_user
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
@@ -39,6 +41,7 @@ class EventForm(form.FieldSet):
         )
 
 class EventController(BaseController):
+    @authorize(ValidAuthKitUser())
     def new(self):
         fs = EventForm('event-new')
 

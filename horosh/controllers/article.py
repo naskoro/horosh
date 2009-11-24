@@ -4,8 +4,8 @@ from authkit.authorize.pylons_adaptors import authorize
 from authkit.permissions import HasAuthKitRole
 from datetime import datetime
 from horosh import form, model
-from horosh.lib.base import BaseController, render, redirect_to, is_ajax, \
-    current_user, is_admin, flash
+from horosh.lib.base import BaseController, render, redirect_to, flash, \
+    is_ajax, current_user, is_admin
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort

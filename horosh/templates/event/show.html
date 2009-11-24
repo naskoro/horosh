@@ -31,10 +31,11 @@
         );
         $('.event-albums .gallery').bind('napokaz-success', function() {
             var gallery = $(this)
+            var gallery_container = gallery.find('.gallery-container');
             var actions = gallery.parent('.node').find('.node-actions')
-            gallery.append(actions.clone(true))
+            gallery_container.append(actions.clone(true))
             actions.remove()
-            gallery.find('.gallery-container').hover(
+            gallery_container.hover(
                 function() {
                     $(this).parent().find('.node-actions').slideDown('fast');
                 },

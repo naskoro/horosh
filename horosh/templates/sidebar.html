@@ -1,7 +1,9 @@
 <div class="sidebar-box">
     <h1>Мои действия</h1>
     <div class="nav accent"><ul>
+        % if not h.is_nobody():
         <li><a href="${h.url_for('/event/new')}">Добавить событие</a></li>
+        % endif
         <li><a href="${h.url_for(c.current_user.url())}">Мои события</a></li>
         <li><a href="${h.url_for('/')}">Все события</a></li>
     </ul></div>

@@ -77,6 +77,6 @@
             ${defs.node_info(c.node)}
         </div>
 
-        ${c.node.html_content|n}
+        ${h.clean_html(c.node.html_content)|n}
     </div>
 </div>

@@ -2,8 +2,8 @@
 
 from horosh import form, model
 from horosh.lib import picasa
-from horosh.lib.base import BaseController, render, redirect_to, is_ajax, \
-    current_user, is_admin, flash
+from horosh.lib.base import BaseController, render, redirect_to, flash, \
+    is_ajax, current_user
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort

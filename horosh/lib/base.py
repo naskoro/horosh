@@ -24,7 +24,7 @@ flash = _Flash()
 
 def current_user():
     if not request.environ.get('current_user'):
-        user = meta.Session.query(model.User).filter_by(nickname=authkit_user).one()
+        user = meta.Session.query(model.User).filter_by(nickname=remote_user).one()
         request.environ['current_user'] = user
     return request.environ.get('current_user')
 
@@ -42,7 +42,10 @@ def is_node_owner(node):
 def is_admin():
     return authorized(HasAuthKitRole('admin'))
 
-def authkit_user():
+def is_nobody():
+    return remote_user() == 'nobody'
+
+def remote_user():
     if not request.environ.get('REMOTE_USER'):
         user = 'nobody'
     else:

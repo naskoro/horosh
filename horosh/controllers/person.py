@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from horosh import form, model
-from horosh.lib.base import BaseController, render, is_ajax, current_user, flash, \
-    redirect_to
+from horosh.lib.base import BaseController, render, redirect_to, flash, \
+    is_ajax, current_user
 from horosh.lib.util import avatar_prepare
 from horosh.model import meta
 from pylons import config, request, response, session, tmpl_context as c
