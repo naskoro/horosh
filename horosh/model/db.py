@@ -87,7 +87,7 @@ report = schema.Table('report', meta.metadata,
         
     schema.Column('title', types.Unicode()),
     schema.Column('content', types.Unicode(), nullable=False),
-    schema.Column('filter', types.Unicode(20), nullable=False),
+    schema.Column('filter', types.String(20), nullable=False),
     schema.Column('published', types.DateTime),
     
     schema.Column('created', types.DateTime(), default=datetime.now()),

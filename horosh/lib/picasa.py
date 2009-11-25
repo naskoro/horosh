@@ -21,7 +21,7 @@ def photos(user, albumid, limit=None):
 class _render:
     def __init__(self):
         self.count=0
-    def __call__(self, photos, photos_list=[], limit=None,
+    def __call__(self, photos, photos_list=[], limit=30,
            align=None, count_per_page=5, template='/util/gallery.html'):
 
         def photo_url(photo):

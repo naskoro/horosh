@@ -169,7 +169,7 @@ a:hover {
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
-.sidebar-box .nav.accent {
+.sidebar-box .nav li.accent {
     font-weight: bold;
 }
 
@@ -366,7 +366,7 @@ a:hover {
     text-align: left;
     line-height: 1;
     display:none;
-    z-index: 25;
+    z-index: 100;
     border-left: 1px solid #789;
     border-bottom: 1px solid #789;
     overflow: hidden;

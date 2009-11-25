@@ -68,7 +68,7 @@ class UtilController(BaseController):
                 node = model.Album()
                 node.settings = picasa.photos(album['user'], album['albumid'], 15)
                 node.node_user = user
-                node.events = [event]
+                node.event = event
                 meta.Session.add(node)
 
 
@@ -88,8 +88,8 @@ class UtilController(BaseController):
             path =  os.path.join(reports_dir, file)
             if os.path.isfile(path):
                 text = codecs.open(path, 'r', 'utf-8').read()
-                node.title = u'' + file.split('.')[0]
                 node = model.Report()
+                node.title = file.split('.')[0]
                 node.content = text
                 node.node_user = user
                 node.event = event
