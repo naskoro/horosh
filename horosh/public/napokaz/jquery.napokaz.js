@@ -8,6 +8,8 @@
         	
         	display();
         	
+        	obj.trigger('napokaz-success');
+        	
         	function display() {
 	        	var items = obj.find(opts.span_items).find('a');
 	        	var pages = preparePages(items);
@@ -64,8 +66,6 @@
 	        		position: 'relative'
 	        	});
         		
-	        	obj.trigger('napokaz-success');
-	        	
         		return container;
         	}
         	

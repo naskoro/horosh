@@ -1,3 +1,0 @@
-|rst|
-
-.. |rst| replace:: reStructuredText
