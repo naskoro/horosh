@@ -62,7 +62,6 @@ class ReportController(BaseController):
 
         node = self._get_row(model.Report, id)
         event_node = node.event
-        self._check_access(event_node)
 
         c.node = node
 
