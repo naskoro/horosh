@@ -57,9 +57,9 @@ class UtilController(BaseController):
         if 'summary' in info:
             event.summary = info['summary']
         if 'start' in info:
-            event.satrt = info['start']
+            event.start = info['start']
         if 'finish' in info:
-            event.satrt = info['finish']
+            event.finish = info['finish']
         event.node_user = user
         event.created = datetime.now()
 
