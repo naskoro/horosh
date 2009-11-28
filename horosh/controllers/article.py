@@ -4,13 +4,14 @@ from authkit.authorize.pylons_adaptors import authorize
 from authkit.permissions import HasAuthKitRole
 from datetime import datetime
 from horosh import form, model
-from horosh.lib.base import BaseController, render, redirect_to, flash, \
-    is_ajax, current_user, is_admin
+from horosh.lib.base import BaseController, render, redirect_to, flash, is_ajax, \
+    current_user, is_admin
 from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
 from pytils import translit
 from sqlalchemy.orm.exc import NoResultFound
+from webhelpers import paginate
 import logging
 
 log = logging.getLogger(__name__)
@@ -120,7 +121,12 @@ class ArticleController(BaseController):
 
         query = query.order_by(model.Article.created.desc())
 
-        c.nodes = query.all()
+        c.nodes = paginate.Page(
+            query,
+            page=int(request.params.get('page', 1)),
+            items_per_page = 5,
+            **request.environ['pylons.routes_dict']
+        )
         c.label = label
         return render('/article/list.html')
 

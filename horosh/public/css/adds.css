@@ -197,6 +197,17 @@ a:hover {
     padding-left: 16px;
 
 }
+.pager {
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+}
+.pager a, .pager .pager_curpage {
+    padding: 3px;
+}
+.pager-numbers {
+    font-size: 1.2em;
+}
 
 /* reStructuredText */
 .document {

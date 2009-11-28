@@ -123,3 +123,13 @@
         </div>
     % endif
 </%def>
+
+<%def name="pager(nodes)">
+    <div class="pager">
+        <span class="pager-first">${ nodes.pager('$link_first') }</span>
+        <span class="pager-previous">${ nodes.pager('$link_previous') }</span>
+        <span class="pager-numbers">${ nodes.pager('~3~') }</span>
+        <span class="pager-next">${ nodes.pager('$link_next') }</span>
+        <span class="pager-last">${ nodes.pager('$link_last') }</span>
+    </div>
+</%def>

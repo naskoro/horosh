@@ -37,11 +37,12 @@
         <div class="box-empty">
             <b>Статей нет.</b>
         </div>
+    % else:
+        % for article in c.nodes:
+            <div class="article-list-node">
+                ${defs.article(article, full_text=False)}
+            </div>
+        % endfor
+        ${defs.pager(c.nodes)}
     % endif
-
-    % for article in c.nodes:
-        <div class="article-list-node">
-            ${defs.article(article, full_text=False)}
-        </div>
-    % endfor
 </div>
