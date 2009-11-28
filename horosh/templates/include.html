@@ -1,38 +1,46 @@
-<%def name="jquery()">
-    ${h.javascript_link(h.url_for('/jquery/jquery.js'))}
+<%def name="js(url, url_min=None)">
+    % if url_min is None or config['debug']:
+        ${h.javascript_link(h.url_for(url))}
+    % else:
+        ${h.javascript_link(h.url_for(url_min))}
+    % endif
 </%def>
-<%def name="jquery_ui()">
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
-    ${h.stylesheet_link(h.url_for('/jquery-ui/smoothness/jquery-ui.css'))}
+<%def name="css(url)">
+    ${h.stylesheet_link(h.url_for(url))}
+</%def>
+
+<%def name="jquery()">
+    ${js('/jquery/jquery.js', '/jquery/jquery.min.js')}
 </%def>
 <%def name="jquery_form()">
-    ${h.javascript_link(h.url_for('/jquery/jquery.form.js'))}
+    ${js('/jquery/jquery.form.js')}
 </%def>
 <%def name="jquery_taconite()">
-    ${h.javascript_link(h.url_for('/jquery/jquery.taconite.js'))}
-##    <script type="text/javascript">
-##        $(document).ready(function(){
-##            $.taconite.debug = true;
-##        });
-##    </script>
+    ${js('/jquery/jquery.taconite.js')}
+    % if config['debug']:
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $.taconite.debug = true;
+        });
+    </script>
+    % endif
 </%def>
 <%def name="jquery_cicle()">
-    ${h.javascript_link(h.url_for('/jquery/jquery.cycle.js'))}
+    ${js('/jquery/jquery.cycle.js', '/jquery/jquery.cycle.min.js')}
 </%def>
 <%def name="jquery_colorbox()">
-    ${h.javascript_link(h.url_for('/colorbox/jquery.colorbox.js'))}
-    ${h.stylesheet_link(h.url_for('/colorbox/colorbox.css'))}
+    ${js('/colorbox/jquery.colorbox.js', '/colorbox/jquery.colorbox-min.js')}
+    ${css('/colorbox/colorbox.css')}
 </%def>
 <%def name="jquery_markitup()">
-    ${h.javascript_link(h.url_for('/markitup/jquery.markitup.js'))}
-    ${h.stylesheet_link(h.url_for('/markitup/skins/simple/style.css'))}
-    ${h.javascript_link(h.url_for('/markitup/sets/markdown/set.js'))}
-    ${h.stylesheet_link(h.url_for('/markitup/sets/markdown/style.css'))}
+    ${js('/markitup/jquery.markitup.js')}
+    ${css('/markitup/skins/simple/style.css')}
+    ${js('/markitup/sets/markdown/set.js')}
+    ${css('/markitup/sets/markdown/style.css')}
 </%def>
 <%def name="jquery_napokaz()">
-    ${h.javascript_link(h.url_for('/napokaz/jquery.napokaz.js'))}
-    ##${h.stylesheet_link(h.url_for('/napokaz/napokaz.css'))}
+    ${js('/napokaz/jquery.napokaz.js')}
 </%def>
 <%def name="pygments_css()">
-    ${h.stylesheet_link(h.url_for('/css/pygments.css'))}
+    ${css('/css/pygments.css')}
 </%def>
