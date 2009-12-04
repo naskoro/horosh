@@ -209,15 +209,6 @@ a:hover {
     font-size: 1.2em;
 }
 
-/* reStructuredText */
-.document {
-    overflow: hidden;
-}
-.section h1 a{
-    text-decoration: none;
-    color: #222;
-}
-
 /* Title */
 .title {
     height: 20px;

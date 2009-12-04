@@ -1,6 +1,6 @@
 <%inherit file="/main.html" />
 <%namespace file="/defs.html" name="defs" import="*"/>
-<%def name="title()">Отчет №${c.id}. ${c.node.event.title}</%def>
+<%def name="title()">${c.node.full_title}. ${c.node.event.title}</%def>
 <script type="text/javascript">
 /* <![CDATA[ */
     $(document).ready(function(){
