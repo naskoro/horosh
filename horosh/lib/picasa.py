@@ -30,7 +30,6 @@ class _render:
         def photo_prepare(photo):
             result = dict(
                 url = photo_url(photo),
-                url_pattern = photo_url(photo) + '?imgmax=%s',
                 name = photo.title.text,
                 title = photo.summary.text or photo.title.text
             )
@@ -47,15 +46,15 @@ class _render:
             for photo in photos:
                 group = photo.FindExtensions('group')
                 keywords = group[0].FindChildren('keywords')[0].text
-                
+
                 if keywords:
                     keywords = keywords.split(', ')
                 else:
                     keywords = ()
-                    
+
                 if u'hide' not in keywords:
                     result.append(photo_prepare(photo))
-                
+
         self.count = self.count+1
         return render_(template, {
             'id': 'gallery-' + str(self.count),
