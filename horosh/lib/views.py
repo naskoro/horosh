@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from horosh.lib.base import render, current_user
 from horosh.model import meta
-from horosh import model
+from horosh import model, form
+from pylons import request, tmpl_context as c
 from sqlalchemy import and_
 import logging
 
@@ -21,3 +22,27 @@ def sidebar():
         pulse=pulse
     )
     return render('/sidebar.html', params)
+
+class LoginForm(form.FieldSet):
+    def init(self):
+        self.adds(
+            form.Field('username', validator=form.v.String(not_empty=True, min=3, max=30)),
+            form.Field('password', validator=form.v.String(not_empty=True)),
+            form.Field('send'),
+        )
+
+def login():
+    fs = LoginForm('login')
+    c.google_analytics = False
+
+    if request.POST and fs.is_valid(request.POST):
+        return
+
+    c.form = fs
+    c.fs = fs.fields
+
+    result = render('/util/login.html')
+    if request.POST:
+        result = fs.htmlfill(result)
+    result = result.replace('%', '%%').replace('FORM_ACTION', '%s')
+    return result

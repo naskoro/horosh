@@ -1,0 +1,31 @@
+<%inherit file="/main.html" />
+<%namespace file="/form.html" name="base_form" import="*"/>
+<%def name="title()">Вход</%def>
+<%def name="adds_head()"></%def>
+<%def name="id()">${c.form.name}</%def>
+<%def name="form()">
+<form id="${self.id()}" method="post" action="FORM_ACTION">
+    <div class="box">
+        <div class="box-title">
+            ${self.title()}
+        </div>
+
+        <div class="field container">
+            <div class="span-10">${h.title(u'Логин', c.fs.username.not_empty(), label_for=c.fs.username.id)}</div>
+            <div class="span-90">${h.text(name=c.fs.username.id)}</div>
+            <div>${base_form.field_errors(c.fs.username.id)}</div>
+        </div>
+
+        <div class="field">
+            <div class="span-10">${h.title(u'Пароль', c.fs.password.not_empty(), label_for=c.fs.password.id)}</div>
+            <div class="span-90">${h.password(name=c.fs.password.id)}</div>
+            <div>${base_form.field_errors(c.fs.password.id)}</div>
+        </div>
+
+        <div class="field">
+            ${h.submit(value=u'войти', name=c.fs.send.id)}
+        </div>
+    </div>
+</form>
+</%def>
+${form()}
