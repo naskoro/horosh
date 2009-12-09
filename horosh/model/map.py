@@ -257,20 +257,21 @@ orm.mapper(Report, db.report,
     inherits=Node, polymorphic_identity='report'
 )
 orm.mapper(Article, db.article,
-    properties={
-    },
+    properties={},
     inherits=Node, polymorphic_identity='article'
 )
 orm.mapper(Event, db.event,
     properties={
-        'albums': orm.relation(Album, secondary=db.event_album),
+        'albums': orm.relation(Album, secondary=db.event_album, cascade='all'),
         'reports': orm.relation(
             Report,
             primaryjoin=db.report.c.event_id==db.event.c.id,
+            cascade='all'
         ),
         'persons': orm.relation(
             Person,
             primaryjoin=db.person.c.event_id==db.event.c.id,
+            cascade='all'
         ),
     },
     inherits=Node, polymorphic_identity='event'
