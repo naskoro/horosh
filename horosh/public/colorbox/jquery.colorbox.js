@@ -1,4 +1,4 @@
-// ColorBox v1.3.4 - a full featured, light-weight, customizable lightbox based on jQuery 1.3
+// ColorBox v1.3.5 - a full featured, light-weight, customizable lightbox based on jQuery 1.3
 // c) 2009 Jack Moore - www.colorpowered.com - jack@colorpowered.com
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 
@@ -32,6 +32,7 @@
 	$related,
 	$window,
 	$loaded,
+	$loadingBay,
 	$loadingOverlay,
 	$loadingGraphic,
 	$title,
@@ -110,14 +111,14 @@
 	// Checks an href to see if it is a photo.
 	// There is a force photo option (photo: true) for hrefs that cannot be matched by this regex.
 	function isImage(url) {
-		url = typeof(url) === 'function' ? url.call(element) : url;
+		url = $.isFunction(url) ? url.call(element) : url;
 		return settings.photo || url.match(/\.(gif|png|jpg|jpeg|bmp)(?:\?([^#]*))?(?:#(\.*))?$/i);
 	}
 	
 	// Assigns functions results to their respective settings.  This allows functions to be used to set ColorBox options.
 	function process() {
 		for (var i in settings) {
-			if (typeof(settings[i]) === 'function' && i.substring(0, 2) !== 'on') {
+			if ($.isFunction(settings[i]) && i.substring(0, 2) !== 'on') { // checks to make sure the function isn't one of the callbacks, they will be handled at the appropriate time.
 			    settings[i] = settings[i].call(element);
 			}
 		}
@@ -186,8 +187,6 @@
 				settings.onOpen.call(element);
 			}
 			
-			$close.html(settings.close);
-			
 			$overlay.css({"opacity": settings.opacity}).show();
 			
 			// Opens inital empty ColorBox prior to content being loaded.
@@ -201,6 +200,10 @@
 				}).trigger("scroll.cboxie6");
 			}
 		}
+		
+		$current.add($prev).add($next).add($slideshow).add($title).hide();
+		
+		$close.html(settings.close).show();
 		
 		cboxPublic.slideshow();
 		
@@ -285,7 +288,10 @@
 				$div("BottomRight")
 			)
 		).children().children().css({'float': 'left'});
-		$('body').prepend($overlay, $cbox.append($wrap));
+		
+		$loadingBay = $("<div style='position:absolute; top:0; left:0; width:9999px; height:0;'/>");
+		
+		$('body').prepend($overlay, $cbox.append($wrap, $loadingBay));
 				
 		if (isIE) {
 			$cbox.addClass('cboxIE');
@@ -298,8 +304,7 @@
 		$content.children()
 		.addClass(hover)
 		.mouseover(function () { $(this).addClass(hover); })
-		.mouseout(function () { $(this).removeClass(hover); })
-		.hide();
+		.mouseout(function () { $(this).removeClass(hover); });
 		
 		// Cache values needed for size calculations
 		interfaceHeight = $topBorder.height() + $bottomBorder.height() + $content.outerHeight(TRUE) - $content.height();//Subtraction needed for IE6
@@ -320,7 +325,7 @@
 		$content.children().removeClass(hover);
 		
 		$('.cboxElement').live('click', function (e) {
-			if (e.button !== 0) {// checks to see if it was a non-left mouse-click.
+			if (e.button !== 0 && typeof e.button !== 'undefined') {// checks to see if it was a non-left mouse-click.
 				return TRUE;
 			} else {
 				launch(this);			
@@ -409,7 +414,7 @@
 		}
 		
 		$loaded.hide()
-		.appendTo($overlay)// content has to be appended to the DOM for accurate size calculations.  Appended to an absolutely positioned element, rather than BODY, which avoids an extremely brief display of the vertical scrollbar in Firefox that can occur for a small minority of websites.
+		.appendTo($loadingBay)// content has to be appended to the DOM for accurate size calculations.  Appended to an absolutely positioned element, rather than BODY, which avoids an extremely brief display of the vertical scrollbar in Firefox that can occur for a small minority of websites.
 		.css({width:getWidth(), overflow:settings.scrolling ? 'auto' : 'hidden'})
 		.css({height:getHeight()})// sets the height independently from the width in case the new width influences the value of height.
 		.prependTo($content);
@@ -436,33 +441,30 @@
 					$cbox[0].style.removeAttribute("filter");
 				}
 				
-				$content.children().show();
-				
 				//Waited until the iframe is added to the DOM & it is visible before setting the src.
 				//This increases compatability with pages using DOM dependent JavaScript.
 				if(settings.iframe){
 					$loaded.append("<iframe id='cboxIframe'" + (settings.scrolling ? " " : "scrolling='no'") + " name='iframe_"+new Date().getTime()+"' frameborder=0 src='"+(settings.href || element.href)+"' " + (isIE ? "allowtransparency='true'" : '') + " />");
 				}
 				
-				$loadingOverlay.hide();
-				$loadingGraphic.hide();
-				$slideshow.hide();
+				$loaded.show();
+				
+				$title.html(settings.title || element.title);
+				
+				$title.show();
 				
 				if ($related.length>1) {
-					$current.html(settings.current.replace(/\{current\}/, index+1).replace(/\{total\}/, $related.length));
-					$next.html(settings.next);
-					$prev.html(settings.previous);
+					$current.html(settings.current.replace(/\{current\}/, index+1).replace(/\{total\}/, $related.length)).show();
+					$next.html(settings.next).show();
+					$prev.html(settings.previous).show();
 					
 					if(settings.slideshow){
 						$slideshow.show();
 					}
-				} else {
-					$current.hide();
-					$next.hide();
-					$prev.hide();
 				}
 				
-				$title.html(settings.title || element.title);
+				$loadingOverlay.hide();
+				$loadingGraphic.hide();
 				
 				$.event.trigger(cbox_complete);
 				if (settings.onComplete) {
@@ -490,13 +492,13 @@
 			nextSrc = $(next).data(colorbox).href || next.href;
 			prevSrc = $(prev).data(colorbox).href || prev.href;
 			
-			//if(isImage(nextSrc)){
-			//	$('<img />').attr('src', nextSrc);
-			//}
-			//
-			//if(isImage(prevSrc)){
-			//	$('<img />').attr('src', prevSrc);
-			//}
+			if(isImage(nextSrc)){
+				$('<img />').attr('src', nextSrc);
+			}
+			
+			if(isImage(prevSrc)){
+				$('<img />').attr('src', prevSrc);
+			}
 		}
 	};
 
@@ -579,8 +581,7 @@
 		
 		$loadingOverlay.show();
 		$loadingGraphic.show();
-		$close.show();
-			
+		
 		if (settings.inline) {
 			// Inserts an empty placeholder where inline content is being pulled from.
 			// An event is bound to put inline content back when ColorBox closes or loads new content.
@@ -636,7 +637,7 @@
 			};
 			img.src = href;
 		} else {
-			$('<div />').appendTo($overlay).load(href, function(data, textStatus){
+			$('<div />').appendTo($loadingBay).load(href, function(data, textStatus){
 				if(textStatus === "success"){
 					resize(this);
 				} else {
@@ -725,7 +726,6 @@
 		.fadeOut('fast', function () {
 			$loaded.remove();
 			$cbox.css({'opacity': 1});
-			$content.children().hide();
 			
 			try{
 				bookmark.focus();

@@ -1,15 +1,15 @@
 JavaScript
 ----------
-jQuery JavaScript Library 
+jQuery JavaScript Library
 1.3.2 (19 Feb 2009)
 
 ColorBox
-1.3.4 (December 5 2009)
+1.3.5 (December 15 2009)
 
 markItUp!
 1.1.5 (2009 Jan 05)
 
-jQuery Cycle Plugin     
+jQuery Cycle Plugin
 2.73 (04-NOV-2009)
 
 jQuery Form Plugin
@@ -21,4 +21,4 @@ jQuery Taconite Plugin
 CSS
 ----------
 Blueprint
-0.9.1 (August 20 2009) 
+0.9.1 (August 20 2009)

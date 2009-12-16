@@ -12,7 +12,7 @@ user = schema.Table('user', meta.metadata,
 
     schema.Column('nickname', types.String(20), nullable=False, unique=True),
     schema.Column('email', types.String(50), nullable=False, unique=True),
-    schema.Column('password', types.String(32)),    
+    schema.Column('password', types.String(32)),
 
     schema.Column('active', types.Unicode(32)),
     schema.Column('created', types.DateTime(), default=datetime.now()),
@@ -31,7 +31,7 @@ person = schema.Table('person', meta.metadata,
         schema.ForeignKey('node.id'), primary_key=True),
     schema.Column('user_id', types.Integer,
         schema.ForeignKey('user.id'), nullable=True),
-    schema.Column('event_id', types.Integer, 
+    schema.Column('event_id', types.Integer,
         schema.ForeignKey('event.id'), nullable=False),
 
     schema.Column('fullname', types.Unicode(50), nullable=False),
@@ -45,13 +45,13 @@ person = schema.Table('person', meta.metadata,
 article = schema.Table('article', meta.metadata,
     schema.Column('id', types.Integer,
         schema.ForeignKey('node.id'), primary_key=True),
-    
+
     schema.Column('title', types.Unicode(50), nullable=False),
     schema.Column('path', types.Unicode(), nullable=False, unique=True),
     schema.Column('label', types.Unicode(50)),
     schema.Column('content', types.Unicode(), nullable=False),
     schema.Column('published', types.DateTime),
-    
+
     schema.Column('created', types.DateTime(), default=datetime.now()),
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())
 )
@@ -59,10 +59,10 @@ article = schema.Table('article', meta.metadata,
 album = schema.Table('album', meta.metadata,
     schema.Column('id', types.Integer,
         schema.ForeignKey('node.id'), primary_key=True),
-    
+
     schema.Column('settings', types.Binary(), nullable=False),
     schema.Column('type', types.String(20)),
-    
+
     schema.Column('created', types.DateTime(), default=datetime.now()),
 )
 
@@ -82,14 +82,14 @@ event = schema.Table('event', meta.metadata,
 report = schema.Table('report', meta.metadata,
     schema.Column('id', types.Integer,
         schema.ForeignKey('node.id'), primary_key=True),
-    schema.Column('event_id', types.Integer, 
+    schema.Column('event_id', types.Integer,
         schema.ForeignKey('event.id'), nullable=False),
-        
+
     schema.Column('title', types.Unicode()),
     schema.Column('content', types.Unicode(), nullable=False),
     schema.Column('filter', types.String(20), nullable=False),
     schema.Column('published', types.DateTime),
-    
+
     schema.Column('created', types.DateTime(), default=datetime.now()),
     schema.Column('updated', types.DateTime(), onupdate=datetime.now())
 )
