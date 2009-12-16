@@ -1,6 +1,8 @@
 syntax: regexp
 ^data/.+
-.\pyc$
+\.pyc$
+^nbproject$
 ^\.settings$
-^.project$
-^.pydevproject$
+^\.project$
+^\.pydevproject$
+^horosh\.pidaproject$
