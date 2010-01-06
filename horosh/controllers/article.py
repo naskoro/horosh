@@ -201,9 +201,20 @@ class ArticleController(BaseController):
     def remove(self, id):
         node = self._get_row(model.Article, id)
 
-        meta.Session.delete(node)
-        meta.Session.commit()
-        flash(u'Статья успешно удалена')
-        if self.back_page() is not None:
-            return redirect_to(**self.back_page())
-        return redirect_to('articles')
+        fs = form.DeleteAcceptForm('article-remove')
+
+        if request.POST:
+            if fs.fields.save.id in request.POST:
+                meta.Session.delete(node)
+                meta.Session.commit()
+                flash(u'Статья успешно удалена')
+            if self.back_page() is not None:
+                return redirect_to(**self.back_page())
+            return redirect_to('articles')
+        else:
+            c.form = fs
+            if is_ajax():
+                result = render('/util/delete_accept_partial.html')
+            else:
+                result = render('/util/delete_accept.html')
+            return result

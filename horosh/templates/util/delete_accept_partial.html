@@ -1,0 +1,9 @@
+<%namespace file="delete_accept_form.html" name="form" import="*" />
+<taconite>
+    <replace select="#${c.form.name}">
+        ${form.container()}
+    </replace>
+    <eval><![CDATA[
+        ${form.script()}
+    ]]></eval>
+</taconite>

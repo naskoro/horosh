@@ -113,7 +113,22 @@ class ReportController(BaseController):
         event_node = node.event
         self._check_access(event_node)
 
-        meta.Session.delete(node)
-        meta.Session.commit()
-        flash(u'Отчет успешно удален')
-        return redirect_to(event_node.url())
+        fs = form.DeleteAcceptForm('report-remove')
+
+        if request.POST:
+            if fs.fields.save.id in request.POST:
+                meta.Session.delete(node)
+                meta.Session.commit()
+                flash(u'Отчет успешно удален')
+                return redirect_to(event_node.url())
+            if self.back_page():
+                return redirect_to(**self.back_page())
+            return redirect_to(node.url())
+
+        else:
+            c.form = fs
+            if is_ajax():
+                result = render('/util/delete_accept_partial.html')
+            else:
+                result = render('/util/delete_accept.html')
+            return result

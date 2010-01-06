@@ -149,14 +149,14 @@ class EventController(BaseController):
                 query = query.filter(model.Event.published != None)
 
         query = query.order_by(model.Event.created.desc())
-        
+
         c.nodes = paginate.Page(
             query,
             page=int(request.params.get('page', 1)),
             items_per_page = 5,
             **request.environ['pylons.routes_dict']
         )
-        
+
         return render('event/list.html')
 
     def remove(self, id):
@@ -165,15 +165,28 @@ class EventController(BaseController):
             abort(403)
         self._check_access(node)
 
-        meta.Session.delete(node)
-        meta.Session.commit()
-        flash(u'Событие успешно удалено')
-        c.is_full_redirect=True
-        return self._redirect_to(
-            controller='event',
-            action='list',
-            user=current_user().nickname
-        )
+        fs = form.DeleteAcceptForm('event-remove')
+
+        if request.POST:
+            if fs.fields.save.id in request.POST:
+                meta.Session.delete(node)
+                meta.Session.commit()
+                flash(u'Событие успешно удалено')
+                c.is_full_redirect=True
+                return self._redirect_to(
+                    controller='event',
+                    action='list',
+                    user=current_user().nickname
+                )
+            return redirect_to(node.url())
+        else:
+            c.form = fs
+            if is_ajax():
+                result = render('/util/delete_accept_partial.html')
+            else:
+                result = render('/util/delete_accept.html')
+            return result
+
 
     def publish(self, id, published):
         node = self._get_row(model.Event, id)

@@ -29,8 +29,8 @@
         };
         $('#${self.id()} form').ajaxForm(options);
 
-        % if h.on_page() and c.fs.cancel:
-        $('#${c.fs.cancel.id}').click(function(){
+        % if h.on_page() and c.form.fields.cancel:
+        $('#${c.form.fields.cancel.id}').click(function(){
             $.fn.colorbox.close();
             return false;
         });

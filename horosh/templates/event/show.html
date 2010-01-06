@@ -47,10 +47,6 @@
 
         $('a.on_page').click(
             function() {
-                if ($(this).hasClass('confirm') && !confirm(this.rel)) {
-                    return false
-                }
-
                 $('#modal-container div').html(
                     '<div class="box-error">загрузка...</div>'
                 );
@@ -103,7 +99,7 @@
                         <a href="${c.node.url_publish(False)}" class="on_page">В черновики</a>
                     % endif
                     % if c.node.id != 1 :
-                    <a href="${c.node.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                    <a href="${c.node.url_remove()}" class="on_page modal" rev="#event-remove">Удалить</a>
                     % endif
                 </div>
             </div>
@@ -160,7 +156,7 @@
                         % if h.is_node_owner(c.node):
                             <div class="node-actions">
                                 <a href="${person.url_edit()}" class="on_page modal" rev="#person-edit">Изменить</a>
-                                <a href="${person.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                                <a href="${person.url_remove()}" class="on_page modal" rev="#person-remove">Удалить</a>
                             </div>
                        % endif
                     </div></div>
@@ -191,7 +187,7 @@
                             <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank"><span class="picasa">Picasa</span></a>
                             % if h.is_node_owner(c.node):
                                 <a href="${album.url_reload()}" class="on_page">Обновить</a>
-                                <a href="${album.url_remove()}" class="on_page confirm" rel="Точно хотите удалить?">Удалить</a>
+                                <a href="${album.url_remove()}" class="on_page modal" rev="#album-remove">Удалить</a>
                            % endif
                        </div>
                     </div>
@@ -208,7 +204,11 @@
 </div>
 <div id="modal-container" class="hide">
     <div id="event-edit"></div>
+    <div id="event-remove"></div>
+    <div id="report-remove"></div>
     <div id="person-edit"></div>
     <div id="person-new"></div>
+    <div id="person-remove"></div>
     <div id="album-new"></div>
+    <div id="album-remove"></div>
 </div>

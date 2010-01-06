@@ -73,7 +73,18 @@ class AlbumController(BaseController):
         event_node = node.event
         self._check_access(event_node)
 
-        meta.Session.delete(node)
-        meta.Session.commit()
-        flash(u'Альбом успешно удален')
-        return redirect_to(event_node.url())
+        fs = form.DeleteAcceptForm('album-remove')
+
+        if request.POST:
+            if fs.fields.save.id in request.POST:
+                meta.Session.delete(node)
+                meta.Session.commit()
+                flash(u'Альбом успешно удален')
+            return redirect_to(event_node.url())
+        else:
+            c.form = fs
+            if is_ajax():
+                result = render('/util/delete_accept_partial.html')
+            else:
+                result = render('/util/delete_accept.html')
+            return result
