@@ -6,14 +6,12 @@
 <%def name="id()">${c.form.name}</%def>
 <form id="${self.id()}" method="post" action="${c.form.action}">
     <div class="box">
-        <div class="box-title">
-            ${self.title()}
-        </div>
-        Точно хотите удалить?
-
-        <div class="field">
-            ${h.submit(value=u'удалить', name=c.form.fields.save.id)}
-            ${h.submit(value=u'отмена', name=c.form.fields.cancel.id)}
+        <div class="box-notice">
+            <b>Точно хотите удалить?</b>
+            <div class="field">
+                ${h.submit(value=u'удалить', name=c.form.fields.save.id)}
+                ${h.submit(value=u'отмена', name=c.form.fields.cancel.id)}
+            </div>
         </div>
     </div>
 </form>
