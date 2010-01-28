@@ -2,7 +2,7 @@
 from horosh.lib.base import render, current_user
 from horosh.model import meta
 from horosh import model, form
-from pylons import request, tmpl_context as c
+from pylons import request, tmpl_context as c, session
 from sqlalchemy import and_
 import logging
 
@@ -32,8 +32,8 @@ class LoginForm(form.FieldSet):
         )
 
 def login():
-    fs = LoginForm('login')
-    c.google_analytics = False
+    log.debug('login view')
+    fs = LoginForm('')
 
     if request.POST and fs.is_valid(request.POST):
         return
@@ -44,5 +44,5 @@ def login():
     result = render('/util/login.html')
     if request.POST:
         result = fs.htmlfill(result)
-    result = result.replace('%', '%%').replace('FORM_ACTION', '%s')
+    result = result.replace('%', '%%')
     return result

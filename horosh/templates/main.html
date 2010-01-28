@@ -63,7 +63,7 @@
         <span class="copyright">&copy; 2010 horosh.org</span>
         При использовании материалов сайта гиперссылка на <a href="http://horosh.org">horosh.org</a> обязательна.</div>
 
-        % if 'google_analytics' in config and c.google_analytics:
+        % if 'google_analytics' in config:
             ${defs.google_analytics(config['google_analytics'])}
         % endif
     </div>
