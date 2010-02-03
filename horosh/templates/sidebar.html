@@ -4,14 +4,20 @@
         % if not h.is_nobody():
         <li class="accent"><a href="${h.url_for('/event/new')}">Добавить событие</a></li>
         % endif
-        <li class="accent"><a href="${h.url_for(c.current_user.url())}">Мои события</a></li>
+        % if h.is_authorized():
+            <li class="accent"><a href="${h.url_for(c.current_user.url())}">Мои события</a></li>
+        % endif
         <li class="accent"><a href="${h.url_for('/')}">Все события</a></li>
+        % if h.is_authorized():
+            <li><a href="${h.url_for('/logout')}">Выход</a></li>
+        % else:
+            <li><a href="${h.url_for('/login')}">Вход</a></li>
+        % endif
     </ul></div>
 
     % if h.is_admin():
     <div class="nav accent"><ul>
         <li  class="accent"><a href="${h.url_for('/demo/up')}">Обновить демо</a></li>
-        <li><a href="${h.url_for('/logout')}">Выход</a></li>
     </ul></div>
     % endif
 </div>

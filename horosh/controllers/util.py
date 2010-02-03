@@ -31,6 +31,13 @@ class UtilController(BaseController):
         c.message = u'Logout success'
         return redirect_to('/')
 
+    @authorize(ValidAuthKitUser())
+    def demo(self):
+        event = meta.Session.query(model.Event).filter(
+            model.Event.id == 1
+        ).one()
+        redirect_to(event.url())
+
     @authorize(HasAuthKitRole('admin'))
     def demo_up(self):
         event = meta.Session.query(model.Event).filter(

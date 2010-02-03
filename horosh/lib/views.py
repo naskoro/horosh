@@ -32,7 +32,6 @@ class LoginForm(form.FieldSet):
         )
 
 def login():
-    log.debug('login view')
     fs = LoginForm('')
 
     if request.POST and fs.is_valid(request.POST):

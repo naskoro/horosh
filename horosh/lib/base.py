@@ -5,7 +5,7 @@
 Provides the BaseController class for subclassing.
 """
 from authkit.authorize.pylons_adaptors import authorized
-from authkit.permissions import HasAuthKitRole
+from authkit.permissions import HasAuthKitRole, ValidAuthKitUser
 from horosh import model
 from horosh.lib import taconite
 from horosh.model import meta
@@ -35,9 +35,12 @@ def on_page():
     return 'on_page' in request.params and is_ajax()
 
 def is_node_owner(node):
-    if node.node_user_id == current_user().id:
+    if node.node_user_id == current_user().id and is_authorized():
         return True
     return False
+
+def is_authorized():
+    return authorized(ValidAuthKitUser())
 
 def is_admin():
     return authorized(HasAuthKitRole('admin'))

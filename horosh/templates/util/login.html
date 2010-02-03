@@ -9,7 +9,11 @@
         <div class="box-title">
             ${self.title()}
         </div>
-
+        <div class="box-notice">
+            <b>Демо пользователь:</b><br/>
+            логин: <b>nobody</b><br/>
+            пароль: <b>demo</b><br/>
+        </div>
         <div class="field container">
             <div class="span-10">${h.title(u'Логин', c.fs.username.not_empty(), label_for=c.fs.username.id)}</div>
             <div class="span-90">${h.text(name=c.fs.username.id)}</div>
