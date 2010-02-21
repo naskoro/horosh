@@ -1,7 +1,8 @@
 syntax: regexp
 ^data/.+
+^env/.+
+^horosh.egg-info/.+
 \.pyc$
-^nbproject$
 ^\.settings$
 ^\.project$
 ^\.pydevproject$

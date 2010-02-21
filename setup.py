@@ -13,9 +13,16 @@ setup(
     author_email='naspeh@pusto.org',
     url='',
     install_requires=[
-        "Pylons>=0.9.7",
+        "Pylons==0.9.7",
         "SQLAlchemy>=0.5",
-        "Mako",
+        "simplejson",
+        "gdata",
+        "AuthKit",
+        "PIL",
+        "docutils",
+        "html5lib",
+        "pytils",
+        "PyYaml"
     ],
     setup_requires=["PasteScript>=1.6.3"],
     packages=find_packages(exclude=['ez_setup']),

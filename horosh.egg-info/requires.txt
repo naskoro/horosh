@@ -1,3 +1,10 @@
 Pylons>=0.9.7
 SQLAlchemy>=0.5
-Mako
+simplejson
+gdata
+authkit
+PIL
+docutils
+html5lib
+pytils
+PyYaml
