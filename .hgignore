@@ -4,7 +4,7 @@ syntax: regexp
 
 ^data/.+
 ^env/.+
-^horosh\.egg-info/.+
+^horosh\.egg\-info/.+
 ^\.settings$
 \.project$
 \.pydevproject$
