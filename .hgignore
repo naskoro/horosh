@@ -1,16 +1,11 @@
-#syntax: regexp
+syntax: regexp
 
-syntax: glob
+\.pyc$
 
-*.elc
-*.pyc
-*~
-
-.settings/*
-.project
-.pydevproject
-
-data/*
-env/*
-horosh.egg-info/*
+^data\/.+
+^env\/.+
+^horosh.egg-info\/.+
+^\.settings$
+\.project$
+\.pydevproject$
 
