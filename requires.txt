@@ -20,7 +20,6 @@ decorator==3.1.2
 docutils==0.6
 elementtree==1.2.7-20070827-preview
 gdata==2.0.7
-horosh==0.1dev
 html5lib==0.90
 nose==0.11.1
 python-openid==2.2.4
