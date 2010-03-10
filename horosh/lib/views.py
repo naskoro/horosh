@@ -34,9 +34,6 @@ class LoginForm(form.FieldSet):
 def login():
     fs = LoginForm('')
 
-    if request.POST and fs.is_valid(request.POST):
-        return
-
     c.form = fs
     c.fs = fs.fields
 

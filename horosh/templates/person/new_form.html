@@ -25,7 +25,7 @@
             ${self.field_errors(c.fs.avatar.id)}
 
             % if c.node:
-                <img class="box-img" alt="${c.node.fullname}" src="${c.node.url_avatar(with_time=True)}"/>
+                <img class="box-img" height="100" width="100" alt="${c.node.fullname}" src="${c.node.url_avatar(with_time=True)}"/>
             % endif
         </div>
 
