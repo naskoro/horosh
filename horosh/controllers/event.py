@@ -153,7 +153,7 @@ class EventController(BaseController):
         c.nodes = paginate.Page(
             query,
             page=int(request.params.get('page', 1)),
-            items_per_page = 5,
+            items_per_page = 3,
             **request.environ['pylons.routes_dict']
         )
 
