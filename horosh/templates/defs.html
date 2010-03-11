@@ -119,7 +119,7 @@
         <div class="messages ${type}">
             <a class="control-close">Закрыть</a>
             % for message in messages:
-            <div>${message|n}</div>
+            <div>${message.__html__()|n}</div>
             % endfor
         </div>
     % endif
