@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 <%def name="node_info(node, show_draft=False)">
     ${h.ru_strftime(u'%a, %d %B %Y г.', date=node.created, inflected=True)} |
     <a href="${node.node_user.url()}">${node.node_user.nickname}</a>
