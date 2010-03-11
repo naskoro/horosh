@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 <%def name="node_info(node, show_draft=False)">
     ${h.ru_strftime(u'%a, %d %B %Y г.', date=node.created, inflected=True)} |
     <a href="${node.node_user.url()}">${node.node_user.nickname}</a>
@@ -119,7 +118,11 @@
         <div class="messages ${type}">
             <a class="control-close">Закрыть</a>
             % for message in messages:
+            % if hasattr(message, '__html__'):
             <div>${message.__html__()|n}</div>
+            % else:
+            <div>${message|n}</div>
+            % endif
             % endfor
         </div>
     % endif

@@ -133,7 +133,7 @@ class EventController(BaseController):
                 ).filter(
                     and_(
                         model.Event.published != None,
-                        model.User.nickname != 'nobody'
+                        model.User.nickname != 'demo'
                     )
                 )
         else:
