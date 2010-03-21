@@ -1,8 +1,8 @@
-Pylons>=0.9.7
+Pylons==0.9.7
 SQLAlchemy>=0.5
 simplejson
 gdata
-authkit
+AuthKit
 PIL
 docutils
 html5lib

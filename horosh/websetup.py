@@ -23,6 +23,10 @@ def setup_app(command, conf, vars):
     user = User('nayavu', 'nayavu@pusto.org')
     meta.Session.add(user)
 
+    log.info('Adding demo user')
+    user = User('demo', 'demo@pusto.org')
+    meta.Session.add(user)
+
     log.info('Adding nobody user')
     user = User('nobody', 'nobody@pusto.org')
     meta.Session.add(user)
