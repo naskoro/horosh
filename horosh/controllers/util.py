@@ -45,7 +45,7 @@ class UtilController(BaseController):
         ).one()
 
         user = meta.Session.query(model.User).filter(
-            model.User.nickname == 'nobody'
+            model.User.nickname == 'demo'
         ).one()
 
         for node in event.persons: meta.Session.delete(node)

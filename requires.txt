@@ -8,7 +8,6 @@ docutils
 elementtree
 gdata
 html5lib
-#python-openid==2.2.2
 pytils
 simplejson
 
