@@ -17,6 +17,7 @@ class ReportForm(form.FieldSet):
             form.Field('content', validator=form.v.String(not_empty=True)),
             form.Field('save'),
             form.Field('save_view'),
+            form.Field('save_view_event'),
             form.Field('cancel')
         )
 
@@ -42,8 +43,10 @@ class ReportController(BaseController):
             flash(u'Отчет успешно добавлен')
             if fs.fields.save_view.id in request.POST:
                 return redirect_to(node.url())
-            else:
+            elif fs.fields.save_view_event.id in request.POST:
                 return redirect_to(event_node.url())
+            else:
+                return redirect_to(node.url_edit())
 
 
         c.form = fs
@@ -88,7 +91,7 @@ class ReportController(BaseController):
             flash(u'Отчет успешно сохранен')
             if fs.fields.save_view.id in request.POST:
                 return redirect_to(node.url())
-            else:
+            elif fs.fields.save_view_event.id in request.POST:
                 return redirect_to(event_node.url())
 
         if not request.POST:

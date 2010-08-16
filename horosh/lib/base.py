@@ -35,9 +35,7 @@ def on_page():
     return 'on_page' in request.params and is_ajax()
 
 def is_node_owner(node):
-    if node.node_user_id == current_user().id and is_authorized():
-        return True
-    return False
+    return is_authorized() and (node.node_user_id == current_user().id or is_admin()) or False
 
 def is_authorized():
     return authorized(ValidAuthKitUser())

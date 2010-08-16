@@ -19,7 +19,9 @@
 /* <![CDATA[ */
     $(document).ready(function(){
         $("#informer").ajaxError(function(event, request, settings){
-            $(this).html('<div class="messages error">При выполнении запроса произшла ошибка<a class="control-close">Закрыть</a></div>')
+            $(this).html('<div class="messages error">При выполнении запроса произшла ошибка<a class="control-close">Закрыть</a></div>');
+            $('.loading').removeClass('loading');
+
         });
 
         $('#informer .control-close').live("click", function(){

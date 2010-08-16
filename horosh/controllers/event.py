@@ -150,12 +150,16 @@ class EventController(BaseController):
 
         query = query.order_by(model.Event.start.desc())
 
-        c.nodes = paginate.Page(
-            query,
-            page=int(request.params.get('page', 1)),
-            items_per_page = 3,
-            **request.environ['pylons.routes_dict']
-        )
+        page = request.params.get('page', 1)
+        if 'all' == page:
+            c.nodes = query.all()
+        else:
+            c.nodes = paginate.Page(
+                query,
+                page=int(page),
+                items_per_page = 3,
+                **request.environ['pylons.routes_dict']
+            )
 
         return render('event/list.html')
 

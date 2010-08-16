@@ -208,6 +208,9 @@ a:hover {
 .pager-numbers {
     font-size: 1.2em;
 }
+.pager-all {
+    display: block;
+}
 
 /* Title */
 .title {

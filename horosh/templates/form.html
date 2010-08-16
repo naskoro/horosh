@@ -12,19 +12,18 @@
             url: '${c.form.action}',
             data : {is_ajax:1},
             beforeSubmit:  function() {
+                $('#informer').html('');
                 $('#${self.id()}-informer').html('');
-                $('#${self.id()}-loader').addClass('loading')
+                $('#${self.id()}-loader').addClass('loading');
             },
             success: function (data)  {
                 data = data
             },
             complete: function (xhr, type)  {
-                if(type !== "success"){
-                    $('#${self.id()}-loader').removeClass('loading');
-                }
                 if (0 == xhr.status && xhr.responseXML) {
-                    $.taconite(xhr.responseXML)
+                    $.taconite(xhr.responseXML);
                 }
+                $('#${self.id()}-loader').removeClass('loading');
             }
         };
         $('#${self.id()} form').ajaxForm(options);
