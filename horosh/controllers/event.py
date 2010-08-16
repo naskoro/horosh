@@ -148,7 +148,7 @@ class EventController(BaseController):
             if user_node.nickname != current_user().nickname:
                 query = query.filter(model.Event.published != None)
 
-        query = query.order_by(model.Event.created.desc())
+        query = query.order_by(model.Event.start.desc())
 
         c.nodes = paginate.Page(
             query,
