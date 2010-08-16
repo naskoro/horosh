@@ -12,7 +12,7 @@
             url: '${c.form.action}',
             data : {is_ajax:1},
             beforeSubmit:  function() {
-                $('#informer').html('');
+                $('#informer').html('').show();
                 $('#${self.id()}-informer').html('');
                 $('#${self.id()}-loader').addClass('loading');
             },

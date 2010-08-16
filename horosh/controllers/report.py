@@ -53,6 +53,7 @@ class ReportController(BaseController):
         c.fs = fs.fields
 
         if is_ajax():
+            c.flash_messages = flash.pop_messages()
             result = render('/report/new_partial.html')
         else:
             result = render('/report/new.html')
@@ -105,6 +106,7 @@ class ReportController(BaseController):
         c.node = node
 
         if is_ajax():
+            c.flash_messages = flash.pop_messages()
             result = render('/report/edit_partial.html')
         else:
             result = render('/report/edit.html')

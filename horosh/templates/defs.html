@@ -139,5 +139,18 @@
         <span class="pager-all">${ nodes._pagerlink('all', 'Все страницы') }</span>
     </div>
     % endif
+</%def>
 
+<%def name="form_partial(form)">
+<taconite>
+    <replaceContent select="#informer">
+        ${informer(c.flash_messages)}
+    </replaceContent>
+    <replace select="#${c.form.name}">
+        ${form.container()}
+    </replace>
+    <eval><![CDATA[
+        ${form.script()}
+    ]]></eval>
+</taconite>
 </%def>
