@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-import re
 from datetime import datetime
 
 from authkit.authorize.pylons_adaptors import authorize
@@ -10,11 +9,10 @@ from pylons.controllers.util import abort
 from sqlalchemy import and_
 from sqlalchemy.orm import join
 from sqlalchemy.orm.exc import NoResultFound
-from webhelpers import paginate
 
 from horosh import form, model
 from horosh.lib.base import BaseController, render, redirect_to, flash,\
-                            is_ajax, current_user
+                            is_ajax, current_user, pager_or_404
 from horosh.model import meta
 
 
@@ -155,19 +153,7 @@ class EventController(BaseController):
 
         query = query.order_by(model.Event.start.desc())
 
-        page = request.params.get('page', None)
-        if 'all' == page:
-            c.nodes = query.all()
-        else:
-            if page and re.search('\D', page):
-                abort(404)
-
-            c.nodes = paginate.Page(
-                query,
-                page= page and int(page) or 1,
-                items_per_page = 3,
-                **request.environ['pylons.routes_dict']
-            )
+        c.nodes = pager_or_404(query)
 
         return render('event/list.html')
 

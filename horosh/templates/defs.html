@@ -129,7 +129,7 @@
 </%def>
 
 <%def name="pager(nodes)">
-    % if hasattr(nodes, 'pager'):
+% if hasattr(nodes, 'pager') and nodes.item_count>3:
     <div class="pager">
         <span class="pager-first">${ nodes.pager('$link_first') }</span>
         <span class="pager-previous">${ nodes.pager('$link_previous') }</span>

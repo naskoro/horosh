@@ -1,22 +1,27 @@
 # -*- coding: utf-8 -*-
-
-"""The base Controller API
+"""
+The base Controller API
 
 Provides the BaseController class for subclassing.
 """
+import logging
+import re
+
 from authkit.authorize.pylons_adaptors import authorized
 from authkit.permissions import HasAuthKitRole, ValidAuthKitUser
-from horosh import model
-from horosh.lib import taconite
-from horosh.model import meta
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers import WSGIController
 from pylons.controllers.util import abort, redirect_to as _redirect_to
-from pylons.templating import render_mako as render
+from pylons.templating import render_mako
 from routes import url_for
 from sqlalchemy.orm.exc import NoResultFound
+from webhelpers import paginate
 from webhelpers.pylonslib import Flash as _Flash
-import logging
+
+from horosh import model
+from horosh.lib import taconite
+from horosh.model import meta
+
 
 log = logging.getLogger(__name__)
 
@@ -53,6 +58,11 @@ def remote_user():
         user = request.environ.get('REMOTE_USER')
     return user
 
+def render(*args, **kwargs):
+    if is_ajax():
+        c.flash_messages = flash.pop_messages()
+    return render_mako(*args, **kwargs)
+
 def redirect_to(*args, **kwargs):
     if is_ajax():
         url = url_for(*args, **kwargs)
@@ -62,6 +72,26 @@ def redirect_to(*args, **kwargs):
         _redirect_to(*args, **kwargs)
         result = "Moved temporarily"
     return result
+
+def pager_or_404(query):
+    page = request.params.get('page', None)
+    if 'all' == page:
+        nodes = query.all()
+    else:
+        if page and re.search('\D', page):
+            abort(404)
+
+        nodes = paginate.Page(
+            query,
+            page= page and int(page) or 1,
+            items_per_page = 3,
+            **request.environ['pylons.routes_dict']
+        )
+    return nodes
+
+
+
+
 
 class BaseController(WSGIController):
     def __before__(self):

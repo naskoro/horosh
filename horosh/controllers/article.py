@@ -8,11 +8,10 @@ from pylons import request, tmpl_context as c
 from pylons.controllers.util import abort
 from pytils import translit
 from sqlalchemy.orm.exc import NoResultFound
-from webhelpers import paginate
 
 from horosh import form, model
 from horosh.lib.base import BaseController, render, redirect_to, flash, \
-                            is_ajax, current_user, is_admin
+                            is_ajax, current_user, is_admin, pager_or_404
 from horosh.model import meta
 
 
@@ -128,12 +127,7 @@ class ArticleController(BaseController):
 
         query = query.order_by(model.Article.created.desc())
 
-        c.nodes = paginate.Page(
-            query,
-            page=int(request.params.get('page', 1)),
-            items_per_page = 5,
-            **request.environ['pylons.routes_dict']
-        )
+        c.nodes = pager_or_404(query)
         c.label = label
         return render('/article/list.html')
 

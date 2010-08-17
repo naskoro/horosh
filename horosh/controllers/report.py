@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+import logging
+
+from pylons import request, tmpl_context as c
 
 from horosh import form, model
 from horosh.lib.base import BaseController, render, redirect_to, flash, \
-    is_ajax, current_user
+                            is_ajax, current_user
 from horosh.model import meta
-from pylons import request, response, session, tmpl_context as c
-from pylons.controllers.util import abort
-import logging
+
 
 log = logging.getLogger(__name__)
+
 
 class ReportForm(form.FieldSet):
     def init(self):
@@ -20,6 +22,7 @@ class ReportForm(form.FieldSet):
             form.Field('save_view_event'),
             form.Field('cancel')
         )
+
 
 class ReportController(BaseController):
     def new(self, event_id):
@@ -53,7 +56,6 @@ class ReportController(BaseController):
         c.fs = fs.fields
 
         if is_ajax():
-            c.flash_messages = flash.pop_messages()
             result = render('/report/new_partial.html')
         else:
             result = render('/report/new.html')
@@ -106,7 +108,6 @@ class ReportController(BaseController):
         c.node = node
 
         if is_ajax():
-            c.flash_messages = flash.pop_messages()
             result = render('/report/edit_partial.html')
         else:
             result = render('/report/edit.html')
