@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
+import logging
+from datetime import datetime
 
 from authkit.authorize.pylons_adaptors import authorize
 from authkit.permissions import HasAuthKitRole
-from datetime import datetime
-from horosh import form, model
-from horosh.lib.base import BaseController, render, redirect_to, flash, is_ajax, \
-    current_user, is_admin
-from horosh.model import meta
-from pylons import request, response, session, tmpl_context as c
+from pylons import request, tmpl_context as c
 from pylons.controllers.util import abort
 from pytils import translit
 from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
-import logging
+
+from horosh import form, model
+from horosh.lib.base import BaseController, render, redirect_to, flash, \
+                            is_ajax, current_user, is_admin
+from horosh.model import meta
+
 
 log = logging.getLogger(__name__)
+
 
 class ArticleForm(form.FieldSet):
     def __init__(self, name, path=None):
@@ -35,8 +38,10 @@ class ArticleForm(form.FieldSet):
             form.Field('content', validator=form.v.String(not_empty=True)),
             form.Field('save'),
             form.Field('save_view'),
+            form.Field('save_view_list'),
             form.Field('cancel')
         )
+
 
 class ArticleController(BaseController):
     @authorize(HasAuthKitRole('admin'))
@@ -69,10 +74,12 @@ class ArticleController(BaseController):
 
                 if fs.fields.save_view.id in request.POST:
                     return redirect_to(node.url())
-                else:
+                elif fs.fields.save_view_list.id in request.POST:
                     if node.label is not None:
                         return redirect_to(node.label)
                     return redirect_to('articles')
+                else:
+                    return redirect_to(node.url_edit())
 
         c.form = fs
         c.fs = fs.fields
@@ -158,7 +165,7 @@ class ArticleController(BaseController):
                 flash(u'Статья успешно сохранена')
                 if fs.fields.save_view.id in request.POST:
                     return redirect_to(node.url())
-                else:
+                elif fs.fields.save_view_list.id in request.POST:
                     if node.label is not None:
                         return redirect_to(node.label)
                     return redirect_to('articles')

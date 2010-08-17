@@ -1,24 +1,28 @@
 # -*- coding: utf-8 -*-
+import logging
+import re
+from datetime import datetime
 
 from authkit.authorize.pylons_adaptors import authorize
 from authkit.permissions import ValidAuthKitUser
-from datetime import datetime
-from horosh import form, model
-from horosh.lib.base import BaseController, render, redirect_to, flash, is_ajax, \
-    current_user
-from horosh.model import meta
-from pylons import request, response, session, tmpl_context as c
+from pylons import request, tmpl_context as c
 from pylons.controllers.util import abort
 from sqlalchemy import and_
 from sqlalchemy.orm import join
 from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
-import logging
+
+from horosh import form, model
+from horosh.lib.base import BaseController, render, redirect_to, flash,\
+                            is_ajax, current_user
+from horosh.model import meta
+
 
 log = logging.getLogger(__name__)
 
 DATE_FORMAT = '%d/%m/%Y'
 MONTH_STYLE = 'dd/mm/yyyy' # 'dd/mm/yyyy' or 'mm/dd/yyyy'
+
 
 class EventForm(form.FieldSet):
     def init(self):
@@ -40,6 +44,7 @@ class EventForm(form.FieldSet):
             form.Field('save'),
             form.Field('cancel')
         )
+
 
 class EventController(BaseController):
     @authorize(ValidAuthKitUser())
@@ -150,13 +155,16 @@ class EventController(BaseController):
 
         query = query.order_by(model.Event.start.desc())
 
-        page = request.params.get('page', 1)
+        page = request.params.get('page', None)
         if 'all' == page:
             c.nodes = query.all()
         else:
+            if page and re.search('\D', page):
+                abort(404)
+
             c.nodes = paginate.Page(
                 query,
-                page=int(page),
+                page= page and int(page) or 1,
                 items_per_page = 3,
                 **request.environ['pylons.routes_dict']
             )
