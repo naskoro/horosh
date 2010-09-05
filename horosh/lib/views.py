@@ -39,6 +39,5 @@ def login():
 
     result = render('/util/login.html')
     if request.POST:
-        result = fs.htmlfill(result)
-    result = result.replace('%', '%%')
+        result = 'Bad user or password on <a href="%s">login page</a>'
     return result

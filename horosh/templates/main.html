@@ -1,6 +1,11 @@
 <%inherit file="/base.html" />
 <%namespace file="/defs.html" name="defs" import="*"/>
 <%def name="title()">Main Layout</%def>
+<%def name="google_analytics()">
+    % if 'google_analytics' in config:
+        ${defs.google_analytics(config['google_analytics'])}
+    % endif
+</%def>
 <%def name="head()">
     ${self.include.jquery()}
     ${self.include.jquery_form()}
@@ -63,10 +68,8 @@
     </div>
     <div id="footer">
         <span class="copyright">&copy; 2010 horosh.org</span>
-        При использовании материалов сайта гиперссылка на <a href="http://horosh.org">horosh.org</a> обязательна.</div>
+        При использовании материалов сайта гиперссылка на <a href="http://horosh.org">horosh.org</a> обязательна.
 
-        % if 'google_analytics' in config:
-            ${defs.google_analytics(config['google_analytics'])}
-        % endif
+        ${self.google_analytics()}
     </div>
 </div>

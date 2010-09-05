@@ -1,6 +1,7 @@
 <%inherit file="/main.html" />
 <%namespace file="/form.html" name="base_form" import="*"/>
 <%def name="title()">Вход</%def>
+<%def name="google_analytics()"></%def>
 <%def name="adds_head()"></%def>
 <%def name="id()">${c.form.name}</%def>
 <%def name="form()">
@@ -15,14 +16,14 @@
             пароль: <b>demo</b><br/>
         </div>
         <div class="field container">
-            <div class="span-10">${h.title(u'Логин', c.fs.username.not_empty(), label_for=c.fs.username.id)}</div>
-            <div class="span-90">${h.text(name=c.fs.username.id)}</div>
+            <div class="span-12">${h.title(u'Логин', c.fs.username.not_empty(), label_for=c.fs.username.id)}</div>
+            <div class="span-88">${h.text(name=c.fs.username.id)}</div>
             <div>${base_form.field_errors(c.fs.username.id)}</div>
         </div>
 
         <div class="field">
-            <div class="span-10">${h.title(u'Пароль', c.fs.password.not_empty(), label_for=c.fs.password.id)}</div>
-            <div class="span-90">${h.password(name=c.fs.password.id)}</div>
+            <div class="span-12">${h.title(u'Пароль', c.fs.password.not_empty(), label_for=c.fs.password.id)}</div>
+            <div class="span-88">${h.password(name=c.fs.password.id)}</div>
             <div>${base_form.field_errors(c.fs.password.id)}</div>
         </div>
 
