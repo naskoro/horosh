@@ -29,7 +29,7 @@ a:hover {
     -webkit-border-radius: 0 0 5px 5px;
 }
 #main {
-    padding: 10px 8px 0 0;
+    padding: 10px 0 0 0;
 }
 
 /* Informer */
@@ -68,7 +68,7 @@ a:hover {
     height: 53px;
     position: relative;
     overflow: hidden;
-    background: #ccc url(../images/pano.jpg) no-repeat center;
+    background: #ccc url(../images/pano.jpg) no-repeat left;
     border: 2px solid #dee;
     border-top: none;
 
@@ -128,7 +128,14 @@ a:hover {
 
 /* Sidebar */
 #sidebar {
-    overflow: hidden;
+    display: none;
+    z-index: 100;
+    position: absolute;
+    top: 23px;
+    right: 32px;
+    background: #bcd; 
+    border: 1px solid #68a;
+    padding: 0 10px 10px 10px;
 }
 .sidebar-box {
     margin-top: 8px;

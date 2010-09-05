@@ -7,7 +7,7 @@
 .span-5, .span-10, .span-15, .span-20, .span-25, .span-30, .span-35, 
 .span-40, .span-45, .span-50, .span-55, .span-60, .span-65, .span-70, 
 .span-75, .span-80, .span-85, .span-90, .span-95, .span-100, 
-.span-18, .span-82, .span-12, .span-88, .span-16_6,
+.span-18, .span-82, .span-12, .span-88, .span-16_6, .span-33,
 .span-50-left, .span-50-right
  { float: left;  }
 
@@ -38,6 +38,8 @@
 .span-12 { width: 12%; }
 .span-88 { width: 88%; }
 
+
+.span-33 { width: 33%; }
 
 .span-16_6 {width: 16.6%}
 

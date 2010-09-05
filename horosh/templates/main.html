@@ -32,6 +32,20 @@
         $('#informer .control-close').live("click", function(){
             $('#informer').html('');
         });
+        $('.nav li.more').live("click", function() {
+            $more = $('#sidebar');
+            if ($more.is(':hidden')) {
+                $more.slideDown('fast');
+                $more.live('click', function() {
+                    $more.slideUp('fast');
+                });
+            } else {
+                $more.slideUp('fast');
+                $more.die();
+            }
+            return false;
+        });
+
     });
 /* ]]> */
 </script>
@@ -51,24 +65,26 @@
             ##<li><a href="${h.url_for('/pulse')}">Пульс проекта</a></li>
             <li><a href="${h.url_for('/a/about')}">О проекте</a></li>
             <li><a href="${h.url_for('/a/about#contacts')}">Контакты</a></li>
+            <li class="more">
+                <a href="#">Еще...</a>
+           </li>
         </ul></div>
     </div>
+        <div id="sidebar" class="more-detail">
+            ${h.views.sidebar()}
+        </div>
+
     <div id="informer">
         ${defs.informer(c.flash_messages)}
     </div>
-    <div id="center" class="container">
-        <div class="span-80">
-            <div id="main">
-                ${next.body()}
-            </div>
+    <div id="center">
+        <div id="main">
+            ${next.body()}
         </div>
-        <div class="span-20"><div id="sidebar">
-            ${h.views.sidebar()}
-        </div></div>
     </div>
     <div id="footer">
         <span class="copyright">&copy; 2010 horosh.org</span>
-        При использовании материалов сайта гиперссылка на <a href="http://horosh.org">horosh.org</a> обязательна.
+        <span>При использовании материалов сайта гиперссылка на <a href="http://horosh.org">horosh.org</a> обязательна.</span>
 
         ${self.google_analytics()}
     </div>
