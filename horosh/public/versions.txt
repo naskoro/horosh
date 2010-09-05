@@ -7,7 +7,8 @@ ColorBox
 1.3.9 (July 7 2010)
 
 jQuery Cycle Plugin
-2.88 (08-JUN-2010)
+2.73 (04-NOV-2009)
+##2.88 (08-JUN-2010) - this bad version;
 
 jQuery Form Plugin
 2.47 (04-SEP-2010)
