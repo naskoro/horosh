@@ -8,7 +8,7 @@
             <li class="accent"><a href="${h.url_for(c.current_user.url())}">Мои события</a></li>
         % endif
         <li class="accent"><a href="${h.url_for('/')}">Все события</a></li>
-        <li><a href="${h.url_for('/demo')}" title="Демонстрационное событие">Демо событие</a></li>
+        <li class="accent"><a href="${h.url_for('/demo')}" title="Демонстрационное событие">Демо событие</a></li>
         % if h.is_authorized():
             <li><a href="${h.url_for('/logout')}">Выход</a></li>
         % else:
@@ -19,11 +19,18 @@
     % if h.is_admin():
     <div class="nav accent"><ul>
         <li  class="accent"><a href="${h.url_for('/demo/up')}">Обновить демо</a></li>
+        % if not articles:
+        <li class="accent"><a href="${h.url_for('/article/new')}">Добавить статью</a></li>
+        % endif
+        % if not pulse:
+        <li class="accent"><a href="${h.url_for('/pulse/new')}">Добавить пульс</a></li>
+        % endif
     </ul></div>
+
     % endif
 </div>
 
-% if 0 < len(articles):
+% if articles:
     <div class="sidebar-box">
         <h1>Информация</h1>
         <div class="nav"><ul>
@@ -39,7 +46,7 @@
     </div>
 % endif
 
-% if 0 < len(pulse):
+% if pulse:
     <div class="sidebar-box">
         <h1>Пульс проекта</h1>
         <div class="nav"><ul>
