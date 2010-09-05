@@ -170,9 +170,11 @@
             ${event.title}
         % endif
         </h1>
+        % if h.is_node_owner(event) or title_url:
         <%def name="event_link(event, title=u'Детальный просмотр')">
             <a href="${event.url()}" title="${title}">К событию</a>
         </%def>
+
         <div class="box-actions">
         % if h.is_node_owner(event):
             <a href="${event.url_edit()}" class="on_page modal" rev="#event-edit" title="Изменить иформацию о событии">Изменить</a>
@@ -193,10 +195,11 @@
                 <a href="${event.url_remove()}" class="on_page modal" rev="#event-remove">Удалить</a>
                 % endif
             </div>
-    % else :
+        % elif title_url:
             ${event_link(event)}
         % endif
         </div>
+        % endif
     </div>
     <div class="box box-text">
         <div class="title-info">

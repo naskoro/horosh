@@ -3,24 +3,24 @@
 <%def name="title()">${c.node.full_title}. ${c.node.event.title}</%def>
 <div class="report-show event-report">
     <div id="loader" class="loading hide"></div>
-    ${defs.event_header(c.node.event)}
-        <div class="title">
-            <h1>${c.node.full_title}</h1>
-            % if h.is_node_owner(c.node):
-                <div class="box-actions">
-                    <a href="${c.node.url_edit()}">Изменить</a>
-                    <div class="node-actions">
-                        <a href="${c.node.url_remove()}" class="on_page modal" rev="#report-remove">Удалить</a>
-                    </div>
+    ${defs.event_header(c.node.event, True)}
+    <div class="title">
+        <h1>${c.node.full_title}</h1>
+        % if h.is_node_owner(c.node):
+            <div class="box-actions">
+                <a href="${c.node.url_edit()}">Изменить</a>
+                <div class="node-actions">
+                    <a href="${c.node.url_remove()}" class="on_page modal" rev="#report-remove">Удалить</a>
                 </div>
-            % endif
-        </div>
-        <div class="box box-text">
-            <div class="title-info">
-                ${defs.node_info(c.node)}
             </div>
-
-            ${h.clean_html(c.node.html_content)|n}
+        % endif
+    </div>
+    <div class="box box-text">
+        <div class="title-info">
+            ${defs.node_info(c.node)}
         </div>
+
+        ${h.clean_html(c.node.html_content)|n}
+    </div>
 </div>
  
