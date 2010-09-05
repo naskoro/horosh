@@ -49,6 +49,8 @@ class PersonController(BaseController):
             meta.Session.add(node)
             meta.Session.commit()
             flash(u'Участник успешно добавлен')
+            if self.back_page():
+                return redirect_to(**self.back_page())
             return redirect_to(event_node.url())
 
         c.form = fs
@@ -82,6 +84,8 @@ class PersonController(BaseController):
             event_node.persons.append(node)
             meta.Session.commit()
             flash(u'Учасник успешно сохранен')
+            if self.back_page():
+                return redirect_to(**self.back_page())
             return redirect_to(event_node.url())
 
         if not request.POST:
@@ -112,6 +116,9 @@ class PersonController(BaseController):
                 meta.Session.delete(node)
                 meta.Session.commit()
                 flash(u'Учасник успешно удален')
+
+            if self.back_page():
+                return redirect_to(**self.back_page())
             return redirect_to(event_node.url())
         else:
             c.form = fs

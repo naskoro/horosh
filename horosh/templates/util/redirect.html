@@ -1,6 +1,9 @@
 <%namespace file="/defs.html" name="defs" import="*"/>
 <taconite>
 % if h.on_page() and not c.is_full_redirect:
+    <append select="#informer">
+        ${defs.informer(c.flash_messages)}
+    </append>
     <eval><![CDATA[
         $.ajax({url: '${c.url}'});
         ##$('#main').load('${c.url}')

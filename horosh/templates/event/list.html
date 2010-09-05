@@ -1,5 +1,6 @@
 <%inherit file="/main.html" />
 <%namespace file="/defs.html" name="defs" import="*"/>
+<%namespace file="show.html" name="show" import="*"/>
 <%def name="title()">Поездки, походы и другие мероприятия в отчетах...</%def>
 <%def name="adds_head()"></%def>
 <div class="event-list">
@@ -8,52 +9,14 @@
             <b>Событий нет.</b>
         </div>
     % else:
-        % for event in c.nodes:
-            <div class="event-list-node">
-                <div class="title">
-                    <h1><a href="${event.url()}">${event.title}</a></h1>
-                    <div class="box-actions">
-                        <%def name="event_link(event, title=u'Детальный просмотр')">
-                            <a href="${event.url()}" title="${title}">К событию</a>
-                        </%def>
-                        % if h.is_node_owner(event):
-                            ${event_link(event, u'Детальный просмотр и редактирование')}
-                        % else:
-                            ${event_link(event)}
-                        % endif
-                    </div>
-                </div>
-                <div class="box box-text">
-                    <div class="title-info">
-                        ${defs.node_info(event, True)}
-                    </div>
-
-                    <%def name="info(event)">
-                        ${defs.event_details(event)}
-
-                        <div>
-                        % if 0 == len(event.persons):
-                            <b>Участников нет.</b>
-                        % else:
-                            <b>Участники:</b> ${', '.join(event.persons_fullnames())}
-                        % endif
-                        </div>
-
-                        ${defs.event_reports(event)}
-                    </%def>
-
-                    % if 0!=len(event.albums) or False:
-                        <div class="container">
-                            <div class="span-82">
-                                ${self.info(event)}
-                            </div>
-                               <div class="span-18">
-                                   ${h.picasa.render(event.albums[0].settings, limit=21, count_per_page=3, align='right')}
-                               </div>
-                        </div>
-                    % else:
-                        ${self.info(event)}
-                    % endif
+        <%call expr="defs.event_header(c.nodes[0], True)">
+        ${defs.event_reports(c.nodes[0], True)}
+        </%call>
+        % for event in c.nodes[1:]:
+            <div class="event-list-node box">
+                <h1><a href="${event.url()}">${event.title}</a></h1>
+                <div class="title-info">
+                    <a href="${event.node_user.url()}">${event.node_user.nickname}</a>
                 </div>
             </div>
         % endfor

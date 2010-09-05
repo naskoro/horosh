@@ -93,6 +93,8 @@ class EventController(BaseController):
 
             meta.Session.commit()
             flash(u'Информация о событии успешно сохранена')
+            if self.back_page():
+                return redirect_to(**self.back_page())
             return redirect_to(node.url())
 
         if not request.POST:
@@ -154,8 +156,11 @@ class EventController(BaseController):
         query = query.order_by(model.Event.start.desc())
 
         c.nodes = pager_or_404(query)
-
-        return render('event/list.html')
+        if is_ajax():
+            result = self.taconite(render('/event/list_partial.html'))
+        else:
+            result = render('/event/list.html')
+        return result
 
     def remove(self, id):
         node = self._get_row(model.Event, id)

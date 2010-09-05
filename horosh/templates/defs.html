@@ -96,6 +96,193 @@
     </div>
 </%def>
 
+<%def name="event_header(event, title_url=False)">
+    <script type="text/javascript">
+    /* <![CDATA[ */
+        $(document).ready(function(){
+            $('.title, .event-persons .avatar').hover(
+                function() {
+                    $(this).find('.node-actions').slideDown('fast');
+                },
+                function() {
+                    $(this).find('.node-actions').slideUp('fast');
+                }
+            );
+           $('.event-albums .gallery').bind('napokaz-success', function() {
+                var gallery = $(this);
+                var gallery_container = gallery.find('.gallery-container');
+                var actions = gallery.parent('.node').find('.node-actions');
+                gallery_container.append(actions.clone(true))
+                actions.remove();
+                gallery_container.hover(
+                    function() {
+                        $(this).parent().find('.node-actions').slideDown('fast');
+                    },
+                    function() {
+                        $(this).parent().find('.node-actions').slideUp('fast');
+                    }
+                );
+            })
+
+            $('a.on_page').click(
+                function() {
+                    $('#modal-container div').html(
+                        '<div class="box-error">загрузка...</div>'
+                    );
+                    var link = this;
+
+                    $.ajax({
+                        url: this.href,
+                        data: {on_page:1},
+                        beforeSend: function(){
+                            $('#informer').html('');
+                            $('#loader').show();
+                        },
+                        complete: function (xhr, type)  {
+                            if(type !== "success"){
+                                $('#loader').hide();
+                            }
+                        },
+                        success: function(data){
+                            if ($(link).hasClass('modal')) {
+                                $('#loader').hide();
+                                $.fn.colorbox({
+                                    open: true,
+                                    inline: true,
+                                    href: link.rev,
+                                    opacity: 0.5,
+                                    title: " ",
+                                });
+                            }
+                        }
+                    });
+                    return false;
+                }
+            );
+        });
+    /* ]]> */
+    </script>
+    <div class="event-title title">
+        <h1>
+        % if title_url:
+            <a href="${event.url()}">${event.title}</a>
+        % else:
+            ${event.title}
+        % endif
+        </h1>
+        <%def name="event_link(event, title=u'Детальный просмотр')">
+            <a href="${event.url()}" title="${title}">К событию</a>
+        </%def>
+        <div class="box-actions">
+        % if h.is_node_owner(event):
+            <a href="${event.url_edit()}" class="on_page modal" rev="#event-edit" title="Изменить иформацию о событии">Изменить</a>
+            <div class="node-actions">
+                % if title_url:
+                ${event_link(event, u'Детальный просмотр и редактирование')}
+                % endif
+                <a href="${event.url_add_person()}" class="on_page modal" rev="#person-new">Добавить персону</a>
+                <a href="${event.url_add_album()}" class="on_page modal" rev="#album-new">Добавить альбом</a>
+                <a href="${event.url_add_report()}">Добавить отчет</a>
+
+                % if not event.published:
+                    <a href="${event.url_publish()}" class="on_page">Опубликовать</a>
+                %else:
+                    <a href="${event.url_publish(False)}" class="on_page">В черновики</a>
+                % endif
+                % if event.id != 1 :
+                <a href="${event.url_remove()}" class="on_page modal" rev="#event-remove">Удалить</a>
+                % endif
+            </div>
+    % else :
+            ${event_link(event)}
+        % endif
+        </div>
+    </div>
+    <div class="box box-text">
+        <div class="title-info">
+            ${node_info(event, True)}
+        </div>
+
+        <div class="box">
+            ${event_details(event)}
+        </div>
+
+        % if event.persons or event.albums:
+        <div class="container">
+            <div class="span-50-left"><div class="box box-event-persons"><div class="event-persons container">
+                % if not event.persons:
+                <div class="box-empty">
+                   Участников нет.
+                   % if h.is_node_owner(event):
+                       Но можно <a href="${event.url_add_person()}" class="on_page modal" rev="#person-new">добавить</a>.
+                   % endif
+                </div>
+                % endif
+
+                % for person in event.persons:
+                <div class="span-50"><div class="person"><div class="node avatar">
+                    <a title="${person.fullname}">
+                    <div class="avatar-img" style="background: #333 url(${person.url_avatar(with_time=True)}) no-repeat center;"></div>
+                    <div class="avatar-info">${person.fullname}</div>
+                    </a>
+                    % if h.is_node_owner(event):
+                        <div class="node-actions">
+                            <a href="${person.url_edit()}" class="on_page modal" rev="#person-edit">Изменить</a>
+                            <a href="${person.url_remove()}" class="on_page modal" rev="#person-remove">Удалить</a>
+                        </div>
+                   % endif
+                </div></div></div>
+                % endfor
+            </div></div></div>
+            <div class="span-50-right"><div class="box box-event-albums"><div class="event-albums">
+                % if not event.albums:
+                <div class="box-empty">
+                   Альбомов нет.
+                   % if h.is_node_owner(event):
+                       Но можно <a href="${event.url_add_album()}" class="on_page modal" rev="#album-new">добавить</a>.
+                   % endif
+                </div>
+                % endif
+
+                % for album in event.albums:
+                <div class="album"><div class="node">
+                    ${h.picasa.render(album.settings, count_per_page=2)}
+                    <div class="node-actions">
+                        <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank"><span class="picasa">Picasa</span></a>
+                        % if h.is_node_owner(event):
+                            <a href="${album.url_reload()}" class="on_page">Обновить</a>
+                            <a href="${album.url_remove()}" class="on_page modal" rev="#album-remove">Удалить</a>
+                       % endif
+                   </div>
+                </div></div>
+                % endfor
+
+                ##<div class="node">
+                ##${h.picasa.render_by_user('naspeh', 'Naspeh', limit=2, count_per_page=2)}
+                ##</div>
+            </div></div></div>
+        </div>
+        % endif
+        % if caller:
+        <div class="box">
+            ${caller.body()}
+            ##${event_reports(event, True)}
+        </div>
+        % endif
+    </div>
+    <div id="modal-container" class="hide">
+        <div id="event-edit"></div>
+        <div id="event-remove"></div>
+        <div id="report-remove"></div>
+        <div id="person-edit"></div>
+        <div id="person-new"></div>
+        <div id="person-remove"></div>
+        <div id="album-new"></div>
+        <div id="album-remove"></div>
+    </div>
+
+</%def>
+
 <%def name="google_analytics(id)">
     <script type="text/javascript">
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

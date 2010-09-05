@@ -43,6 +43,8 @@ class AlbumController(BaseController):
             event_node.albums.append(node)
             meta.Session.commit()
             flash(u'Альбом успешно добавлен')
+            if self.back_page():
+                return redirect_to(**self.back_page())
             return redirect_to(event_node.url())
 
         c.form = fs
@@ -66,6 +68,8 @@ class AlbumController(BaseController):
 
         meta.Session.commit()
         flash(u'Альбом успешно обновлен')
+        if self.back_page():
+                return redirect_to(**self.back_page())
         return redirect_to(event_node.url())
 
     def remove(self, id):
@@ -80,6 +84,8 @@ class AlbumController(BaseController):
                 meta.Session.delete(node)
                 meta.Session.commit()
                 flash(u'Альбом успешно удален')
+            if self.back_page():
+                return redirect_to(**self.back_page())
             return redirect_to(event_node.url())
         else:
             c.form = fs

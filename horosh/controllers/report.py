@@ -70,8 +70,11 @@ class ReportController(BaseController):
         event_node = node.event
 
         c.node = node
-
-        return render('/report/show.html')
+        if is_ajax():
+            result = self.taconite(render('/report/show_partial.html'))
+        else:
+            result = render('/report/show.html')
+        return result
 
     def edit(self, id):
         node = self._get_row(model.Report, id)
@@ -126,7 +129,6 @@ class ReportController(BaseController):
                 meta.Session.delete(node)
                 meta.Session.commit()
                 flash(u'Отчет успешно удален')
-                return redirect_to(event_node.url())
             if self.back_page():
                 return redirect_to(**self.back_page())
             return redirect_to(node.url())

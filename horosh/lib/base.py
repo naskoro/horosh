@@ -60,7 +60,7 @@ def remote_user():
 
 def render(*args, **kwargs):
     if is_ajax():
-        c.flash_messages = flash.pop_messages()
+        c.flash_messages += flash.pop_messages()
     return render_mako(*args, **kwargs)
 
 def redirect_to(*args, **kwargs):
@@ -73,7 +73,7 @@ def redirect_to(*args, **kwargs):
         result = "Moved temporarily"
     return result
 
-def pager_or_404(query):
+def pager_or_404(query, items_per_page=10):
     page = request.params.get('page', None)
     if 'all' == page:
         nodes = query.all()
@@ -84,7 +84,7 @@ def pager_or_404(query):
         nodes = paginate.Page(
             query,
             page= page and int(page) or 1,
-            items_per_page = 3,
+            items_per_page = items_per_page,
             **request.environ['pylons.routes_dict']
         )
     return nodes

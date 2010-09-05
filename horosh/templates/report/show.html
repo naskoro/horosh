@@ -1,114 +1,26 @@
 <%inherit file="/main.html" />
 <%namespace file="/defs.html" name="defs" import="*"/>
 <%def name="title()">${c.node.full_title}. ${c.node.event.title}</%def>
-<script type="text/javascript">
-/* <![CDATA[ */
-    $(document).ready(function(){
-        $('a.on_page').click(
-            function() {
-                $('#modal-container div').html(
-                    '<div class="box-error">загрузка...</div>'
-                );
-                var link = this;
-
-                $.ajax({
-                    url: this.href,
-                    data: {on_page:1},
-                    beforeSend: function(){
-                        $('#informer').html('');
-                        $('#loader').show();
-                    },
-                    complete: function (xhr, type)  {
-                        if(type !== "success"){
-                            $('#loader').hide();
-                        }
-                    },
-                    success: function(data){
-                        if ($(link).hasClass('modal')) {
-                            $('#loader').hide();
-                            $.fn.colorbox({
-                                open: true,
-                                inline: true,
-                                href: link.rev,
-                                opacity: 0.5,
-                                title: " ",
-                            });
-                        }
-                    }
-                });
-                return false;
-            }
-        );
-        $('.report-show .title').hover(
-            function() {
-                $(this).find('.node-actions').slideDown('fast');
-            },
-            function() {
-                $(this).find('.node-actions').slideUp('fast');
-            }
-        );
-    });
-/* ]]> */
-</script>
-<div class="report-show">
+<div class="report-show event-report">
     <div id="loader" class="loading hide"></div>
-    <div class="title">
-        <h1><a href="${c.node.event.url()}">${c.node.event.title}</a></h1>
-        <div class="box-actions">
-            <a href="${c.node.event.url()}">К событию</a>
-        </div>
-    </div>
-    <div class="title-info">
-        ${defs.node_info(c.node.event)}
-    </div>
-
-    <div class="box">
-        ${defs.event_details(c.node.event)}
-    </div>
-
-    <div class="box">
-        <div class="box-title">
-            Участники
-        </div>
-        <div class="report-persons container">
-
-            % if 0 == len(c.node.event.persons):
-               <div class="box-empty">
-                   Участников нет.
-               </div>
-            % endif
-
-            % for person in c.node.event.persons:
-            <div class="span-16_6"><div class="node avatar">
-                <a title="${person.fullname}">
-                <div class="avatar-img" style="background: #333 url(${person.url_avatar()}) no-repeat center;"></div>
-                <div class="avatar-info">${person.fullname}</div>
-                </a>
-            </div></div>
-            % endfor
-        </div>
-    </div>
-
-
-    <div class="title">
-        <h1>${c.node.full_title}</h1>
-        % if h.is_node_owner(c.node):
-            <div class="box-actions">
-                <a href="${c.node.url_edit()}">Изменить</a>
-                <div class="node-actions">
-                    <a href="${c.node.url_remove()}" class="on_page modal" rev="#report-remove">Удалить</a>
+    ${defs.event_header(c.node.event)}
+        <div class="title">
+            <h1>${c.node.full_title}</h1>
+            % if h.is_node_owner(c.node):
+                <div class="box-actions">
+                    <a href="${c.node.url_edit()}">Изменить</a>
+                    <div class="node-actions">
+                        <a href="${c.node.url_remove()}" class="on_page modal" rev="#report-remove">Удалить</a>
+                    </div>
                 </div>
-            </div>
-        % endif
-    </div>
-    <div class="box box-text">
-        <div class="title-info">
-            ${defs.node_info(c.node)}
+            % endif
         </div>
+        <div class="box box-text">
+            <div class="title-info">
+                ${defs.node_info(c.node)}
+            </div>
 
-        ${h.clean_html(c.node.html_content)|n}
-    </div>
+            ${h.clean_html(c.node.html_content)|n}
+        </div>
 </div>
-<div id="modal-container" class="hide">
-    <div id="report-remove"></div>
-</div>
+ 
