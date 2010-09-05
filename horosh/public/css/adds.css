@@ -331,6 +331,11 @@ a:hover {
     background-color: #fff;
     padding: 25px;
 }
+#colorbox .box {
+    overflow: hidden;
+    margin: 0;
+}
+
 
 /* Avatar */
 .avatar {
