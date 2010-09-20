@@ -29,9 +29,7 @@
             inctive: true,
             timeout: 500,
             closeSidebar: function(){
-                //console.debug('more: ' + $.sidebar.activeMore + ' link: ' + $.sidebar.activeLink)
                 if ($.sidebar.inactive!==false && new Date()-$.sidebar.inactive>=$.sidebar.timeout){
-                    console.debug('new: ' + (new Date() - $.sidebar.inactive));
                     $.sidebar.inactive = false;
                     $more = $('#sidebar');
                     $more.slideUp('fast');
