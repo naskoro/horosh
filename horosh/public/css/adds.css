@@ -25,6 +25,7 @@ a:hover {
     margin: 0 5px;
     background: #bcd;
 
+    border-radius: 0 0 5px 5px;
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
 }
@@ -46,6 +47,7 @@ a:hover {
     background-color: #fea;
     border: 2px solid #fd2;
 
+    border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
@@ -72,6 +74,7 @@ a:hover {
     border: 2px solid #dee;
     border-top: none;
 
+    border-radius: 0 0 5px 5px;
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
 }
@@ -92,6 +95,7 @@ a:hover {
     border: 1px solid #99b;
     padding: 5px;
 
+    border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
@@ -118,6 +122,7 @@ a:hover {
     background-color: #68a;
     border: 1px solid #68a;
 
+    border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
@@ -155,6 +160,7 @@ a:hover {
     padding: 2px;
     background-color: #68a;
 
+    border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
@@ -172,6 +178,7 @@ a:hover {
     background-color: #fee;
     color: #d64;
 
+    border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
@@ -382,7 +389,7 @@ a:hover {
     text-align: left;
     line-height: 1;
     display:none;
-    z-index: 100;
+    z-index: 99;
     border-left: 1px solid #789;
     border-bottom: 1px solid #789;
     overflow: hidden;

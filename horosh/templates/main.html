@@ -23,6 +23,22 @@
 <script type="text/javascript">
 /* <![CDATA[ */
     $(document).ready(function(){
+        $.sidebar = {
+            active: false,
+            closeSidebar: function(active){
+                if (active != undefined){
+                    $.sidebar.active = active;
+                }
+                $more = $('#sidebar');
+                $link = $('.nav li.more');
+                if (!$.sidebar.active){
+                    $more.slideUp('fast');
+                    $more.unbind();
+                    $link.unbind('mouseenter');
+                }
+            }
+        }
+
         $("#informer").ajaxError(function(event, request, settings){
             $(this).html('<div class="messages error">При выполнении запроса произшла ошибка<a class="control-close">Закрыть</a></div>');
             $('.loading').removeClass('loading');
@@ -32,20 +48,45 @@
         $('#informer .control-close').live("click", function(){
             $('#informer').html('');
         });
-        $('.nav li.more').live("click", function() {
+
+        $('.nav li.more').bind("click", function(){
+            $link = $(this);
             $more = $('#sidebar');
-            if ($more.is(':hidden')) {
+            if ($more.is(':hidden')){
+                $.sidebar.active = true;
                 $more.slideDown('fast');
-                $more.live('click', function() {
-                    $more.slideUp('fast');
+
+                setTimeout("$.sidebar.closeSidebar()", 700);
+                $more.bind("mouseenter", function(){
+                    $.sidebar.active = true;
+                });
+
+                $more.bind("mouseleave", function(){
+                    $.sidebar.active = false;
+                    setTimeout("$.sidebar.closeSidebar()", 700);
+                    //$.sidebar.closeSidebar();
+                });
+
+                $link.bind("mouseenter", function(){
+                    $.sidebar.active = true;
+                });
+
+                $link.bind("mouseleave", function(){
+                    $.sidebar.active = false;
+                    setTimeout("$.sidebar.closeSidebar()", 700);
+                    //$.sidebar.closeSidebar();
+                });
+
+                $more.bind('click', function(){
+                    $.sidebar.active = false;
+                    $.sidebar.closeSidebar();
                 });
             } else {
-                $more.slideUp('fast');
-                $more.die();
+                $.sidebar.active = false;
+                $.sidebar.closeSidebar();
             }
-            return false;
+           return false;
         });
-
     });
 /* ]]> */
 </script>
@@ -70,9 +111,9 @@
            </li>
         </ul></div>
     </div>
-        <div id="sidebar" class="more-detail">
-            ${h.views.sidebar()}
-        </div>
+    <div id="sidebar" class="more-detail">
+        ${h.views.sidebar()}
+    </div>
 
     <div id="informer">
         ${defs.informer(c.flash_messages)}
