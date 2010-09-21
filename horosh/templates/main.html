@@ -24,8 +24,6 @@
 /* <![CDATA[ */
     $(document).ready(function(){
         $.sidebar = {
-            activeLink: false,
-            activeMore: false,
             inctive: true,
             timeout: 500,
             closeSidebar: function(){
@@ -49,40 +47,32 @@
         });
 
         $('.nav li.more').bind("mouseenter", function(e){
-            $.sidebar.activeLink = true;
             $.sidebar.inactive = false;
             $link = $(this);
             $more = $('#sidebar');
 
-            if ($more.is(':hidden') || $.sidebar.inactive){
-                $more.slideDown('fast');
+            $more.slideDown('fast');
 
-                $more.bind("mouseenter", function(){
-                    $.sidebar.activeMore = true;
-                    $.sidebar.inactive = false;
-                });
+            $more.bind("mouseenter", function(){
+                $.sidebar.inactive = false;
+            });
 
-                $more.bind("mouseleave", function(e){
-                    $.sidebar.activeMore = false;
-                    $.sidebar.inactive = e.timeStamp;
+            $more.bind("mouseleave", function(e){
+                $.sidebar.inactive = e.timeStamp;
 
-                    setTimeout("$.sidebar.closeSidebar()",  $.sidebar.timeout);
-                });
+                setTimeout("$.sidebar.closeSidebar()",  $.sidebar.timeout);
+            });
 
-                $link.bind("mouseleave", function(e){
-                    $.sidebar.activeLink = false;
-                    $.sidebar.inactive = e.timeStamp;
-                    setTimeout("$.sidebar.closeSidebar()",  $.sidebar.timeout);
-                });
+            $link.bind("mouseleave", function(e){
+                $.sidebar.inactive = e.timeStamp;
+                setTimeout("$.sidebar.closeSidebar()",  $.sidebar.timeout);
+            });
 
-                $more.bind('click', function(e){
-                    $.sidebar.activeMore = false;
-                    $.sidebar.activeLink = false;
-                    $.sidebar.inactive = e.timeStamp;
-                    $.sidebar.closeSidebar();
-                });
-            }
-            return false;
+            $more.bind('click', function(e){
+                $.sidebar.inactive = e.timeStamp;
+                $.sidebar.closeSidebar();
+            });
+        return false;
         }).click(function(){
             return false;
         });
