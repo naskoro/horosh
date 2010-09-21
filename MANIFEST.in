@@ -1,3 +1,0 @@
-include horosh/config/deployment.ini_tmpl
-recursive-include horosh/public *
-recursive-include horosh/templates *
