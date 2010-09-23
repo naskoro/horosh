@@ -7,6 +7,7 @@ refer to the routes manual at http://routes.groovie.org/docs/
 from pylons import config
 from routes import Mapper
 
+
 def make_map():
     """Create, configure and return the routes Mapper"""
     map = Mapper(directory=config['pylons.paths']['controllers'],
@@ -69,7 +70,6 @@ def make_map():
         requirements=dict(event_id='\d*')
     )
 
-    # Album for event
     map.connect('/event-{event_id}/add/album',
         controller='album', action='new',
         requirements=dict(event_id='\d*')
@@ -78,8 +78,14 @@ def make_map():
         controller='person', action='avatar',
         requirements=dict(event_id='\d*')
     )
+    map.connect('/album-{id}/{gallery_id}',
+        controller='album', action='show',
+        requirements=dict(id='\d*', gallery_id='gallery-\d*')
+    )
 
-    map.connect('/{controller}-{id}/{action}', action='show', requirements=dict(id='\d*'))
+    map.connect('/{controller}-{id}/{action}',
+        action='show', requirements=dict(id='\d*')
+    )
     map.connect('/{controller}/{action}')
 
     return map

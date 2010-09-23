@@ -54,6 +54,11 @@ class Album(Node):
     def __init__(self):
         self.type = 'picasa'
 
+    def url(self, id):
+        return url_for(
+            controller='album', action='show', id=self.id, gallery_id=id
+        )
+
     def url_remove(self):
         return url_for(controller='album', action='remove', id=self.id)
 

@@ -1,30 +1,44 @@
 # -*- coding: utf-8 -*-
+import logging
+from urllib import urlopen
+
+import gdata
+from pylons import request, tmpl_context as c
 
 from horosh import form, model
 from horosh.lib import picasa
-from horosh.lib.base import BaseController, render, redirect_to, flash, \
-    is_ajax, current_user
+from horosh.lib.base import (
+    BaseController, render, redirect_to, flash, is_ajax, current_user
+)
 from horosh.model import meta
-from pylons import request, response, session, tmpl_context as c
-from pylons.controllers.util import abort
-from urllib import urlopen
-import gdata
-import logging
+
 
 log = logging.getLogger(__name__)
+
 
 class AlbumForm(form.FieldSet):
     def init(self):
         self.adds(
-            form.Field('user', validator=form.v.PicasaUser(not_empty=True, min=6, max=30)),
+            form.Field('user',
+                validator=form.v.PicasaUser(not_empty=True, min=6, max=30)
+            ),
             form.Field('albumid', validator=form.v.String(not_empty=True)),
             form.Field('save'),
             form.Field('cancel')
 
         )
-        self.schema.chained_validators = [form.v.PicasaAlbum('user', 'albumid')]
+        self.schema.chained_validators = [
+            form.v.PicasaAlbum('user', 'albumid')
+        ]
+
 
 class AlbumController(BaseController):
+    def show(self, id, gallery_id):
+        node = self._get_row(model.Album, id)
+        c.photos = picasa.photos_by_album(node)
+        c.id = gallery_id
+        return render('/album/show.html')
+
     def new(self, event_id):
         event_node = self._get_row(model.Event, event_id)
         self._check_access(event_node)
@@ -36,7 +50,9 @@ class AlbumController(BaseController):
 
         if request.POST and fs.is_valid(request.POST):
             node = model.Album()
-            node.settings = picasa.photos(fs.fields.user.value, fs.fields.albumid.value, limit=30)
+            node.settings = picasa.photos(
+                fs.fields.user.value, fs.fields.albumid.value, limit=30
+            )
             node.node_user_id = current_user().id
 
             meta.Session.add(node)

@@ -18,45 +18,51 @@ def photos(user, albumid, limit=None):
     url = URL_ALBUM % (user, albumid)
     return urlopen(url).read()
 
+def photo_url(photo):
+    return photo.content.src
+
+def photo_prepare(photo):
+    result = dict(
+        url = photo_url(photo),
+        name = photo.title.text,
+        title = photo.summary.text or photo.title.text
+    )
+    return result
+
+def photos_by_album(album, photos_list=[], limit=None):
+    photos = gdata.GDataFeedFromString(album.settings)
+    photos = photos.entry[0:limit]
+    result = []
+    if photos_list:
+        for photo in photos:
+            if photo.gphoto_id.text in photos_list :
+                result.append(photo_prepare(photo))
+    else:
+        for photo in photos:
+            group = photo.FindExtensions('group')
+            keywords = group[0].FindChildren('keywords')[0].text
+
+            if keywords:
+                keywords = keywords.split(', ')
+            else:
+                keywords = ()
+
+            if u'hide' not in keywords:
+                result.append(photo_prepare(photo))
+    return result
+
 class _render:
     def __init__(self):
         self.count=0
-    def __call__(self, photos, photos_list=[], limit=30,
-           align=None, count_per_page=5, template='/util/gallery.html'):
+    def __call__(
+        self, album, photos_list=[], limit=30, align=None, count_per_page=5,
+        template='/util/gallery.html'
+    ):
 
-        def photo_url(photo):
-            return photo.content.src
-
-        def photo_prepare(photo):
-            result = dict(
-                url = photo_url(photo),
-                name = photo.title.text,
-                title = photo.summary.text or photo.title.text
-            )
-            return result
-
-        photos = gdata.GDataFeedFromString(photos)
-        photos = photos.entry[0:limit]
-        result = []
-        if photos_list:
-            for photo in photos:
-                if photo.gphoto_id.text in photos_list :
-                    result.append(photo_prepare(photo))
-        else:
-            for photo in photos:
-                group = photo.FindExtensions('group')
-                keywords = group[0].FindChildren('keywords')[0].text
-
-                if keywords:
-                    keywords = keywords.split(', ')
-                else:
-                    keywords = ()
-
-                if u'hide' not in keywords:
-                    result.append(photo_prepare(photo))
-
-        self.count = self.count+1
+        result = photos_by_album(album, photos_list, limit)
+        self.count +=1
         return render_(template, {
+            'album': album,
             'id': 'gallery-' + str(self.count),
             'align': align,
             'photos': result,

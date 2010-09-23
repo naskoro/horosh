@@ -1,0 +1,10 @@
+<taconite><replaceContent select="#${c.id} .gallery-items">
+% for photo in c.photos:
+    ${h.link_to(
+        h.image(photo['url']+ '?imgmax=144', photo['title'], height='108px'),
+        photo['url'] + '?imgmax=640',
+        rel=c.id,
+        title=photo['title'],
+    )}
+% endfor
+</replaceContent></taconite>

@@ -1,14 +1,18 @@
 <script type="text/javascript">
 /* <![CDATA[ */
 $(document).ready(function(){
-    $("#${id} a[rel='${id}']").colorbox();
-
-    $('#${id}').napokaz({ count_per_page: ${count_per_page} });
+    $('#${id} .gallery-items').each(function(){
+        $.post('${album.url(id)}', function(data){
+            $("#${id} a[rel='${id}']").colorbox();
+            $('#${id}').napokaz({ count_per_page: ${count_per_page} });
+        });
+    });
 })
 /* ]]> */
 </script>
 <div id="${id}" class="gallery ${align}">
     <div class="gallery-items">
+    <%doc>
     % for photo in photos:
         ${h.link_to(
             h.image(photo['url']+ '?imgmax=144', photo['title'], height='108px'),
@@ -17,5 +21,6 @@ $(document).ready(function(){
             title=photo['title'],
         )}
     % endfor
+    </%doc>
     </div>
 </div>
