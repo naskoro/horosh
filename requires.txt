@@ -10,4 +10,4 @@ gdata
 html5lib
 pytils
 simplejson
-
+fabric
