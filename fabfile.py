@@ -7,6 +7,11 @@ from fabric.api import *
 sys.path.insert(0, os.path.dirname(__file__))
 
 
+def start():
+    '''Start development server'''
+    local('PYTHONPATH=. paster serve --reload development.ini', capture=False)
+
+
 def pep8(target='.'):
     '''Run pep8'''
     local('pep8 --ignore=E202 %s' % target, capture=False)
@@ -21,7 +26,7 @@ def clean(mask=None):
 
 @hosts('root@yadro.org')
 def deploy(restart=False):
-    '''Deploy to server'''
+    '''Deploy to remote server'''
     local('hg push', capture=False)
     with cd('/var/www/horosh/'):
         run('ls -la')
