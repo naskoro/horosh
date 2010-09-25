@@ -457,6 +457,10 @@ a:hover {
 .event-list-node {
     position: relative;
     margin-bottom: 1em;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+
 }
 .event-list-node h1 {
     font-size: 16px;
