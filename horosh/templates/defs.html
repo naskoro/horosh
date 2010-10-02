@@ -332,9 +332,9 @@
     <replaceContent select="#informer">
         ${informer(c.flash_messages)}
     </replaceContent>
-    <replace select="#${c.form.name}">
-        ${form.container()}
-    </replace>
+    <merge select="#${c.form.name}">
+        ${form.container().strip()}
+    </merge>
     <eval><![CDATA[
         ${form.script()}
     ]]></eval>
