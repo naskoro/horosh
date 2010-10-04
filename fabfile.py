@@ -29,7 +29,6 @@ def deploy(restart=False):
     '''Deploy to remote server'''
     local('hg push', capture=False)
     with cd('/var/www/horosh/'):
-        run('ls -la')
         run('hg pull&&hg up')
         if restart:
             run('/etc/init.d/horosh force-reload')
