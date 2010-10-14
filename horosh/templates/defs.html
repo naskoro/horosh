@@ -250,13 +250,12 @@
                 % for album in event.albums:
                 <div class="album"><div class="node">
                     ${h.picasa.render(album, count_per_page=3)}
-                    <div class="node-actions">
-                        <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank"><span class="picasa">Picasa</span></a>
-                        % if h.is_node_owner(event):
+                    % if h.is_node_owner(event):
+                        <div class="node-actions">
                             <a href="${album.url_reload()}" class="on_page">Обновить</a>
                             <a href="${album.url_remove()}" class="on_page modal" rev="#album-remove">Удалить</a>
-                       % endif
-                   </div>
+                        </div>
+                    % endif
                 </div></div>
                 % endfor
             </div></div></div>

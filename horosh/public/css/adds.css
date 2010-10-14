@@ -530,31 +530,38 @@ a:hover {
     margin: 2px;
     background-color: #333;
 }
-.gallery-controls {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-
+.gallery-adds {
+    position: relative;
     border: 2px solid #789;
     border-top: none;
     background-color: #eee;
+
+    height: 13px;
+
+    padding: 3px 5px 0 5px;
+    color: #666;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.gallery-controls {
+    float: left;
+}
+.gallery-controls-info {
+    float: right;
 }
 .gallery-controls-buttons {
     height: 16px;
     position: relative;
     float: left;
+    margin-top: -3px;
 }
 .gallery-controls-buttons .control-prev,
 .gallery-controls-buttons .control-next {
     margin-right:3px;
 }
 .gallery-controls-pager {
-    padding: 3px 5px 0 0;
     margin-left: 35px;
-    color: #666;
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.9em;
 }
 
 /* Controls */

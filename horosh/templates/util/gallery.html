@@ -4,7 +4,9 @@ $(document).ready(function(){
     $('#${id} .gallery-items').each(function(){
         $.post('${album.url(id)}', function(data){
             $("#${id} a[rel='${id}']").colorbox();
-            $('#${id}').napokaz({ count_per_page: ${count_per_page} });
+            $('#${id}').napokaz({
+                count_per_page: ${count_per_page}
+            });
         });
     });
 })
@@ -22,5 +24,8 @@ $(document).ready(function(){
         )}
     % endfor
     </%doc>
+    </div>
+    <div class="gallery-info">
+        <a href="${album.url_to_picasa()}" title="Посмотреть в Picasa" target="_blank">Посмотреть в <span class="picasa">Picasa</span></a>
     </div>
 </div>
