@@ -44,7 +44,7 @@
             % if h.shortable_html(report.html_content):
                 ${h.short_html(report.html_content)|n}
                 <div class="box-actions">
-                    <a href="${report.url()}" class="accent">Читать</a>
+                    <a href="${report.url()}" class="accent">Читать полностью...</a>
                 </div>
             % else:
                 ${report.html_content|n}

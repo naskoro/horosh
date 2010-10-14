@@ -303,9 +303,6 @@ a:hover {
 .box-actions a:hover{
     background-color: #fee;
 }
-.box-actions .accent {
-    letter-spacing: 3px;
-}
 .box-actions .node-actions {
     top: 16px;
     border-top: 1px solid #789;
@@ -451,7 +448,7 @@ a:hover {
 .event-reports .title .box-actions {
     border: 1px solid #789;
     border-bottom: none;
-    margin-bottom: -1px;
+    margin-right: 0;
 }
 
 .event-list-node {
