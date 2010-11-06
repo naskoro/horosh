@@ -78,7 +78,7 @@ def make_map():
         controller='person', action='avatar',
         requirements=dict(event_id='\d*')
     )
-    map.connect('/album-{id}/{gallery_id}',
+    map.connect('/album/{id}/{gallery_id}',
         controller='album', action='show',
         requirements=dict(id='\d*', gallery_id='gallery-\d*')
     )
