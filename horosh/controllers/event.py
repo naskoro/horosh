@@ -128,7 +128,6 @@ class EventController(BaseController):
 
     def list(self, user=None):
         self.is_page_back = True
-
         query = meta.Session.query(model.Event)
         if user is None:
             query = query.select_from(
@@ -155,6 +154,7 @@ class EventController(BaseController):
 
         query = query.order_by(model.Event.start.desc())
 
+        c.user = user
         c.nodes = pager_or_404(query)
         if is_ajax():
             result = self.taconite(render('/event/list_partial.html'))

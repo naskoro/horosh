@@ -1,7 +1,13 @@
 <%inherit file="/main.html" />
 <%namespace file="/defs.html" name="defs" import="*"/>
 <%namespace file="show.html" name="show" import="*"/>
-<%def name="title()">Поездки, походы и другие мероприятия в отчетах...</%def>
+<%def name="title()">
+% if c.user:
+    События от ${c.user}.
+% else:
+    Поездки, походы и другие мероприятия в отчетах...
+% endif
+</%def>
 <%def name="adds_head()"></%def>
 <div class="event-list">
     % if 0==len(c.nodes):
