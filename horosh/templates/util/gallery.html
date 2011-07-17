@@ -3,7 +3,7 @@
 $(document).ready(function(){
     $('#${id} .gallery-items').each(function(){
         $.post('${album.url(id)}', function(data){
-            $("#${id} a[rel='${id}']").colorbox({width:'95%', height:'95%'});
+            $("#${id} a[rel='${id}']").colorbox({width:'97%', height:'97%'});
             $('#${id}').napokaz({
                 count_per_page: ${count_per_page}
             });
