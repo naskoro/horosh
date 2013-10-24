@@ -4,7 +4,8 @@ PyYAML
 Pygments
 Pylons==0.9.7
 WebHelpers==1.1
-SQLAlchemy
+WebOb==1.0
+SQLAlchemy==0.6.4
 docutils
 elementtree
 gdata

@@ -32,3 +32,6 @@ def deploy(restart=False):
         run('hg pull&&hg up')
         if restart:
             run('/etc/init.d/horosh force-reload')
+
+def dump():
+    local('echo ".dump" | sqlite3 data/horosh.db | gzip -c > dump.sql.gz')
